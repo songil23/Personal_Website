@@ -1,0 +1,41 @@
+# Public deployment allowlist. Everything else stays local.
+# Add new assets explicitly after checking that they should be public.
+*
+!/.gitignore
+!/.nojekyll
+!/THIRD_PARTY_NOTICES.txt
+!/index.html
+!/style.css
+!/app.js
+!/fonts/
+!/fonts/LICENSE.txt
+!/fonts/Pretendard-Regular.woff2
+!/fonts/Pretendard-Medium.woff2
+!/images/
+!/images/About_IMG_9754.jpg
+!/images/Experience_image.jpg
+!/images/Music_image.jpg
+!/images/Music_IMG_9960.jpg
+!/images/Music_KakaoTalk_20260424_000154758.jpg
+!/images/map.png
+!/images/flags/
+!/images/flags/cn.svg
+!/images/flags/it.svg
+!/images/flags/jp.svg
+!/images/flags/kp.svg
+!/images/flags/kr.svg
+!/images/flags/la.svg
+!/images/flags/mm.svg
+!/images/flags/pl.svg
+!/images/flags/th.svg
+!/images/flags/us.svg
+!/images/flags/vn.svg
+!/images/pdf/
+!/images/pdf/Results Presentation Deck_EcoStep_SEF-25-6.jpg
+!/images/pdf/Sample.jpg
+!/images/pdf/SEF 2025_X Banner_EcoStep.jpg
+!/pdf/
+!/pdf/Results Presentation Deck_EcoStep_SEF-25-6.pdf
+!/pdf/Sample.pdf
+!/pdf/SEF 2025_X Banner_EcoStep.pdf
+# <!-- 2026-09-17 codex: allow only reviewed public deployment files -->

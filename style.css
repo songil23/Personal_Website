@@ -1,0 +1,1514 @@
+/* IL SONG — site/style.css (v5, 2026-09-17)
+   계약: 디자인_명세.md — §0-v5·§2-v5가 v4 본문을 덮는다. 토큰만 사용(리터럴 색·간격·타입 크기 금지).
+   예외로 허용한 리터럴: 헤어라인/포커스 링 두께(1px·2px), 0, %, fr, vh/vw, aspect-ratio 숫자,
+   키프레임 안의 opacity·scale·translate 숫자(-2px 들어올림 포함).
+   그 밖에 명세가 직접 주는 수치(200·360·140·20×15 …)는 :root 토큰으로 올려 두고 여기서 쓴다.
+   표시 전환(.view/.sub 숨김)은 index.html head의 생성 <style>이 담당한다. 여기서는 숨기지 않는다.
+   v4 사본: 임시/v4_2026-09-17/style.css (v3는 임시/v3_2026-09-17/, v2는 임시/v2_2026-09-17/).
+   v4에서 바꾼 자리마다 "v5:" 주석으로 이유를 남겼다(v4·v3 주석은 그대로 둔다). */
+
+/* ─────────────────────────────────────────────  1. 서체 */
+@font-face {
+  font-family: "Pretendard";
+  src: url("fonts/Pretendard-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: url("fonts/Pretendard-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─────────────────────────────────────────────  2. 토큰 (명세 §1) */
+:root {
+  color-scheme: light;
+
+  --font: "Pretendard", -apple-system, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+
+  /* 타입 — v3: 전체가 크다는 피드백으로 한 단씩 내렸다(명세 §0·§1) */
+  --text-display: clamp(32px, 26px + 1.4vw, 44px);
+  --text-h1: clamp(26px, 22px + 1vw, 34px);
+  --text-h2: clamp(20px, 18px + .6vw, 24px);
+  --text-group: 20px;   /* §5 타임라인 연도 */
+  --text-lead: 18px;    /* §4 홈 한 줄 */
+  --text-h3: 17px;      /* §5 항목·카드 제목 */
+  --text-brand: 17px;   /* §3 브랜드 */
+  --text-body: 15px;
+  --text-ui: 15px;
+  --text-md: 16px;      /* v4: 상자 없는 절의 가운데 목록 — v5에서 그 목록이 상자로 들어가 쓰는 곳이 없다(명세 §1에 남아 있어 토큰만 남긴다) */
+  --text-desc: 14px;    /* v4: 절 설명(.view-desc) — 키워드 요약이라 한 단 작게 */
+  --text-chip-dense: 14px;   /* v5(§2-v5): 하위 8개 이상인 절의 칩 — 영어가 한 줄에 들어가게 */
+  --ls-tight: -.01em;        /* v5(§2-v5): 그 칩의 자간 */
+  --text-small: 13px;
+  --text-caption: 12px;
+
+  /* 색 — 라이트 (§1) */
+  --bg: #F7F7F7;
+  --surface: #FFFFFF;
+  --surface-2: rgb(38 38 38 / 4%);
+  --surface-3: rgb(38 38 38 / 8%);
+  --ink: #262626;
+  --ink-2: rgb(38 38 38 / 70%);
+  --ink-3: rgb(38 38 38 / 64%);   /* 명세는 63%지만 #F7F7F7 위 4.41:1 → 4.5 미달. 64% = 4.54:1(#FFFFFF 위 4.67) */
+  --line: rgb(38 38 38 / 10%);
+  --line-soft: rgb(38 38 38 / 6%);
+  --accent: #0049F0;
+  --accent-ink: #0049F0;
+  --accent-line: rgb(0 73 240 / 30%);
+  --accent-soft: rgb(0 73 240 / 13%);
+  --accent-wash: rgb(0 73 240 / 6%);
+  --shadow-sm: 0 1px 2px rgb(38 38 38 / 4%), 0 6px 20px rgb(38 38 38 / 5%);
+  --shadow-md: 0 2px 4px rgb(38 38 38 / 4%), 0 12px 32px rgb(38 38 38 / 8%);
+  --shadow-pop: 0 4px 8px rgb(38 38 38 / 6%), 0 20px 48px rgb(38 38 38 / 12%);
+
+  /* 간격 */
+  --s-4: 4px;
+  --s-8: 8px;
+  --s-10: 10px;    /* 추가(§5): entry-lines·group 본문 위 여백 10 */
+  --s-12: 12px;
+  --s-16: 16px;
+  --s-20: 20px;
+  --s-24: 24px;
+  --s-32: 32px;
+  --s-40: 40px;
+  --s-48: 48px;
+  --s-64: 64px;
+  --s-80: 80px;
+  --s-96: 96px;
+  --s-128: 128px;
+  --s-6: 6px;      /* 추가(§4·§5·§6): 행 gap 6 */
+
+  /* 모서리 */
+  --r-2: 2px;      /* 추가(§5): 국기 */
+  --r-6: 6px;
+  --r-8: 8px;
+  --r-12: 12px;
+  --r-16: 16px;
+
+  /* 폭·높이 */
+  --container: 1200px;
+  --gutter: clamp(20px, 4.4vw, 64px);
+  --header: 56px;                 /* ≥1200에서 64 (§1) */
+  --target: 44px;
+  --btn: 36px;
+  --crumb-h: 40px;                /* v4(§5): 빵부스러기 줄 높이 — 조작 요소가 아니라 44가 아니다 */
+  --menu-min: 200px;              /* 추가(§3): 드롭다운 최소 폭 */
+  --more-menu-w: 360px;           /* 추가(§3): ⋯ 메뉴 상한 폭 */
+  --hero-photo: 200px;            /* 추가(§4): ≥834 홈 사진 열 */
+  --hero-photo-sm: 160px;         /* 추가(§4): ≤833 홈 사진 폭 */
+  --year-col: 140px;              /* 추가(§5): 타임라인 연도 열 */
+  --dot: 6px;                     /* v5(§2-v5): 8 → 6. 링 없음은 v4 그대로 */
+  --tw-dur-default: 2.4s;         /* v4(§5): 빌더가 --tw-dur를 못 준 점의 기본 반짝임 주기 */
+  --flag-w: 20px;                 /* 추가(§5) */
+  --flag-h: 15px;                 /* 추가(§5) */
+  --flag-shift: -2px;             /* 추가(§5): 국기 vertical-align */
+  --file-h: 200px;                /* v5(§2-v5): PDF 첫 장 미리보기 높이 상한 */
+  --blur: 16px;                   /* v5(§2-v5): 12 → 16. 헤더·빵부스러기 글래스가 같이 쓴다 */
+
+  /* 전환 (§1·§6-v4) — 전부 300ms 미만 */
+  --ease: 200ms ease;                             /* hover·테마 색 전환 */
+  --ease-out: cubic-bezier(.23, 1, .32, 1);       /* v4: 들어오는 것(절 전환·드롭다운·누름) */
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);   /* v4: 양쪽이 멈춰 있는 이동 */
+  --dur-fast: 120ms;                              /* v4: 누름 */
+  --dur-pop: 180ms;                               /* v4: 드롭다운 (v3 --ease-pop 160ms를 대체) */
+  --dur: 240ms;                                   /* v4: 절·하위 전환 */
+}
+
+/* v5(§2-v5): 다크 토큰 블록만 @media not print로 감싼다 — 인쇄는 언제나 라이트
+   (다크로 보던 화면을 그대로 인쇄하면 흰 글자가 종이에 안 찍힌다). 값은 v4 그대로.
+   화면 규칙 쪽 html[data-theme="dark"](포커스 링·.dot)는 감싸지 않는다 */
+@media not print {
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    /* v3: claude.com처럼 더 어둡게(#262626 → #161616), 상자는 한 단 밝은 표면으로 단차를 만든다 */
+    --bg: #161616;
+    --surface: #1E1E1E;
+    --surface-2: rgb(255 255 255 / 5%);
+    --surface-3: rgb(255 255 255 / 9%);
+    --ink: #FFFFFF;
+    --ink-2: rgb(255 255 255 / 76%);
+    --ink-3: rgb(255 255 255 / 62%);
+    --line: rgb(255 255 255 / 10%);
+    --line-soft: rgb(255 255 255 / 6%);
+    --accent-ink: #6692F6;          /* #0049F0은 #161616 위 1.9:1 → 글자·점은 이것(6.04:1). 워시는 100% 파랑 알파 그대로 */
+    /* 다크의 높이 = 밝은 표면 + 위쪽 1px 림 라이트 + 검은 그림자 */
+    --shadow-sm: inset 0 1px 0 rgb(255 255 255 / 5%), 0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px rgb(0 0 0 / 35%);
+    --shadow-md: inset 0 1px 0 rgb(255 255 255 / 5%), 0 2px 4px rgb(0 0 0 / 30%), 0 12px 32px rgb(0 0 0 / 40%);
+    --shadow-pop: inset 0 1px 0 rgb(255 255 255 / 6%), 0 4px 8px rgb(0 0 0 / 35%), 0 20px 48px rgb(0 0 0 / 50%);
+  }
+}
+
+/* ─────────────────────────────────────────────  3. 바탕 */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;        /* v4(§6-v4): app.js의 scrollTo·해시 이동이 같이 부드러워진다 */
+}
+/* v3: html·body의 overflow-x: clip 삭제. 홈 그라데이션이 없어져 가릴 것이 없고,
+   남겨 두면 가로 스크롤 검증(scrollWidth ≤ innerWidth)이 넘침을 못 잡는다 */
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.55;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  /* v4(§6-v4): 테마 전환. 속성 명시 — all은 레이아웃 속성까지 끌고 와서 쓰지 않는다 */
+  transition: background-color var(--ease), color var(--ease);
+}
+
+h1, h2, h3, p, ul, ol, figure, figcaption, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+strong, b { font-weight: 500; }
+img { max-width: 100%; height: auto; display: block; }
+svg { flex: none; }
+.icon { flex: none; display: block; }      /* 크기는 HTML width/height 속성(명세 §7) */
+
+a { color: inherit; text-decoration: none; }
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+::selection { background: var(--accent-soft); }
+
+/* 파랑이 쓰이는 세 자리 중 하나 — 포커스 링 (§2) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+html[data-theme="dark"] :focus-visible { outline-color: var(--accent-ink); }
+
+[hidden] { display: none !important; }
+
+/* ─────────────────────────────────────────────  4. 언어·테마 전환 */
+html[data-lang="ko"] [lang="en"],
+html[data-lang="ko"] .if-en,
+html[data-lang="en"] [lang="ko"],
+html[data-lang="en"] .if-ko { display: none; }
+
+html:not([data-theme="dark"]) .icon-sun,
+html[data-theme="dark"] .icon-moon { display: none; }
+
+/* ─────────────────────────────────────────────  5. 보조 */
+.skip {
+  position: fixed;
+  top: var(--s-8);
+  left: var(--s-8);
+  z-index: 60;
+  padding: var(--s-8) var(--s-16);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-8);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--text-ui);
+  font-weight: 500;
+  box-shadow: var(--shadow-pop);
+  transform: translateY(-200%);
+}
+.skip:focus { transform: none; }
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 컨테이너 — 헤더·본문·푸터가 같은 좌우 정렬선을 쓴다
+   v3: 푸터가 .footer-inner 하나로 감싸이므로 .footer-grid·.footer-bottom 대신 그것을 쓴다 */
+.header-inner,
+.view,
+.footer-inner {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ─────────────────────────────────────────────  6. 헤더 (§3)
+   v3: ≤833 고정 브랜드 줄(.site-header::before)·2줄 헤더 삭제 — 모든 폭에서 sticky 한 줄 */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  /* v5(§2-v5): 92% → 70%(blur는 --blur 토큰이 12 → 16). 앞줄 var(--bg)는 color-mix 미지원 폴백 */
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border-bottom: 1px solid var(--line-soft);
+  transition: background-color var(--ease), border-color var(--ease);   /* v4: 테마 전환 */
+}
+
+.header-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "brand nav controls";
+  align-items: center;
+  gap: var(--s-24);              /* 탭 묶음 ↔ 아이콘 묶음 24 */
+  height: var(--header);
+}
+
+.brand {
+  grid-area: brand;
+  display: inline-flex;
+  align-items: center;
+  height: var(--header);
+  font-size: var(--text-brand);
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.nav {
+  grid-area: nav;
+  justify-self: end;
+  min-width: 0;
+  display: none;                 /* <1200: .ctl-more가 대신한다. ≥1200에서 켠다 */
+}
+
+.controls { grid-area: controls; justify-self: end; }
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.nav-item { position: relative; }
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  min-height: var(--target);
+  padding-inline: var(--s-12);
+  border-radius: var(--r-8);
+  font-size: var(--text-ui);
+  color: var(--ink-2);
+  white-space: nowrap;
+  transition: color var(--ease);
+}
+/* v3: 현재 표시는 글자색·굵기만. hover 배경 상자와 파란 밑줄은 삭제(§2) */
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
+
+.nav-btn {
+  display: none;                 /* ≥1200에서만 */
+  position: relative;
+  align-items: center;
+  height: var(--btn);
+  padding: var(--s-8) var(--s-8) var(--s-8) var(--s-12);
+  border-radius: var(--r-8);
+  font-size: var(--text-ui);
+  line-height: 1;
+  color: var(--ink-2);
+  white-space: nowrap;
+  transition: color var(--ease), transform var(--dur-fast) var(--ease-out);   /* v4: 누름 */
+}
+.nav-btn .icon-caret,
+.lang-btn .icon-caret {
+  margin-left: var(--s-4);       /* 글자↔캐럿 4 */
+  color: var(--ink-3);
+  transition: transform var(--ease);
+}
+.nav-btn[aria-expanded="true"] { color: var(--ink); }
+.nav-btn[aria-expanded="true"] .icon-caret,
+.lang-btn[aria-expanded="true"] .icon-caret { transform: rotate(180deg); }
+.nav-btn[aria-current="page"] { color: var(--ink); font-weight: 500; }
+/* v3: .nav-label::after 파란 밑줄 삭제 — 파랑은 포커스 링·링크 hover·지도 점에만(§2) */
+
+/* ─────────────────────────────────────────────  7. 드롭다운 (§3) */
+.disclosure { position: relative; }
+
+.menu {
+  position: absolute;
+  top: calc(100% + var(--s-4));
+  left: 0;
+  z-index: 55;
+  width: max-content;            /* v3: 항목이 두 줄로 깨지지 않게 */
+  min-width: var(--menu-min);
+  padding: var(--s-8);
+  border: 1px solid var(--line);
+  border-radius: var(--r-12);
+  background: var(--surface);
+  box-shadow: var(--shadow-pop);
+  opacity: 0;
+  transform: translateY(calc(var(--s-4) * -1));
+  /* v4(§6-v4): --ease-pop(160ms ease) 삭제 → 180ms ease-out. 테마 색 전환도 여기서(속성 명시) */
+  transition:
+    opacity var(--dur-pop) var(--ease-out),
+    transform var(--dur-pop) var(--ease-out),
+    background-color var(--ease),
+    color var(--ease),
+    border-color var(--ease),
+    box-shadow var(--ease);
+}
+.menu:not([hidden]) {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  .menu:not([hidden]) {
+    opacity: 0;
+    transform: translateY(calc(var(--s-4) * -1));
+  }
+}
+
+.controls .menu { left: auto; right: 0; }
+/* 오른쪽 끝 탭의 메뉴는 오른쪽 정렬 — 화면 밖으로 나가지 않게 */
+.nav-item:nth-last-child(-n + 2) .nav-menu { left: auto; right: 0; }
+
+/* 푸터 언어 메뉴는 위로 (§6) */
+#menu-lang-f {
+  top: auto;
+  bottom: calc(100% + var(--s-4));
+  left: auto;
+  right: 0;
+  transform: translateY(var(--s-4));
+}
+#menu-lang-f:not([hidden]) { transform: none; }
+@starting-style {
+  #menu-lang-f:not([hidden]) { transform: translateY(var(--s-4)); }
+}
+
+.menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-16);
+  padding: var(--s-8) var(--s-12);
+  margin-bottom: var(--s-8);
+  border-bottom: 1px solid var(--line);
+  border-radius: var(--r-6) var(--r-6) 0 0;
+  font-size: var(--text-ui);
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: background var(--ease);
+}
+.menu-head .arrow { color: var(--ink-3); }
+
+.menu-list { display: grid; }
+.menu-list:has(> li:nth-child(7)) {
+  grid-template-columns: repeat(2, max-content);   /* 하위 7개 이상은 2열 */
+  column-gap: var(--s-4);
+}
+.menu-list a {
+  display: flex;
+  align-items: center;
+  min-height: var(--target);     /* 터치 44 */
+  padding: var(--s-8) var(--s-12);
+  border-radius: var(--r-6);
+  font-size: var(--text-ui);
+  color: var(--ink-2);
+  white-space: nowrap;           /* 두 줄 금지 */
+  transition: background-color var(--ease), color var(--ease), transform var(--dur-fast) var(--ease-out);   /* v4: 누름 */
+}
+.menu-list a[aria-current="page"] { color: var(--ink); font-weight: 500; }
+
+.menu-title {
+  padding: var(--s-4) var(--s-12) var(--s-8);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ✉ 드롭다운 — 헤더에만 있다(푸터 이메일은 v3에서 삭제) */
+/* v5(§2-v5): 주소 오른쪽에 복사 버튼 — 주소가 남는 폭을 다 쓰고 버튼(.ctl 36·히트 44)은 제 크기 */
+.mail-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+.contact-menu .mail-list a {
+  display: flex;
+  align-items: center;
+  flex: 1;                       /* v5: 복사 버튼 옆에서 남는 폭을 차지 */
+  min-height: var(--target);
+  padding: var(--s-8) var(--s-12);
+  border-radius: var(--r-6);
+  font-size: var(--text-ui);
+  color: var(--ink-2);
+  white-space: nowrap;
+  transition: background var(--ease), color var(--ease);
+}
+
+/* v5(§2-v5): 복사 → ✓ (1500ms 뒤 되돌리는 것은 app.js). 초록은 이 프로젝트에서 안 써 --ink */
+.copy .icon-check { display: none; }
+.copy.is-done .icon-copy { display: none; }
+.copy.is-done .icon-check { display: block; color: var(--ink); }
+
+/* ⋯ 메뉴 — 좁은 폭에서 탭 6 전부 (§3) */
+.more-menu {
+  width: min(var(--more-menu-w), calc(100vw - var(--gutter) * 2));
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.more-menu .menu-list,
+.more-menu .menu-list:has(> li:nth-child(7)) {   /* v3 검증: :has 규칙(0,2,1)이 이겨 2열로 새던 것을 같은 특이성으로 덮는다 */
+  grid-template-columns: 1fr;    /* 여기선 항상 1열 */
+  column-gap: 0;
+}
+.more-menu .menu-list a { white-space: normal; }   /* 폭이 고정이라 긴 이름은 접힌다 */
+.more-group + .more-group {
+  margin-top: var(--s-8);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line-soft);
+}
+
+.lang-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-16);
+  width: 100%;
+  min-height: var(--target);
+  padding: var(--s-8) var(--s-12);
+  border-radius: var(--r-6);
+  font-size: var(--text-ui);
+  text-align: left;
+  color: var(--ink-2);
+  white-space: nowrap;
+  transition: background-color var(--ease), color var(--ease), transform var(--dur-fast) var(--ease-out);   /* v4: 누름 */
+}
+/* v3: ✓는 파랑이 아니라 --ink (§2 — 파랑은 세 자리뿐) */
+.lang-menu button .icon-check { color: var(--ink); visibility: hidden; }
+.lang-menu button[aria-current="true"] { color: var(--ink); font-weight: 500; }
+.lang-menu button[aria-current="true"] .icon-check { visibility: visible; }
+
+/* ─────────────────────────────────────────────  8. controls (§3) */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+/* v3: 테두리·배경 삭제 — 아이콘만 (§3) */
+.ctl {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--btn);
+  min-width: var(--btn);
+  border-radius: var(--r-8);     /* 포커스 링용 */
+  color: var(--ink-2);
+  font-size: var(--text-ui);
+  line-height: 1;
+  transition: color var(--ease), transform var(--dur-fast) var(--ease-out);   /* v4: 누름 */
+}
+.ctl.is-off { color: var(--ink-3); pointer-events: none; }
+
+/* 터치 44 — 위아래로만 넓힌다. (v4) .crumb a도: 줄 높이는 40이지만 히트는 44 */
+.ctl::before,
+.nav-btn::before,
+.subnav a::before,
+.crumb a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: var(--target);
+  transform: translateY(-50%);
+}
+
+/* 언어 버튼만 테두리·배경을 갖는다 — 아이콘이 아니라 글자 버튼이라(§6) */
+.lang-btn {
+  padding: var(--s-8) var(--s-10) var(--s-8) var(--s-12);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  /* v4(§6-v4): 테마 전환(배경·테두리) + 누름. 색은 .ctl에서 오지만 단축 속성이 덮으므로 다시 적는다 */
+  transition:
+    background-color var(--ease),
+    color var(--ease),
+    border-color var(--ease),
+    box-shadow var(--ease),
+    transform var(--dur-fast) var(--ease-out);
+}
+.lang-btn .icon-globe { margin-right: var(--s-8); }   /* 아이콘↔글자 8 */
+.lang-label { white-space: nowrap; }
+
+/* ─────────────────────────────────────────────  9. 본문 뼈대 */
+.view { padding-bottom: var(--s-80); }
+
+/* v4(§6-v4): 절·하위 전환. display:none → 표시되면 애니메이션이 새로 도니 JS가 필요 없다.
+   transform·opacity만 건드려 레이아웃을 다시 계산하지 않는다 */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s-6));
+  }
+}
+/* v5(§2-v5): "동작 줄이기"에서 rise 대신 쓴다 — 이동 없이 흐려졌다 나타나기만 */
+@keyframes fade {
+  from { opacity: 0; }
+}
+.view,
+.sub { animation: rise var(--dur) var(--ease-out) both; }
+
+/* tabindex="-1" 프로그램 포커스 대상(조작 요소 아님): 링을 그리면 제목이 입력칸처럼 보인다 */
+.view-title:focus,
+.sub-title:focus,
+.view-title:focus-visible,
+.sub-title:focus-visible { outline: none; }
+
+/* v5(§2-v5): 빵부스러기가 헤더 아래에 고정이라 그 높이(--crumb-h)만큼 더 내린다 */
+.view.is-active .view-title,
+.sub.is-active .sub-title { scroll-margin-top: calc(var(--header) + var(--crumb-h) + var(--s-24)); }
+
+/* ─────────────────────────────────────────────  10. 홈 (§4)
+   v3: .view-home::before 파란 그라데이션 삭제(§2 — 파랑은 세 자리뿐) */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-40);
+  padding-top: var(--s-24);
+  align-items: start;
+}
+
+.hero-text { min-width: 0; }
+
+/* v3: aspect-ratio·crop 삭제 — 원본 비율(591×827) 그대로 */
+.hero-photo {
+  width: var(--hero-photo-sm);
+  height: auto;
+  border-radius: var(--r-12);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-name {
+  font-size: var(--text-display);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+
+.hero-line {
+  margin-top: var(--s-12);
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.facts {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-20);
+  font-size: var(--text-ui);
+  color: var(--ink);
+}
+
+/* v4(§4): 가운데 + 위 헤어라인 — 히어로와 카드 묶음을 나눈다 */
+.cards-title {
+  margin-top: var(--s-48);
+  padding-top: var(--s-32);
+  border-top: 1px solid var(--line-soft);
+  text-align: center;
+  margin-bottom: var(--s-12);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-20);
+}
+.cards > li { display: grid; }     /* 한 줄에 놓인 카드의 높이를 맞춘다 */
+
+/* v3: min-height 삭제 */
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-16) var(--s-20);
+  border: 1px solid var(--line);
+  border-radius: var(--r-16);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  /* v4(§6-v4): 테마 전환(속성 명시) + 들어올림·누름은 --dur-fast ease-out */
+  transition:
+    box-shadow var(--ease),
+    background-color var(--ease),
+    color var(--ease),
+    border-color var(--ease),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.card-num {
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: .06em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--ink-3);
+}
+
+.card-title {
+  margin-top: var(--s-8);
+  font-size: var(--text-h3);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.card-text {
+  margin-top: var(--s-6);
+  font-size: var(--text-ui);
+  line-height: 1.5;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* v3: 파란 "View →" 삭제 — --ink-2, hover에서만 --ink (§2·§4) */
+.card-more {
+  margin-top: auto;               /* v3 검증: 카드 높이가 달라도 아래에 붙인다(834에서 어긋났음) */
+  padding-top: var(--s-16);
+  font-size: var(--text-ui);
+  font-weight: 500;
+  color: var(--ink-2);
+  transition: color var(--ease);
+}
+
+/* ─────────────────────────────────────────────  11. 절 머리 (§5) */
+/* v4(§5): 빵부스러기 — 하위 항목 제목(h2)이 칩과 중복이라 화면에서 빠진 자리를 대신한다.
+   .view의 첫 자식(홈에는 없음). 현재 하위만 보이는 것은 생성 <style>의 html[data-sub] 규칙 */
+/* v5(§2-v5): 헤더 바로 아래에 고정 + 헤더와 같은 글래스. 음수 margin으로 .view 폭
+   (컨테이너 + 거터)까지 넓혀 그 아래로 지나가는 상자 그림자(≤20px)를 덮는다 —
+   backdrop blur는 요소 상자 안에서만 먹으므로 box-shadow를 넓히는 것으로는 안 된다.
+   아래 헤어라인은 넓힌 배경이 아니라 컨테이너 폭(절 머리 선과 같은 폭)이라 ::after로 */
+.crumb {
+  position: sticky;
+  top: var(--header);
+  z-index: 40;                   /* 헤더(50)·드롭다운(55) 아래 */
+  display: flex;
+  align-items: center;
+  gap: var(--s-8);
+  height: var(--crumb-h);
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  font-size: var(--text-caption);
+  color: var(--ink-3);
+  background: var(--bg);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  transition: background-color var(--ease);   /* v5: 테마 전환 */
+}
+.crumb::after {
+  content: "";
+  position: absolute;            /* .crumb가 sticky = 위치 지정 요소라 이것이 기준이 된다 */
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.crumb a {
+  position: relative;            /* 히트 44용 ::before의 기준 */
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  transition: color var(--ease);
+}
+.crumb-sep { color: var(--ink-3); }
+
+/* v3: 제목·설명·하위 칩 가운데 정렬, 설명 폭 제한 없음 */
+.view-head {
+  padding-top: var(--s-24);
+  text-align: center;
+}
+/* 하위가 1개면 빌더가 subnav를 만들지 않는다 → 아래 선·여백을 view-head가 갖는다 */
+.view-head:not(:has(.subnav)) {
+  padding-bottom: var(--s-24);
+  margin-bottom: var(--s-24);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.view-title {
+  font-size: var(--text-h1);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+
+.view-desc {
+  margin-top: var(--s-8);
+  font-size: var(--text-desc);   /* v4: 15 → 14. 하위 이름 나열이 아니라 키워드 요약이라 */
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* v4(§5): 칩 위에 헤어라인, 아래 선은 없음(본문까지 32). 칩은 왼쪽 정렬 */
+.subnav {
+  margin-top: var(--s-20);
+  padding-top: var(--s-20);
+  border-top: 1px solid var(--line-soft);
+  margin-bottom: var(--s-32);
+}
+.subnav > ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;   /* v4: 가운데 → 왼쪽(첫 칩 왼쪽 = 컨테이너 왼쪽) */
+  gap: var(--s-8);
+}
+/* v5(§2-v5): `정렬: 가운데` 절(Awards & Press)만 칩도 가운데 */
+.view-center .subnav > ul { justify-content: center; }
+/* v5(§2-v5): 두 줄 분할(v4 `ul + ul`) 폐기 — 하위 8개 이상은 한 줄에 빽빽하게 */
+.subnav[data-dense] > ul { gap: var(--s-6); }
+.subnav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: var(--btn);
+  padding: var(--s-8) var(--s-12);
+  border-radius: var(--r-8);
+  font-size: var(--text-ui);
+  line-height: 1;
+  color: var(--ink-2);
+  /* v4(§6-v4): 테마 전환(속성 명시) + 누름 */
+  transition:
+    background-color var(--ease),
+    color var(--ease),
+    border-color var(--ease),
+    box-shadow var(--ease),
+    transform var(--dur-fast) var(--ease-out);
+}
+.subnav[data-dense] a {
+  font-size: var(--text-chip-dense);
+  letter-spacing: var(--ls-tight);
+  padding: var(--s-8) var(--s-10);
+}
+.subnav a[aria-current="page"] {
+  background: var(--surface-3);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────  12. 하위 절 본문 (§5) */
+/* v4(§2): 하위 항목 제목은 칩·빵부스러기와 중복이라 화면에서 숨긴다 — .sr와 같은 방식.
+   포커스 대상(focusQuiet)·낭독은 그대로. 인쇄·JS 없음에서는 아래에서 되돌린다 */
+.sub-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  font-size: var(--text-h2);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.sub-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-24);
+}
+
+/* v4(§5): 절을 설명하는 문장(`>`) — 가운데, 본문보다 한 단 크게, 상자 없음 */
+.lead {
+  display: grid;
+  gap: var(--s-6);
+  text-align: center;
+  font-size: var(--text-h3);
+  line-height: 1.5;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* plain — v3: 상자 삭제. 자식 없는 줄은 나열만 (§2) */
+.plain {
+  display: grid;
+  gap: var(--s-8);
+  font-size: var(--text-ui);
+  color: var(--ink);
+}
+/* v5(§2-v5): "상자 밖 본문 없음" — 가운데 16px이던 `.sub-body > .plain` 규칙을 걷어냈다.
+   그 목록은 빌더가 제목 없는 상자(.entry.entry-plain > .entry-lines)로 만든다 */
+.plain a,
+.entry-title a,
+.entry-lines a,
+.lead a {                        /* v4 검증: 제목만인 상자(Academic Mentoring →)·상자 안 줄(Paper →)의 링크도 같은 모양 */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--line);
+  text-underline-offset: .2em;
+  transition: color var(--ease), text-decoration-color var(--ease);
+}
+em {
+  font-style: italic;
+  font-synthesis: style;         /* v4: Pretendard에 이탤릭이 없어 APA 인용의 저널 이름만 합성 기울임을 허용 */
+}
+
+/* 안쪽 목록(entry·plain 공통): 들여쓰기 16 + 앞 · */
+.entry-lines ul,
+.plain ul {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-6);
+  padding-left: var(--s-16);
+}
+.entry-lines ul > li,
+.plain ul > li { position: relative; }
+.entry-lines ul > li::before,
+.plain ul > li::before {
+  content: "·";
+  position: absolute;
+  left: calc(var(--s-12) * -1);
+  color: var(--ink-3);
+}
+
+/* boxes — 나란히 놓는 항목의 격자 (§5 data-cols). 기본 = ≤833: 전부 1열
+   v4(§2): 열 폭 = 내용 폭. auto 트랙은 짧은 상자가 먼저 제 폭에서 멈추고 긴 상자가 나머지를 받는다
+   (Grid의 "maximize tracks → stretch auto tracks"). minmax(0, 1fr) 등분은 Education을 넘치게 하고
+   Languages를 남게 만들어 전부 걷어냈다. flow만 예외(열 흐름) */
+.boxes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-20);
+  align-items: start;
+}
+/* v5(§2-v5): `배치: 등분` — 폭을 등분하고 높이까지 맞춘다(Volunteering 두 상자) */
+.boxes[data-equal] { align-items: stretch; }
+.boxes[data-cols="5"],
+.boxes[data-cols="6"] { grid-template-columns: repeat(2, auto); }
+
+/* entry — 상자 (§2 규격: --surface + 1px --line + --r-12 + --shadow-sm + 패딩 16 20)
+   v5(§2-v5): Journey(.sub-body.timeline) 전체도 같은 상자 하나 — 선언을 복제하지 않고 목록에 더한다.
+   안의 연도 묶음·헤어라인은 아래 타임라인 규칙 그대로 */
+.entry,
+.group.card,
+.sub-body.timeline {
+  padding: var(--s-16) var(--s-20);
+  border: 1px solid var(--line);
+  border-radius: var(--r-12);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  /* v4(§6-v4): 테마 전환(속성 명시) */
+  transition: background-color var(--ease), color var(--ease), border-color var(--ease), box-shadow var(--ease);
+}
+
+.entry-title {
+  font-size: var(--text-h3);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.entry-lines {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-10);
+  font-size: var(--text-ui);
+  line-height: 1.5;
+  color: var(--ink);
+}
+.entry-lines .date {
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--ink-2);
+}
+/* v5(§2-v5): 제목 없는 상자(상자 밖 본문을 없애며 생겼다) — 위에 제목이 없으니 여백 0 */
+.entry-plain > .entry-lines,
+.entry-plain .entry-text > .entry-lines { margin-top: 0; }
+/* v5(§2-v5): `정렬: 가운데` 절(Awards & Press)만 상자 안 글도 가운데 */
+.view-center .entry-plain .entry-lines { text-align: center; }
+
+/* 사진 있는 항목 — 전체 폭, ≥834에서 글 | 사진 */
+.entry.has-photo { display: block; }
+.entry-text { min-width: 0; }
+.entry.has-photo .photo > img {
+  border-radius: var(--r-8);     /* 상자 안 사진은 8 (§1) */
+  box-shadow: none;              /* 상자 안 상자 느낌을 내지 않는다 */
+}
+
+/* v5(§2-v5): PDF 카드 있는 항목 — ≥834에서 글 | 카드.
+   has-photo와 달리 전체 폭이 아니라 .boxes 안에 다른 상자와 나란히 놓인다 */
+.entry.has-file { display: block; }
+.entry.has-file > .files { margin-top: var(--s-10); }   /* 1열로 쌓일 때만 — 2열에서는 ≥834에서 0으로 되돌린다 */
+
+/* group */
+.group-title {
+  font-size: var(--text-h3);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.group.card > .plain,
+.group.media > .photos,
+.group.media > .videos { margin-top: var(--s-10); }
+
+/* 타임라인 — 연도 묶음만 있을 때. 상자·세로선 없음 (§5) */
+.sub-body.timeline { gap: var(--s-20); }
+.sub-body.timeline > .group + .group {
+  padding-top: var(--s-20);
+  border-top: 1px solid var(--line-soft);
+}
+.sub-body.timeline > .group > .group-title {
+  font-size: var(--text-group);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.sub-body.timeline > .group > .plain { margin-top: var(--s-10); }
+
+/* 사진 (§5) — v3: aspect-ratio·crop 삭제, 원본 비율 */
+.photos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-20);
+}
+.photo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.photo > img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-12);
+  box-shadow: var(--shadow-sm);
+}
+.photo > figcaption {
+  margin-top: var(--s-8);
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+/* v3 검증: 세로 1 + 가로 2 배치는 캡션을 사진 위에 얹는다 — 캡션 두 줄 높이만큼 세로 사진이 잘리던 것(834에서 8%)이 gap 20px분(≤3.5%)으로 준다 */
+.photos.tall-left > .photo { position: relative; }
+.photos.tall-left > .photo > figcaption {
+  position: absolute;
+  left: var(--s-12);
+  bottom: var(--s-12);
+  margin: 0;
+  padding: var(--s-4) var(--s-10);
+  border-radius: var(--r-6);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 영상 (§5) */
+.videos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-20);
+}
+.video { min-width: 0; }
+.video > .frame {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-12);
+  overflow: hidden;
+  background: var(--surface-3);
+}
+.video > .frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.video > figcaption {
+  margin-top: var(--s-8);
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+/* v5(§2-v5): file://에서는 브라우저가 Referer를 안 보내 YouTube가 임베드를 거부한다(오류 153) →
+   app.js가 iframe을 지우고 이 링크의 hidden을 푼다. http(s)에서는 [hidden]이라 안 보인다 */
+.video > .frame > .video-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-8);
+  width: 100%;
+  height: 100%;
+  font-size: var(--text-ui);
+  color: var(--ink-2);
+  transition: color var(--ease);
+}
+.video > .frame > .video-fallback::before {
+  content: "▶";
+  font-size: var(--text-caption);
+}
+
+/* 지도 (§5) */
+.map-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4977 / 2515;
+  background: url("images/map.png") center / contain no-repeat;
+}
+/* 파랑이 쓰이는 세 자리 중 하나 — 지도 점 (§2)
+   v4(§5): 흰 링(box-shadow) 삭제, 별처럼 점마다 다른 속도로 반짝인다.
+   --tw-dur·--tw-delay는 빌더가 나라 코드 crc32로 점마다 다르게 준다.
+   v5(§2-v5): 8 → 6px, 키프레임은 opacity만(scale 삭제) — 이동이 없어 "동작 줄이기"에서도 켜 둔다.
+   .dot의 transform: translate(-50%, -50%)는 키프레임이 더 이상 덮지 않아 정적으로 남는다 */
+@keyframes twinkle {
+  from { opacity: .35; }
+  to { opacity: 1; }
+}
+.dot {
+  position: absolute;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  animation: twinkle var(--tw-dur, var(--tw-dur-default)) ease-in-out var(--tw-delay, 0s) infinite alternate;
+}
+html[data-theme="dark"] .dot { background: var(--accent-ink); }
+.map > figcaption {
+  margin-top: var(--s-8);
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+/* 국기 (§5) */
+.flag {
+  display: inline-block;
+  width: var(--flag-w);
+  height: var(--flag-h);
+  margin-right: var(--s-8);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  vertical-align: var(--flag-shift);
+}
+
+/* 첨부·자리표시 */
+/* v5(§2-v5): 실제로 올리는 PDF는 카드(첫 장 미리보기 + 이름).
+   이름만 `.pdf`로 끝나는 줄은 아래 .file·.tba("File to be attached") 그대로 */
+.files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-20);
+  align-items: flex-start;
+}
+.file-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-8);
+  font-size: var(--text-small);
+  color: var(--ink-2);
+  transition: color var(--ease);
+}
+.file-thumb {
+  display: block;
+  width: auto;                   /* 원본 비율 — 높이 상한만 두고 폭이 모자라면 같이 줄어든다 */
+  height: auto;
+  max-width: 100%;
+  max-height: var(--file-h);
+  border: 1px solid var(--line);
+  border-radius: var(--r-8);
+  background: var(--surface-2);
+}
+.file-name::after {
+  content: "↗";                  /* 외부 링크 ↗ — 카드가 아니라 이름 끝에 (아래 규칙에서 카드는 뺐다) */
+  margin-left: var(--s-4);
+  font-size: var(--text-caption);
+  color: var(--ink-3);
+}
+
+.file {
+  display: inline-flex;          /* v4 검증: block flex면 가운데 목록에서 왼쪽에 붙고 "File to be attached"가 다음 줄로 떨어졌다 */
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-8);
+  font-size: var(--text-ui);
+  color: var(--ink);
+}
+.tba {
+  font-size: var(--text-small);
+  font-style: normal;
+  color: var(--ink-3);
+}
+
+/* 외부 링크 ↗ — 아이콘 링크(.ctl)·홈 카드·파일 카드에는 붙이지 않는다 (§2)
+   v5(§2-v5): :not(.file-card) 추가. 파일 카드의 ↗는 이름 끝(.file-name::after)에 붙는다 —
+   별도 `a.file-card::after { content: none }`은 (0,1,2)라 이 규칙(0,3,2)을 못 이겨 여기서 뺐다 */
+a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
+  content: "↗";
+  margin-left: var(--s-4);
+  font-size: var(--text-caption);
+  color: var(--ink-3);
+  text-decoration: none;
+}
+
+/* v5(§2-v5): 내부 링크 →(Paper → · Academic Mentoring →) — 외부 ↗와 같은 자리·규격 */
+.entry-title a[href^="#"]::after,
+.entry-lines a[href^="#"]::after,
+.plain a[href^="#"]::after,
+.lead a[href^="#"]::after {
+  content: "→";
+  margin-left: var(--s-4);
+  font-size: var(--text-caption);
+  color: var(--ink-3);
+  text-decoration: none;
+}
+
+/* ─────────────────────────────────────────────  13. 푸터 (§6)
+   v3: .footer-brand·푸터 .mail-list 삭제(이메일 열 없음). 사이트맵 + 아래 줄만 */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding-top: var(--s-48);
+  padding-bottom: var(--s-24);
+}
+
+/* v4(§6): 열 폭 = 내용 폭 + space-between — 첫 열의 왼쪽이 컨테이너 왼쪽,
+   마지막 열의 오른쪽이 컨테이너 오른쪽에 맞는다. 등분(minmax)은 양 끝이 안쪽으로 밀려 걷어냈다.
+   column-gap은 이때 "최소 간격"으로 동작한다 */
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: space-between;
+  column-gap: var(--s-24);
+  row-gap: var(--s-32);
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  min-width: 0;
+}
+.footer-head {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);     /* 터치 44 */
+  font-size: var(--text-ui);
+  font-weight: 500;
+  color: var(--ink);
+  transition: color var(--ease);
+}
+.footer-col ul {
+  display: grid;
+  gap: var(--s-6);
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.footer-col ul a {
+  display: block;
+  padding-block: var(--s-6);     /* 히트 ~32 — 목록 간격을 지키려 알고 남김(§6) */
+  transition: color var(--ease);
+}
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-16);
+  margin-top: var(--s-32);
+  padding-top: var(--s-20);
+  border-top: 1px solid var(--line-soft);
+}
+.copyright {
+  font-size: var(--text-caption);
+  color: var(--ink-3);
+}
+
+/* ─────────────────────────────────────────────  13-v4. 누름 (§6-v4)
+   모든 기기. transform만 — 배경·크기(레이아웃)는 건드리지 않는다.
+   .ctl·.nav-btn·.subnav a·.crumb a의 ::before(히트 44)는 자식이라 같이 3% 줄지만 누르는 동안뿐이다 */
+.ctl:active,
+.nav-btn:active,
+.subnav a:active,
+.lang-btn:active,
+.menu-list a:active,
+.lang-menu button:active { transform: scale(.97); }
+
+.card:active { transform: scale(.985); }
+
+/* ─────────────────────────────────────────────  14. hover (포인터 기기 전용)
+   v3: hover 배경 상자는 드롭다운 "안" 항목에만. 나머지는 글자색만 --ink (§2) */
+@media (hover: hover) and (pointer: fine) {
+  .nav-link:hover,
+  .nav-btn:hover,
+  .ctl:hover,
+  .subnav a:hover,
+  .crumb a:hover,
+  .video-fallback:hover,           /* v5: 밑줄·파랑 없는 링크는 글자색만 (§2) */
+  .footer-head:hover,
+  .footer-col ul a:hover { color: var(--ink); }
+
+  .menu-head:hover,
+  .menu-list a:hover,
+  .contact-menu .mail-list a:hover,
+  .lang-menu button:hover { background: var(--surface-2); color: var(--ink); }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .card:hover .card-more { color: var(--ink); }
+  /* v4(§6-v4): 들어올린 채로 눌린다 — 두 transform을 합쳐 쓴다 */
+  .card:active { transform: translateY(-2px) scale(.985); }
+
+  /* 파랑이 쓰이는 세 자리 중 하나 — 링크 hover (§2) */
+  .plain a:hover,
+  .entry-title a:hover,
+  .entry-lines a:hover,
+  .lead a:hover { color: var(--accent-ink); text-decoration-color: var(--accent-line); }
+  .file-card:hover { color: var(--accent-ink); }   /* v5(§2-v5): 카드는 밑줄이 없어 글자색만 */
+}
+
+/* ─────────────────────────────────────────────  15. 834 ~ 1199 */
+@media (min-width: 834px) {
+  /* 홈 */
+  .hero {
+    grid-template-columns: var(--hero-photo) 1fr;
+    padding-top: var(--s-48);
+  }
+  .hero-photo { width: 100%; }
+  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* 절 */
+  .view-head { padding-top: var(--s-40); }
+
+  /* v4: 전부 auto 트랙 — 열 폭 = 내용 폭 */
+  .boxes[data-cols="2"] { grid-template-columns: repeat(2, auto); }
+  .boxes[data-cols="3"] { grid-template-columns: repeat(3, auto); }
+  .boxes[data-cols="4"] { grid-template-columns: repeat(2, auto); }   /* 4 → 2열 */
+  .boxes[data-cols="5"],
+  .boxes[data-cols="6"] { grid-template-columns: repeat(3, auto); }   /* 5·6 → 3열 */
+  /* v5(§2-v5): `배치: 등분`만 등폭 — auto 트랙은 내용 폭이라 두 상자 크기가 달라진다 */
+  .boxes[data-equal][data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .boxes[data-equal][data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* flow = 높이 차가 큰 묶음. 열 흐름으로 빈 상자를 막는다 */
+  .boxes[data-cols="flow"] {
+    display: block;
+    columns: 2;
+    column-gap: var(--s-20);
+    margin-bottom: calc(var(--s-20) * -1);
+  }
+  .boxes[data-cols="flow"] > * {
+    break-inside: avoid;
+    margin-bottom: var(--s-20);
+  }
+
+  .entry.has-photo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-20);
+    align-items: start;
+  }
+  .entry.has-photo:not(:has(.entry-lines)) { grid-template-columns: 1fr; }   /* v3 검증: 제목뿐이면 왼쪽이 비어 보여 사진을 전체 폭으로(BICA) */
+
+  /* v5(§2-v5): 글 | 파일 카드. 카드 열은 내용 폭(auto) */
+  .entry.has-file {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--s-20);
+    align-items: start;
+  }
+  .entry.has-file > .files { margin-top: 0; }        /* 2열에서는 gap 20이 대신한다 */
+  .entry.has-file:not(:has(.entry-lines)) {
+    grid-template-columns: 1fr;                      /* 제목뿐이면 카드가 아래(Related Materials) */
+    gap: var(--s-10);
+  }
+
+  .sub-body.timeline > .group {
+    display: grid;
+    grid-template-columns: var(--year-col) 1fr;
+    gap: var(--s-20);
+    align-items: start;
+  }
+  .sub-body.timeline > .group > .plain { margin-top: 0; }
+
+  .photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* 세로 사진 1 + 가로 2: 왼쪽이 두 행을 차지한다(§5) */
+  .photos.tall-left {
+    grid-template-columns: var(--photo-cols, 1fr 1fr);
+    grid-template-rows: auto auto;
+  }
+  .photos.tall-left > .photo:first-child {
+    grid-row: 1 / 3;
+    align-self: stretch;
+  }
+  .photos.tall-left > .photo:first-child > img {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    object-fit: cover;           /* gap·캡션만큼 ≤5% 잘림 — 알고 남김(§5) */
+  }
+
+  .videos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* 푸터 */
+  .footer-nav { grid-template-columns: repeat(3, auto); }   /* v4: auto + space-between */
+}
+
+/* ─────────────────────────────────────────────  16. ≥1200 — 탭 표시 */
+@media (min-width: 1200px) {
+  :root { --header: 64px; }
+
+  .nav { display: block; }
+  .nav-link { display: none; }
+  .nav-item-single .nav-link { display: flex; }   /* 하위 1개 탭(More)은 링크가 곧 탭 */
+  .nav-btn { display: inline-flex; }
+  .disclosure.more { display: none; }             /* ⋯는 <1200에서만 */
+
+  .boxes[data-cols="4"] { grid-template-columns: repeat(4, auto); }   /* v4: auto 트랙 */
+  .boxes[data-cols="5"] { grid-template-columns: repeat(5, auto); }
+  .boxes[data-cols="6"] { grid-template-columns: repeat(6, auto); }
+
+  .photos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .photos.tall-left { grid-template-columns: var(--photo-cols, 1fr 1fr); }
+
+  .footer-nav { grid-template-columns: repeat(6, auto); }   /* v4: auto + space-between */
+}
+
+/* ─────────────────────────────────────────────  17. JS 없음 (§3)
+   모든 폭에서 .nav를 보이고 .nav-link를 줄바꿈 목록으로. 버튼·메뉴·⋯는 숨긴다 */
+html:not([data-view]) .nav { display: block; }
+html:not([data-view]) .nav-link { display: flex; }
+html:not([data-view]) .nav-btn,
+html:not([data-view]) .nav-menu,
+html:not([data-view]) .disclosure.more { display: none; }
+html:not([data-view]) .header-inner {
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "brand controls"
+    "nav nav";
+  height: auto;
+  padding-block: var(--s-8);
+}
+html:not([data-view]) .nav { justify-self: start; }
+
+/* v4(§2·§5): JS가 없으면 절이 전부 펼쳐지므로 현재 하위를 가리키는 빵부스러기는 뜻이 없다.
+   대신 숨겼던 하위 제목을 되돌려 목차 구실을 하게 한다 */
+html:not([data-view]) .crumb { display: none; }
+html:not([data-view]) .sub-title {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0 0 var(--s-20);
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+}
+
+/* ─────────────────────────────────────────────  18. 동작 최소화 (§6-v4 · v5 변경은 §2-v5)
+   v4: 이동·scale만 없앤다. 색 전환(--ease)은 그대로 둔다 — 색은 어지럼증을 만들지 않고,
+   테마를 바꿀 때 화면이 뚝 끊기는 것보다 낫다(v3는 전부 0s로 껐다).
+   v5: opacity 애니메이션은 남긴다 — 절 전환은 fade, 지도 점은 그대로 반짝인다.
+   (이 PC의 Windows 접근성 설정이 reduce라 v4에서는 그 둘이 아예 안 보였다) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  /* v5(§2-v5): 끄지 않고 이동만 뺀다 — rise(translateY 6px) → fade(opacity).
+     .dot은 목록에서 빠졌다(v5 twinkle은 opacity만이라 어지럼과 무관) */
+  .view,
+  .sub { animation-name: fade; }
+
+  /* 드롭다운은 opacity만 — 올라오는 이동 없음.
+     transition-property만 덮으면 단축 속성이 남긴 duration 목록이 어긋나 돌아가므로 전체를 다시 쓴다 */
+  .menu {
+    transform: none;
+    transition:
+      opacity var(--dur-pop) var(--ease-out),
+      background-color var(--ease),
+      color var(--ease),
+      border-color var(--ease),
+      box-shadow var(--ease);
+  }
+  .menu:not([hidden]) { transform: none; }
+
+  /* 캐럿 회전은 남기되 즉시 */
+  .nav-btn .icon-caret,
+  .lang-btn .icon-caret { transition-duration: 0s; }
+
+  .ctl:active,
+  .nav-btn:active,
+  .subnav a:active,
+  .lang-btn:active,
+  .menu-list a:active,
+  .lang-menu button:active,
+  .card:active,
+  .card:hover,
+  .card:hover:active { transform: none; }
+}
+
+/* ─────────────────────────────────────────────  19. 인쇄 — 전부 표시, 조작 요소·그림자 없음 */
+@media print {
+  .controls,
+  .menu,
+  .more-menu,
+  .nav-btn,
+  .ctl-more,
+  .disclosure,
+  .skip,
+  .crumb,          /* v4: 절이 전부 펼쳐지므로 현재 하위 표시는 뜻이 없다 */
+  .subnav { display: none; }
+
+  html[data-view] main#main .view,
+  html[data-sub] main#main .sub { display: block; }
+
+  /* v4: 화면에서 숨긴 하위 제목을 되돌린다 — 인쇄물의 목차 구실 */
+  .sub-title {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0 0 var(--s-20);
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+
+  /* v4: 인쇄에는 애니메이션이 없다 — rise가 both로 멈춘 상태에 걸리면 흐리게 찍힌다 */
+  .view,
+  .sub,
+  .dot { animation: none; }
+
+  .site-header {
+    position: static;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .card,
+  .entry,
+  .group.card,
+  .photo > img,
+  .hero-photo { box-shadow: none; }
+
+  .view { padding-bottom: var(--s-24); }
+}

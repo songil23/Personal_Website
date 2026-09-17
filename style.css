@@ -617,12 +617,19 @@ html[data-theme="dark"] .icon-moon { display: none; }
 /* tabindex="-1" 프로그램 포커스 대상(조작 요소 아님): 링을 그리면 제목이 입력칸처럼 보인다 */
 .view-title:focus,
 .sub-title:focus,
+.hero-name:focus,
 .view-title:focus-visible,
-.sub-title:focus-visible { outline: none; }
+.sub-title:focus-visible,
+.hero-name:focus-visible { outline: none; }   /* v6.1(2026-09-18 사용자): 홈으로 돌아올 때 app.js가 이름(h1, tabindex -1)에 포커스를 옮기는데 모바일에서 가끔 파란 링이 보였다 — 제목은 조작 요소가 아니라 링 없음(.view-title·.sub-title과 같게) */
 
 /* v5(§2-v5): 빵부스러기가 헤더 아래에 고정이라 그 높이(--crumb-h)만큼 더 내린다 */
 .view.is-active .view-title,
 .sub.is-active .sub-title { scroll-margin-top: calc(var(--header) + var(--crumb-h) + var(--s-24)); }
+
+/* v6.1(2026-09-18 사용자): 한글은 어절 단위로만 줄을 바꾼다 — 기본값은 CJK라 글자 사이 어디서나 끊겨
+   "SGH Warsaw School of Economics (폴란드)"가 "(폴란 / 드)"로 잘렸다. :lang(ko)는 <span lang="ko">와
+   한국어 모드의 html(lang=ko) 아래 UI 문구까지 잡는다. 띄어쓰기 없는 긴 낱말은 overflow-wrap이 상자 안에서 끊는다 */
+:lang(ko) { word-break: keep-all; overflow-wrap: break-word; }
 
 /* ─────────────────────────────────────────────  10. 홈 (§4)
    v3: .view-home::before 파란 그라데이션 삭제(§2 — 파랑은 세 자리뿐) */
@@ -1001,6 +1008,9 @@ em {
   transition: background-color var(--ease), color var(--ease), border-color var(--ease), box-shadow var(--ease),
     transform var(--dur-fast) var(--ease-out);   /* v6.1: 들림·누름 */
 }
+
+/* v6.1(2026-09-18 사용자): 제목 끝 괄호 묶음은 통째로 다음 줄로(inline-block: 안 들어가면 내려가고, 상자보다 넓으면 안에서 줄바꿈) */
+.entry-title .paren { display: inline-block; }
 
 .entry-title {
   font-size: var(--text-h3);

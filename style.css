@@ -1376,28 +1376,10 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
 /* ─────────────────────────────────────────────  13-v4. 누름 (§6-v4 · v6.2)
    모든 기기. transform만 — 배경·크기(레이아웃)는 건드리지 않는다.
    .ctl·.nav-btn·.subnav a·.crumb a의 ::before(히트 44)는 자식이라 같이 3% 줄지만 누르는 동안뿐이다.
-   v6.2(2026-09-18 사용자 "일관성"): 역할 셋 = 값 셋뿐.
-   ① 작은 조작 요소(버튼·칩·탭·드롭다운 항목) .97  ② 이동하는 홈 카드 .985(+hover 들림)  ③ 본문 상자 .99(살짝, 들림 없음) */
-.ctl:active,
-.nav-btn:active,
-.nav-link:active,
-.subnav a:active,
-.tab:active,
-.lang-btn:active,
-.menu-head:active,
-.menu-list a:active,
-.contact-menu .mail-list a:active,
-.lang-menu button:active { transform: scale(.97); }
-
+   v6.2 최종(2026-09-18 사용자 "홈 화면 빼고 전부 눌림 효과 없애주세요"): 누름은 **홈 카드(a.card)뿐**.
+   작은 조작 요소 .97(v4)과 본문 상자 누름(.985 → .99 → .995 → 크기별 → 연혁 제외 순으로 좁혀 오다) 전부 삭제 — 되돌린 결정이니 다시 제안하지 않는다.
+   transition의 transform 항목은 남겨 둔다(해가 없고 지우면 여러 선택자를 건드린다) */
 a.card:active { transform: scale(.985); }
-
-/* v6.2(2026-09-18 사용자 최종): 홈 카드 빼고 상자는 전부 같은 값 — 크기별로 다르게 하지 않는다
-   (Journey·탭 패널만 .995로 했다가 "전부 동일하게"로 철회). 값은 .99 → .995("너무 강해 부자연스럽다, 있는 듯 말 듯").
-   1440 실측 이동량: Journey 1200px → 6px, 보통 상자 ≈590px → 3px */
-.entry:active,
-.group.card:active { transform: scale(.995); }
-/* v6.2(2026-09-18 사용자): 연혁(Journey) 상자는 누름 없음 — 1200×780의 큰 상자라 어떤 값도 과했다 */
-.sub-body.timeline:active { transform: none; }
 
 /* ─────────────────────────────────────────────  14. hover (포인터 기기 전용)
    v3: hover 배경 상자는 드롭다운 "안" 항목에만. 나머지는 글자색만 --ink (§2) */

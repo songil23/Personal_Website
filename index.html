@@ -91,6 +91,8 @@ var t=s.getItem('theme');t=(t==='light')?'light':'dark';d.setAttribute('data-the
 var h=location.hash.slice(1).split('/'),v=h[0],u=h[1];if(!SITE[v]){v='home';u=null}else if(SITE[v].indexOf(u)<0){u=SITE[v][0]}
 d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){}
 </script>
+<link rel="preload" href="fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Pretendard-Medium.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -233,7 +235,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <main id="main">
 <section class="view view-home" id="view-home" data-view="home">
 <div class="hero">
-<img class="hero-photo" src="images/About_IMG_9754.jpg" width="591" height="827" alt="IL SONG" fetchpriority="high">
+<img class="hero-photo" src="images/About_IMG_9754.webp" width="591" height="827" alt="IL SONG" fetchpriority="high">
 <div class="hero-text">
 <h1 class="hero-name">IL SONG</h1>
 <p class="hero-line"><span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></p>
@@ -330,7 +332,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </ul>
 </section>
 <section class="group">
-<h3 class="group-title">2022 ~ 2017</h3>
+<h3 class="group-title">2017 ~ 2022</h3>
 <ul class="plain">
 <li><span lang="ko">고등학교 3년 전교 1등</span><span lang="en">Ranked 1st in school throughout all 3 years of high school</span></li>
 <li><span lang="ko">학생회장 · 부회장 · 총무</span><span lang="en">School President, Vice President, Secretary General</span></li>
@@ -344,7 +346,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </ul>
 </section>
 <section class="group">
-<h3 class="group-title">2014 ~ 2013</h3>
+<h3 class="group-title">2013 ~ 2014</h3>
 <ul class="plain">
 <li><span lang="ko">중국 랴오닝</span><span lang="en">Liaoning, China</span></li>
 </ul>
@@ -362,7 +364,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <p class="crumb"><a href="#experience"><span lang="ko">활동</span><span lang="en">Experience</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="experience/exchange-programs"><span lang="ko">교환 프로그램</span><span lang="en">Exchange Programs</span></span><span class="crumb-sub" data-sub="experience/leadership"><span lang="ko">리더십</span><span lang="en">Leadership</span></span><span class="crumb-sub" data-sub="experience/north-korea-talks"><span lang="ko">북한 관련 강연</span><span lang="en">Talks on North Korea</span></span><span class="crumb-sub" data-sub="experience/volunteering"><span lang="ko">봉사</span><span lang="en">Volunteering</span></span><span class="crumb-sub" data-sub="experience/teaching-mentoring"><span lang="ko">교육·멘토링</span><span lang="en">Teaching &amp; Mentoring</span></span><span class="crumb-sub" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Affiliated Organizations</span></span><span class="crumb-sub" data-sub="experience/clubs"><span lang="ko">동아리</span><span lang="en">Clubs</span></span><span class="crumb-sub" data-sub="experience/book-club"><span lang="ko">독서 모임</span><span lang="en">Book Club</span></span><span class="crumb-sub" data-sub="experience/countries-visited"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></span><span class="crumb-sub" data-sub="experience/other"><span lang="ko">기타</span><span lang="en">Other</span></span></p>
 <header class="view-head">
 <h1 class="view-title" tabindex="-1"><span lang="ko">활동</span><span lang="en">Experience</span></h1>
-<p class="view-desc"><span lang="ko">UGRAD · Fulbright Korea · 리더십 · 북한 강연 · 봉사·멘토링 · 11개국 여행</span><span lang="en">UGRAD · Fulbright Korea · Leadership · Talks on North Korea · Volunteering &amp; Mentoring · Traveled to 11 Countries</span></p>
+<p class="view-desc"><span lang="ko">UGRAD · Fulbright Korea · 리더십 · 북한 강연 · 봉사·멘토링 · 여행</span><span lang="en">UGRAD · Fulbright Korea · Leadership · Talks on North Korea · Volunteering &amp; Mentoring · Travel</span></p>
 <nav class="subnav" data-dense aria-label="In this section"><ul>
 <li><a href="#experience/exchange-programs" data-sub="experience/exchange-programs"><span lang="ko">교환 프로그램</span><span lang="en">Exchange Programs</span></a></li>
 <li><a href="#experience/leadership" data-sub="experience/leadership"><span lang="ko">리더십</span><span lang="en">Leadership</span></a></li>
@@ -436,7 +438,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 <article class="entry has-photo">
 <div class="entry-text"><h3 class="entry-title">BICA (Bridge International Christian Academy)</h3></div>
-<figure class="photo"><img src="images/Experience_image.jpg" width="1440" height="1080" alt="Lecture" loading="lazy"><figcaption><span lang="ko">강연 장면</span><span lang="en">Lecture</span></figcaption></figure>
+<figure class="photo"><img src="images/Experience_image.webp" width="1440" height="1080" alt="Lecture" loading="lazy" decoding="async"><figcaption><span lang="ko">강연 장면</span><span lang="en">Lecture</span></figcaption></figure>
 </article>
 <div class="boxes" data-cols="3">
 <article class="entry">
@@ -666,8 +668,8 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <article class="entry has-file">
 <div class="entry-text"><h3 class="entry-title"><span lang="ko">관련 자료</span><span lang="en">Related Materials</span></h3></div>
 <div class="files">
-<a class="file-card" href="pdf/SEF%202025_X%20Banner_EcoStep.pdf" target="_blank" rel="noopener"><img class="file-thumb" src="images/pdf/SEF%202025_X%20Banner_EcoStep.jpg" width="134" height="400" alt="" loading="lazy"><span class="file-name">SEF 2025_X Banner_EcoStep.pdf</span></a>
-<a class="file-card" href="pdf/Results%20Presentation%20Deck_EcoStep_SEF-25-6.pdf" target="_blank" rel="noopener"><img class="file-thumb" src="images/pdf/Results%20Presentation%20Deck_EcoStep_SEF-25-6.jpg" width="712" height="400" alt="" loading="lazy"><span class="file-name">Results Presentation Deck_EcoStep_SEF-25-6.pdf</span></a>
+<a class="file-card" href="pdf/SEF%202025_X%20Banner_EcoStep.pdf" target="_blank" rel="noopener"><img class="file-thumb" src="images/pdf/SEF%202025_X%20Banner_EcoStep.webp" width="134" height="400" alt="" loading="lazy" decoding="async"><span class="file-name">SEF 2025_X Banner_EcoStep.pdf</span></a>
+<a class="file-card" href="pdf/Results%20Presentation%20Deck_EcoStep_SEF-25-6.pdf" target="_blank" rel="noopener"><img class="file-thumb" src="images/pdf/Results%20Presentation%20Deck_EcoStep_SEF-25-6.webp" width="712" height="400" alt="" loading="lazy" decoding="async"><span class="file-name">Results Presentation Deck_EcoStep_SEF-25-6.pdf</span></a>
 </div>
 </article>
 </div>
@@ -685,7 +687,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </article>
 <article class="entry entry-files">
 <div class="files">
-<a class="file-card" href="pdf/Sample.pdf" target="_blank" rel="noopener"><img class="file-thumb" src="images/pdf/Sample.jpg" width="712" height="400" alt="" loading="lazy"><span class="file-name">Sample.pdf</span></a>
+<a class="file-card" href="pdf/Sample.pdf" target="_blank" rel="noopener"><img class="file-thumb" src="images/pdf/Sample.webp" width="712" height="400" alt="" loading="lazy" decoding="async"><span class="file-name">Sample.pdf</span></a>
 </div>
 </article>
 </div>
@@ -873,8 +875,8 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 <div class="tabs">
 <div class="tablist" role="tablist" aria-label="Tabs">
-<button class="tab" type="button" role="tab" id="tab-awards-press-0" aria-controls="panel-awards-press-0" aria-selected="true" tabindex="0"><span lang="ko">미국 국무부 Global Scholar 선정 (2026.2)</span><span lang="en">Selected as U.S. State Department Global Scholar (2026.2)</span></button>
-<button class="tab" type="button" role="tab" id="tab-awards-press-1" aria-controls="panel-awards-press-1" aria-selected="false" tabindex="-1"><span lang="ko">이 길을 걸어도 괜찮아 (2022.9)</span><span lang="en">It&#x27;s Okay to Walk This Path (2022.9)</span></button>
+<button class="tab" type="button" role="tab" id="tab-awards-press-0" aria-controls="panel-awards-press-0" aria-selected="true" tabindex="0"><span lang="ko">기사 (2026.2)</span><span lang="en">Press (2026.2)</span></button>
+<button class="tab" type="button" role="tab" id="tab-awards-press-1" aria-controls="panel-awards-press-1" aria-selected="false" tabindex="-1"><span lang="ko">기사 (2022.9)</span><span lang="en">Press (2022.9)</span></button>
 </div>
 <section class="tabpanel entry entry-plain" role="tabpanel" id="panel-awards-press-0" aria-labelledby="tab-awards-press-0">
 <ul class="entry-lines">
@@ -924,9 +926,9 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <section class="group media">
 <h3 class="group-title"><span lang="ko">사진</span><span lang="en">Photos</span></h3>
 <div class="photos tall-left" style="--photo-cols: 1fr 1.354fr">
-<figure class="photo"><img src="images/Music_IMG_9960.jpg" width="900" height="1600" alt="UWGB Pep Band" loading="lazy"><figcaption>UWGB Pep Band</figcaption></figure>
-<figure class="photo"><img src="images/Music_KakaoTalk_20260424_000154758.jpg" width="1440" height="1080" alt="Drums" loading="lazy"><figcaption><span lang="ko">드럼</span><span lang="en">Drums</span></figcaption></figure>
-<figure class="photo"><img src="images/Music_image.jpg" width="1440" height="811" alt="Guitar" loading="lazy"><figcaption><span lang="ko">기타</span><span lang="en">Guitar</span></figcaption></figure>
+<figure class="photo"><img src="images/Music_IMG_9960.webp" width="900" height="1600" alt="UWGB Pep Band" loading="lazy" decoding="async"><figcaption>UWGB Pep Band</figcaption></figure>
+<figure class="photo"><img src="images/Music_KakaoTalk_20260424_000154758.webp" width="1440" height="1080" alt="Drums" loading="lazy" decoding="async"><figcaption><span lang="ko">드럼</span><span lang="en">Drums</span></figcaption></figure>
+<figure class="photo"><img src="images/Music_image.webp" width="1440" height="811" alt="Guitar" loading="lazy" decoding="async"><figcaption><span lang="ko">기타</span><span lang="en">Guitar</span></figcaption></figure>
 </div>
 </section>
 <section class="group media">

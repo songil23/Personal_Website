@@ -12,12 +12,12 @@
 !/fonts/Pretendard-Regular.woff2
 !/fonts/Pretendard-Medium.woff2
 !/images/
-!/images/About_IMG_9754.jpg
-!/images/Experience_image.jpg
-!/images/Music_image.jpg
-!/images/Music_IMG_9960.jpg
-!/images/Music_KakaoTalk_20260424_000154758.jpg
-!/images/map.png
+!/images/About_IMG_9754.webp
+!/images/Experience_image.webp
+!/images/Music_image.webp
+!/images/Music_IMG_9960.webp
+!/images/Music_KakaoTalk_20260424_000154758.webp
+!/images/map.webp
 !/images/og.jpg
 !/images/flags/
 !/images/flags/cn.svg
@@ -32,9 +32,9 @@
 !/images/flags/us.svg
 !/images/flags/vn.svg
 !/images/pdf/
-!/images/pdf/Results Presentation Deck_EcoStep_SEF-25-6.jpg
-!/images/pdf/Sample.jpg
-!/images/pdf/SEF 2025_X Banner_EcoStep.jpg
+!/images/pdf/Results Presentation Deck_EcoStep_SEF-25-6.webp
+!/images/pdf/Sample.webp
+!/images/pdf/SEF 2025_X Banner_EcoStep.webp
 !/pdf/
 !/pdf/Results Presentation Deck_EcoStep_SEF-25-6.pdf
 !/pdf/Sample.pdf
@@ -42,3 +42,4 @@
 # <!-- 2026-09-17 codex: allow only reviewed public deployment files -->
 # <!-- 2026-09-17 codex: include the user-selected social preview photo -->
 # <!-- 2026-09-17 claude v6: 대표 사진 원본(3.4 MB)은 원본/공유/로, 공개는 빌더가 만든 og.jpg(1200×630)만 -->
+# <!-- 2026-09-18 claude v6.1: 사진·썸네일 WebP, 지도 무손실 WebP, 글꼴은 서브셋(같은 이름) -->

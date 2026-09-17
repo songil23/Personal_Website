@@ -1,11 +1,11 @@
-/* IL SONG — site/style.css (v5, 2026-09-17)
-   계약: 디자인_명세.md — §0-v5·§2-v5가 v4 본문을 덮는다. 토큰만 사용(리터럴 색·간격·타입 크기 금지).
+/* IL SONG — site/style.css (v6, 2026-09-17)
+   계약: 디자인_명세.md — §0-v6·§2-v6가 v5(§0-v5·§2-v5)·v4 본문을 덮는다. 토큰만 사용(리터럴 색·간격·타입 크기 금지).
    예외로 허용한 리터럴: 헤어라인/포커스 링 두께(1px·2px), 0, %, fr, vh/vw, aspect-ratio 숫자,
    키프레임 안의 opacity·scale·translate 숫자(-2px 들어올림 포함).
    그 밖에 명세가 직접 주는 수치(200·360·140·20×15 …)는 :root 토큰으로 올려 두고 여기서 쓴다.
    표시 전환(.view/.sub 숨김)은 index.html head의 생성 <style>이 담당한다. 여기서는 숨기지 않는다.
    v4 사본: 임시/v4_2026-09-17/style.css (v3는 임시/v3_2026-09-17/, v2는 임시/v2_2026-09-17/).
-   v4에서 바꾼 자리마다 "v5:" 주석으로 이유를 남겼다(v4·v3 주석은 그대로 둔다). */
+   v5에서 바꾼 자리마다 "v6:" 주석으로 이유를 남겼다(v5·v4·v3 주석은 그대로 둔다). */
 
 /* ─────────────────────────────────────────────  1. 서체 */
 @font-face {
@@ -103,7 +103,7 @@
   --menu-height: 70vh;            /* 팝업은 본문을 남기고, 긴 목록만 안에서 스크롤 */
   --hero-photo: 200px;            /* 추가(§4): ≥834 홈 사진 열 */
   --hero-photo-sm: 160px;         /* 추가(§4): ≤833 홈 사진 폭 */
-  --year-col: 140px;              /* 추가(§5): 타임라인 연도 열 */
+  --year-col: 260px;              /* v6(§2-v6): 140 → 260(≥1200). 834~1199는 200(§15에서 재정의) — 상자 안 내용을 오른쪽으로 */
   --dot: 6px;                     /* v5(§2-v5): 8 → 6. 링 없음은 v4 그대로 */
   --tw-dur-default: 2.4s;         /* v4(§5): 빌더가 --tw-dur를 못 준 점의 기본 반짝임 주기 */
   --flag-w: 20px;                 /* 추가(§5) */
@@ -565,9 +565,11 @@ html[data-theme="dark"] .icon-moon { display: none; }
 .ctl.is-off { color: var(--ink-3); pointer-events: none; }
 
 /* 터치 44 — 위아래로만 넓힌다. (v4) .crumb a도: 줄 높이는 40이지만 히트는 44 */
+/* v6(§2-v6): .tab(기사 제목 탭)도 칩과 같은 규격이라 같은 목록에 */
 .ctl::before,
 .nav-btn::before,
 .subnav a::before,
+.tab::before,
 .crumb a::before {
   content: "";
   position: absolute;
@@ -756,6 +758,9 @@ html[data-theme="dark"] .icon-moon { display: none; }
   height: var(--crumb-h);
   margin-inline: calc(var(--gutter) * -1);
   padding-inline: var(--gutter);
+  /* v6(§2-v6): 위는 헤더에 붙어 직각, 아래 두 모서리만 12 */
+  border-bottom-left-radius: var(--r-12);
+  border-bottom-right-radius: var(--r-12);
   font-size: var(--text-caption);
   color: var(--ink-3);
   background: var(--bg);
@@ -819,14 +824,14 @@ html[data-theme="dark"] .icon-moon { display: none; }
 .subnav > ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;   /* v4: 가운데 → 왼쪽(첫 칩 왼쪽 = 컨테이너 왼쪽) */
+  justify-content: center;       /* v6(§2-v6): 모든 절에서 가운데(v4 왼쪽·v5 .view-center 예외를 함께 폐기) */
   gap: var(--s-8);
 }
-/* v5(§2-v5): `정렬: 가운데` 절(Awards & Press)만 칩도 가운데 */
-.view-center .subnav > ul { justify-content: center; }
 /* v5(§2-v5): 두 줄 분할(v4 `ul + ul`) 폐기 — 하위 8개 이상은 한 줄에 빽빽하게 */
 .subnav[data-dense] > ul { gap: var(--s-6); }
-.subnav a {
+/* v6(§2-v6): 탭 버튼(.tab)은 칩과 같은 규격 — 선언을 복제하지 않고 선택자 목록에 더한다 */
+.subnav a,
+.tab {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -851,7 +856,17 @@ html[data-theme="dark"] .icon-moon { display: none; }
   letter-spacing: var(--ls-tight);
   padding: var(--s-8) var(--s-10);
 }
-.subnav a[aria-current="page"] {
+/* v6(§2-v6): 탭 이름은 기사 제목이라 칩보다 길다(390에서 한 줄에 안 들어간다) —
+   고정 높이 36을 최소 높이로 바꾸고 줄바꿈을 허용한다. 히트 44 ::before는 그대로 */
+.tab {
+  height: auto;
+  min-height: var(--btn);
+  max-width: 100%;
+  line-height: 1.3;
+  text-align: center;
+}
+.subnav a[aria-current="page"],
+.tab[aria-selected="true"] {
   background: var(--surface-3);
   color: var(--ink);
   font-weight: 500;
@@ -985,9 +1000,10 @@ em {
   font-variant-numeric: tabular-nums lining-nums;
   color: var(--ink-2);
 }
-/* v5(§2-v5): 제목 없는 상자(상자 밖 본문을 없애며 생겼다) — 위에 제목이 없으니 여백 0 */
-.entry-plain > .entry-lines,
-.entry-plain .entry-text > .entry-lines { margin-top: 0; }
+/* v5(§2-v5): 제목 없는 상자(상자 밖 본문을 없애며 생겼다) — 위에 제목이 없으니 여백 0
+   v6(§2-v6): `.entry-plain .entry-text > .entry-lines`는 v5 PPT(entry-plain has-file) 전용이었고
+   그 경로가 사라져 지웠다(항목형 has-file = Related Materials는 .entry-text에 제목이 있다) */
+.entry-plain > .entry-lines { margin-top: 0; }
 /* v5(§2-v5): `정렬: 가운데` 절(Awards & Press)만 상자 안 글도 가운데 */
 .view-center .entry-plain .entry-lines { text-align: center; }
 
@@ -1003,6 +1019,24 @@ em {
    has-photo와 달리 전체 폭이 아니라 .boxes 안에 다른 상자와 나란히 놓인다 */
 .entry.has-file { display: block; }
 .entry.has-file > .files { margin-top: var(--s-10); }   /* 1열로 쌓일 때만 — 2열에서는 ≥834에서 0으로 되돌린다 */
+
+/* v6(§2-v6): PPT는 글 상자와 자료 상자를 따로 — 자료 상자는 제목 없이 카드만 담는다.
+   .boxes의 align-items: start라 글 상자 높이는 글만큼 */
+.entry-files > .files { margin-top: 0; }
+
+/* v6(§2-v6): 기사 제목 탭(`묶음: 탭`) — .tabs는 .sub-body(flex column gap 24)의 직속 자식이라
+   위 여백은 그 gap이 준다. 버튼 규격은 위 칩(.subnav a, .tab) 목록에 있다 */
+.tablist {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-8);
+}
+/* 인접 형제(.tablist + .tabpanel)는 첫 패널이 hidden이면 둘째 패널에 안 붙는다 → 자식 전부에 */
+.tabs > .tabpanel { margin-top: var(--s-16); }
+/* 패널 글은 어느 절에서나 왼쪽. `.view-center .entry-plain .entry-lines`(0,3,0)를 이기려면
+   같은 특이성이 필요하다 — 명세의 `.tabpanel .entry-lines`(0,2,0)는 뒤에 두어도 진다 */
+.tabpanel.entry-plain .entry-lines { text-align: left; }
 
 /* group */
 .group-title {
@@ -1211,12 +1245,12 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   text-decoration: none;
 }
 
-/* v5(§2-v5): 내부 링크 →(Paper → · Academic Mentoring →) — 외부 ↗와 같은 자리·규격 */
+/* v6(§2-v6): 내부 링크(Paper · Academic Mentoring)도 외부와 같은 ↗ — v5의 → 폐기 */
 .entry-title a[href^="#"]::after,
 .entry-lines a[href^="#"]::after,
 .plain a[href^="#"]::after,
 .lead a[href^="#"]::after {
-  content: "→";
+  content: "↗";
   margin-left: var(--s-4);
   font-size: var(--text-caption);
   color: var(--ink-3);
@@ -1225,9 +1259,10 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
 
 /* ─────────────────────────────────────────────  13. 푸터 (§6)
    v3: .footer-brand·푸터 .mail-list 삭제(이메일 열 없음). 사이트맵 + 아래 줄만 */
+/* v6(§0-v6): ≤833은 탭 6개만 보이므로(하위 24 숨김) 위 패딩도 한 단 줄인다 — ≥834에서 48로 복귀 */
 .site-footer {
   border-top: 1px solid var(--line);
-  padding-top: var(--s-48);
+  padding-top: var(--s-32);
   padding-bottom: var(--s-24);
 }
 
@@ -1239,7 +1274,7 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   grid-template-columns: repeat(2, auto);
   justify-content: space-between;
   column-gap: var(--s-24);
-  row-gap: var(--s-32);
+  row-gap: var(--s-8);           /* v6(§2-v6): ≤833은 탭 6 = 2열 3행 — ≥834에서 32로 복귀 */
 }
 
 .footer-col {
@@ -1257,8 +1292,9 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   color: var(--ink);
   transition: color var(--ease);
 }
+/* v6(§0-v6): 모바일 푸터는 탭 6개만(세로 약 1000 → 300px). ≥834·인쇄에서 되돌린다 */
 .footer-col ul {
-  display: grid;
+  display: none;
   gap: var(--s-6);
   font-size: var(--text-small);
   line-height: 1.5;
@@ -1294,6 +1330,7 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
 .ctl:active,
 .nav-btn:active,
 .subnav a:active,
+.tab:active,
 .lang-btn:active,
 .menu-list a:active,
 .lang-menu button:active { transform: scale(.97); }
@@ -1307,6 +1344,7 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   .nav-btn:hover,
   .ctl:hover,
   .subnav a:hover,
+  .tab:hover,
   .crumb a:hover,
   .video-fallback:hover,           /* v5: 밑줄·파랑 없는 링크는 글자색만 (§2) */
   .footer-head:hover,
@@ -1335,6 +1373,8 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
 
 /* ─────────────────────────────────────────────  15. 834 ~ 1199 */
 @media (min-width: 834px) {
+  :root { --year-col: 200px; }   /* v6(§2-v6): 834~1199만 200 — ≥1200은 아래에서 260으로 되돌린다 */
+
   /* 홈 */
   .hero {
     grid-template-columns: var(--hero-photo) 1fr;
@@ -1383,6 +1423,9 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
     align-items: start;
   }
   .entry.has-file > .files { margin-top: 0; }        /* 2열에서는 gap 20이 대신한다 */
+  /* v6(§2-v6): PPT [글 상자 | 자료 상자] — 자료 상자 열은 카드 폭(max-content), 글 상자가 나머지.
+     repeat(2, auto)면 두 상자가 남는 폭을 나눠 가져 자료 상자 오른쪽이 비어 보였다(2026-09-17 1440 실측: 카드 352 / 상자 520) */
+  .boxes[data-cols="2"]:has(> .entry-files) { grid-template-columns: minmax(0, 1fr) max-content; }
   .entry.has-file:not(:has(.entry-lines)) {
     grid-template-columns: 1fr;                      /* 제목뿐이면 카드가 아래(Related Materials) */
     gap: var(--s-10);
@@ -1394,6 +1437,8 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
     gap: var(--s-20);
     align-items: start;
   }
+  /* v6(§2-v6): 연도는 헤어라인과 헤어라인의 정중앙(위 패딩 20·아래 gap 20이 대칭) */
+  .sub-body.timeline > .group > .group-title { align-self: center; }
   .sub-body.timeline > .group > .plain { margin-top: 0; }
 
   .photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1416,12 +1461,20 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   .videos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   /* 푸터 */
-  .footer-nav { grid-template-columns: repeat(3, auto); }   /* v4: auto + space-between */
+  .footer-nav {
+    grid-template-columns: repeat(3, auto);   /* v4: auto + space-between */
+    row-gap: var(--s-32);                     /* v6: ≤833의 8에서 복귀 */
+  }
+  .footer-col ul { display: grid; }           /* v6(§2-v6): 하위 목록은 834부터 */
+  .site-footer { padding-top: var(--s-48); }  /* v6(§2-v6) */
 }
 
 /* ─────────────────────────────────────────────  16. ≥1200 — 탭 표시 */
 @media (min-width: 1200px) {
-  :root { --header: 64px; }
+  :root {
+    --header: 64px;
+    --year-col: 260px;           /* v6(§2-v6): :root 값으로 복귀 */
+  }
 
   .header-inner {
     grid-template-columns: auto 1fr auto;
@@ -1465,6 +1518,11 @@ html:not([data-view]) .nav { justify-self: start; }
 /* v4(§2·§5): JS가 없으면 절이 전부 펼쳐지므로 현재 하위를 가리키는 빵부스러기는 뜻이 없다.
    대신 숨겼던 하위 제목을 되돌려 목차 구실을 하게 한다 */
 html:not([data-view]) .crumb { display: none; }
+
+/* v6(§2-v6): JS가 없으면 탭을 누를 수 없다 — 패널을 전부 펼치고 탭 줄을 숨긴다.
+   [hidden]의 display:none은 !important(§3)라 같은 무게로만 덮을 수 있다 */
+html:not([data-view]) .tabpanel[hidden] { display: block !important; }
+html:not([data-view]) .tablist { display: none; }
 html:not([data-view]) .sub-title {
   position: static;
   width: auto;
@@ -1508,6 +1566,7 @@ html:not([data-view]) .sub-title {
   .ctl:active,
   .nav-btn:active,
   .subnav a:active,
+  .tab:active,
   .lang-btn:active,
   .menu-list a:active,
   .lang-menu button:active,
@@ -1526,7 +1585,12 @@ html:not([data-view]) .sub-title {
   .disclosure,
   .skip,
   .crumb,          /* v4: 절이 전부 펼쳐지므로 현재 하위 표시는 뜻이 없다 */
+  .tablist,        /* v6: 인쇄에서는 탭 패널을 전부 펼치므로 탭 줄이 뜻이 없다 */
   .subnav { display: none; }
+
+  /* v6(§2-v6): [hidden]의 display:none이 !important(§3)라 같은 무게로 덮는다 */
+  .tabpanel[hidden] { display: block !important; }
+  .footer-col ul { display: grid; }   /* v6: 인쇄는 사이트맵 전부 */
 
   html[data-view] main#main .view,
   html[data-sub] main#main .sub { display: block; }

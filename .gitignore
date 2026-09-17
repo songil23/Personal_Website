@@ -18,7 +18,7 @@
 !/images/Music_IMG_9960.jpg
 !/images/Music_KakaoTalk_20260424_000154758.jpg
 !/images/map.png
-!/images/대표 사진.jpg
+!/images/og.jpg
 !/images/flags/
 !/images/flags/cn.svg
 !/images/flags/it.svg
@@ -41,3 +41,4 @@
 !/pdf/SEF 2025_X Banner_EcoStep.pdf
 # <!-- 2026-09-17 codex: allow only reviewed public deployment files -->
 # <!-- 2026-09-17 codex: include the user-selected social preview photo -->
+# <!-- 2026-09-17 claude v6: 대표 사진 원본(3.4 MB)은 원본/공유/로, 공개는 빌더가 만든 og.jpg(1200×630)만 -->

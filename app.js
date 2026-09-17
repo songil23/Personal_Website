@@ -346,6 +346,36 @@
     });
   }
 
+  /* ---------- 7. 기사 탭 (v6 §2-v6 `묶음: 탭`) ----------
+     WAI-ARIA tabs: 클릭·←→(순환)·Home/End. 해시·저장 없음 — 절/하위 라우팅과 무관 */
+  all('.tabs').forEach(function (box) {
+    var tabs = all('[role="tab"]', box);
+    if (!tabs.length) return;
+    function select(i, focus) {
+      tabs.forEach(function (t, k) {
+        var on = k === i;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.setAttribute('tabindex', on ? '0' : '-1');
+        var panel = document.getElementById(t.getAttribute('aria-controls') || '');
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) focusQuiet(tabs[i]);
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(i, false); });
+      t.addEventListener('keydown', function (e) {
+        var n = tabs.length, j = -1;
+        if (e.key === 'ArrowRight' || e.key === 'Right') j = (i + 1) % n;
+        else if (e.key === 'ArrowLeft' || e.key === 'Left') j = (i - 1 + n) % n;
+        else if (e.key === 'Home') j = 0;
+        else if (e.key === 'End') j = n - 1;
+        if (j < 0) return;
+        e.preventDefault();
+        select(j, true);
+      });
+    });
+  });
+
   /* ---------- 실행 ---------- */
   window.addEventListener('hashchange', function () { route(false); });
   route(true);

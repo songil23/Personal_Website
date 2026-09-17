@@ -64,6 +64,9 @@
   --shadow-sm: 0 1px 2px rgb(38 38 38 / 4%), 0 6px 20px rgb(38 38 38 / 5%);
   --shadow-md: 0 2px 4px rgb(38 38 38 / 4%), 0 12px 32px rgb(38 38 38 / 8%);
   --shadow-pop: 0 4px 8px rgb(38 38 38 / 6%), 0 20px 48px rgb(38 38 38 / 12%);
+  --glass-tint: color-mix(in srgb, var(--surface) 82%, transparent);
+  --glass-line: color-mix(in srgb, var(--ink) 16%, transparent);
+  --menu-ink: color-mix(in srgb, var(--ink) 82%, transparent);
 
   /* 간격 */
   --s-4: 4px;
@@ -97,7 +100,7 @@
   --btn: 36px;
   --crumb-h: 40px;                /* v4(§5): 빵부스러기 줄 높이 — 조작 요소가 아니라 44가 아니다 */
   --menu-min: 200px;              /* 추가(§3): 드롭다운 최소 폭 */
-  --more-menu-w: 360px;           /* 추가(§3): ⋯ 메뉴 상한 폭 */
+  --menu-height: 70vh;            /* 팝업은 본문을 남기고, 긴 목록만 안에서 스크롤 */
   --hero-photo: 200px;            /* 추가(§4): ≥834 홈 사진 열 */
   --hero-photo-sm: 160px;         /* 추가(§4): ≤833 홈 사진 폭 */
   --year-col: 140px;              /* 추가(§5): 타임라인 연도 열 */
@@ -116,6 +119,10 @@
   --dur-fast: 120ms;                              /* v4: 누름 */
   --dur-pop: 180ms;                               /* v4: 드롭다운 (v3 --ease-pop 160ms를 대체) */
   --dur: 240ms;                                   /* v4: 절·하위 전환 */
+}
+
+@supports (height: 100dvh) {
+  :root { --menu-height: 70dvh; }
 }
 
 /* v5(§2-v5): 다크 토큰 블록만 @media not print로 감싼다 — 인쇄는 언제나 라이트
@@ -255,21 +262,31 @@ html[data-theme="dark"] .icon-moon { display: none; }
   position: sticky;
   top: 0;
   z-index: 50;
+  border-bottom: 1px solid var(--line-soft);
+  transition: border-color var(--ease);
+}
+/* 헤더 자체에 blur를 두면 자식 팝업의 backdrop이 헤더에 갇힌다.
+   배경만 별도 층으로 옮겨 팝업도 뒤의 본문을 흐리게 비춘다. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background: var(--bg);
   /* v5(§2-v5): 92% → 70%(blur는 --blur 토큰이 12 → 16). 앞줄 var(--bg)는 color-mix 미지원 폴백 */
   background: color-mix(in srgb, var(--bg) 70%, transparent);
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
-  border-bottom: 1px solid var(--line-soft);
-  transition: background-color var(--ease), border-color var(--ease);   /* v4: 테마 전환 */
+  transition: background-color var(--ease);
 }
 
 .header-inner {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas: "brand nav controls";
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "brand controls";
   align-items: center;
-  gap: var(--s-24);              /* 탭 묶음 ↔ 아이콘 묶음 24 */
+  gap: var(--s-8);               /* 320px에서도 브랜드와 44px 아이콘 네 개가 겹치지 않는다 */
   height: var(--header);
 }
 
@@ -292,7 +309,7 @@ html[data-theme="dark"] .icon-moon { display: none; }
   display: none;                 /* <1200: .ctl-more가 대신한다. ≥1200에서 켠다 */
 }
 
-.controls { grid-area: controls; justify-self: end; }
+.controls { grid-area: controls; justify-self: end; position: relative; }
 
 .nav-list {
   display: flex;
@@ -351,7 +368,13 @@ html[data-theme="dark"] .icon-moon { display: none; }
   left: 0;
   z-index: 55;
   width: max-content;            /* v3: 항목이 두 줄로 깨지지 않게 */
-  min-width: var(--menu-min);
+  min-width: min(var(--menu-min), calc(100vw - var(--gutter) * 2));
+  max-width: calc(100vw - var(--gutter) * 2);
+  max-height: min(var(--menu-height), calc(100vh - var(--header) - var(--s-16)));
+  max-height: min(var(--menu-height), calc(100dvh - var(--header) - var(--s-16)));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: var(--s-8);
   padding: var(--s-8);
   border: 1px solid var(--line);
   border-radius: var(--r-12);
@@ -368,6 +391,17 @@ html[data-theme="dark"] .icon-moon { display: none; }
     border-color var(--ease),
     box-shadow var(--ease);
 }
+/* blur 미지원 환경은 위의 불투명 바탕 유지. 보조 글자는 사진 위에서도 읽히게 82%. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) and (background: color-mix(in srgb, white, transparent)) {
+  .menu {
+    --ink-2: var(--menu-ink);
+    --ink-3: var(--menu-ink);
+    background: var(--glass-tint);
+    border-color: var(--glass-line);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+  }
+}
 .menu:not([hidden]) {
   opacity: 1;
   transform: none;
@@ -380,6 +414,8 @@ html[data-theme="dark"] .icon-moon { display: none; }
 }
 
 .controls .menu { left: auto; right: 0; }
+/* 연락처도 아이콘 묶음의 오른쪽에 붙여 작은 화면 왼쪽으로 벗어나지 않게 한다. */
+.controls .disclosure.contact { position: static; }
 /* 오른쪽 끝 탭의 메뉴는 오른쪽 정렬 — 화면 밖으로 나가지 않게 */
 .nav-item:nth-last-child(-n + 2) .nav-menu { left: auto; right: 0; }
 
@@ -401,6 +437,7 @@ html[data-theme="dark"] .icon-moon { display: none; }
   align-items: center;
   justify-content: space-between;
   gap: var(--s-16);
+  min-height: var(--target);
   padding: var(--s-8) var(--s-12);
   margin-bottom: var(--s-8);
   border-bottom: 1px solid var(--line);
@@ -451,12 +488,14 @@ html[data-theme="dark"] .icon-moon { display: none; }
   display: flex;
   align-items: center;
   flex: 1;                       /* v5: 복사 버튼 옆에서 남는 폭을 차지 */
+  min-width: 0;
   min-height: var(--target);
   padding: var(--s-8) var(--s-12);
   border-radius: var(--r-6);
   font-size: var(--text-ui);
   color: var(--ink-2);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
   transition: background var(--ease), color var(--ease);
 }
 
@@ -467,16 +506,14 @@ html[data-theme="dark"] .icon-moon { display: none; }
 
 /* ⋯ 메뉴 — 좁은 폭에서 탭 6 전부 (§3) */
 .more-menu {
-  width: min(var(--more-menu-w), calc(100vw - var(--gutter) * 2));
-  max-height: 80vh;
-  overflow-y: auto;
+  width: max-content;            /* 가장 긴 메뉴 이름 + 패딩만 사용, 화면 폭은 .menu가 제한 */
 }
 .more-menu .menu-list,
 .more-menu .menu-list:has(> li:nth-child(7)) {   /* v3 검증: :has 규칙(0,2,1)이 이겨 2열로 새던 것을 같은 특이성으로 덮는다 */
   grid-template-columns: 1fr;    /* 여기선 항상 1열 */
   column-gap: 0;
 }
-.more-menu .menu-list a { white-space: normal; }   /* 폭이 고정이라 긴 이름은 접힌다 */
+.more-menu .menu-list a { white-space: normal; overflow-wrap: anywhere; }
 .more-group + .more-group {
   margin-top: var(--s-8);
   padding-top: var(--s-8);
@@ -516,8 +553,9 @@ html[data-theme="dark"] .icon-moon { display: none; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: var(--btn);
-  min-width: var(--btn);
+  height: var(--target);
+  min-width: var(--target);
+  flex-shrink: 0;
   border-radius: var(--r-8);     /* 포커스 링용 */
   color: var(--ink-2);
   font-size: var(--text-ui);
@@ -738,6 +776,7 @@ html[data-theme="dark"] .icon-moon { display: none; }
   position: relative;            /* 히트 44용 ::before의 기준 */
   display: inline-flex;
   align-items: center;
+  min-width: var(--target);
   color: inherit;
   transition: color var(--ease);
 }
@@ -791,6 +830,8 @@ html[data-theme="dark"] .icon-moon { display: none; }
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-width: var(--target);
   height: var(--btn);
   padding: var(--s-8) var(--s-12);
   border-radius: var(--r-8);
@@ -1224,8 +1265,11 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   color: var(--ink-2);
 }
 .footer-col ul a {
-  display: block;
-  padding-block: var(--s-6);     /* 히트 ~32 — 목록 간격을 지키려 알고 남김(§6) */
+  display: flex;
+  align-items: center;
+  min-width: var(--target);
+  min-height: var(--target);
+  padding-block: var(--s-6);
   transition: color var(--ease);
 }
 
@@ -1379,6 +1423,12 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
 @media (min-width: 1200px) {
   :root { --header: 64px; }
 
+  .header-inner {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "brand nav controls";
+    gap: var(--s-24);
+  }
+
   .nav { display: block; }
   .nav-link { display: none; }
   .nav-item-single .nav-link { display: flex; }   /* 하위 1개 탭(More)은 링크가 곧 탭 */
@@ -1503,6 +1553,7 @@ html:not([data-view]) .sub-title {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+  .site-header::before { display: none; }
 
   .card,
   .entry,
@@ -1512,3 +1563,5 @@ html:not([data-view]) .sub-title {
 
   .view { padding-bottom: var(--s-24); }
 }
+
+/* <!-- 2026-09-17 codex: 팝업 글래스·내용 폭·화면 높이 제한, 아이콘·푸터·칩·빵부스러기 44px 조작 영역과 좁은 헤더·연락처 개선 --> */

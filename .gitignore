@@ -18,6 +18,7 @@
 !/images/Music_IMG_9960.jpg
 !/images/Music_KakaoTalk_20260424_000154758.jpg
 !/images/map.png
+!/images/대표 사진.jpg
 !/images/flags/
 !/images/flags/cn.svg
 !/images/flags/it.svg
@@ -39,3 +40,4 @@
 !/pdf/Sample.pdf
 !/pdf/SEF 2025_X Banner_EcoStep.pdf
 # <!-- 2026-09-17 codex: allow only reviewed public deployment files -->
+# <!-- 2026-09-17 codex: include the user-selected social preview photo -->

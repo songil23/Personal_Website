@@ -1022,6 +1022,11 @@ em {
 
 /* v6.1(2026-09-18 사용자): 제목 끝 괄호 묶음은 통째로 다음 줄로(inline-block: 안 들어가면 내려가고, 상자보다 넓으면 안에서 줄바꿈) */
 .entry-title .paren { display: inline-block; font-size: var(--text-ui); }   /* 2026-09-18 사용자: 괄호 묶음(Bridge International Christian Academy)은 조금 작게 — 17 → 15 */
+/* 2026-09-18 사용자: 모바일(≤833)에서는 괄호 묶음(국가·풀이)을 언제나 다음 줄에 — 412px 폰에서 "(미국)"이 한 줄에 들어가 버렸다.
+   ≥834는 inline-block(안 들어갈 때만 내려감). 기본 규칙 뒤에 두어야 이긴다(같은 특이성) */
+@media (max-width: 833px) {
+  .entry-title .paren { display: block; }
+}
 
 .entry-title {
   font-size: var(--text-h3);

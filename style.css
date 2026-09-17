@@ -998,6 +998,8 @@ em {
   gap: var(--s-20);
   align-items: start;
 }
+/* v6.2: flow의 두 열(div.col)은 ≤833에서 풀어 원래 순서 1열(≥834 규칙은 아래 미디어 블록) */
+.boxes[data-cols="flow"] > .col { display: contents; }
 /* v5(§2-v5): `배치: 등분` — 폭을 등분하고 높이까지 맞춘다(Volunteering 두 상자) */
 /* v6.1(2026-09-18 사용자): `배치: 등분`은 폭만 같게 — 높이는 글자에 맞춘다(v5의 stretch 삭제. 제목만인 Academic Mentoring 상자가 옆 상자만큼 늘어나 비어 보였다) */
 .boxes[data-equal] { align-items: start; }
@@ -1453,16 +1455,14 @@ a.card:active { transform: scale(.985); }
   /* v5(§2-v5): `배치: 등분`만 등폭 — auto 트랙은 내용 폭이라 두 상자 크기가 달라진다 */
   .boxes[data-equal][data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .boxes[data-equal][data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  /* flow = 높이 차가 큰 묶음. 열 흐름으로 빈 상자를 막는다 */
-  .boxes[data-cols="flow"] {
-    display: block;
-    columns: 2;
-    column-gap: var(--s-20);
-    margin-bottom: calc(var(--s-20) * -1);
-  }
-  .boxes[data-cols="flow"] > * {
-    break-inside: avoid;
-    margin-bottom: var(--s-20);
+  /* flow = 높이 차가 큰 묶음. 열 흐름으로 빈 상자를 막는다.
+     v6.2(2026-09-18 사용자 "이 박스만 아이패드에서 심각하게 깜빡임"): CSS multicol(columns:2 + break-inside)을 버린다 —
+     iPad Safari가 열 경계에 놓인 상자(Coursework Economics)를 깜빡였다. 빌더가 나눈 div.col 두 개를 등폭 2열 grid에 */
+  .boxes[data-cols="flow"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .boxes[data-cols="flow"] > .col {
+    display: grid;
+    gap: var(--s-20);
+    align-content: start;
   }
 
   .entry.has-photo {

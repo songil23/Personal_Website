@@ -1,4 +1,4 @@
-/* IL SONG — site/style.css (v6, 2026-09-17)
+/* IL SONG — site/style.css (v6.2, 2026-09-18)
    계약: 디자인_명세.md — §0-v6·§2-v6가 v5(§0-v5·§2-v5)·v4 본문을 덮는다. 토큰만 사용(리터럴 색·간격·타입 크기 금지).
    예외로 허용한 리터럴: 헤어라인/포커스 링 두께(1px·2px), 0, %, fr, vh/vw, aspect-ratio 숫자,
    키프레임 안의 opacity·scale·translate 숫자(-2px 들어올림 포함).
@@ -119,6 +119,7 @@
   --dur-fast: 120ms;                              /* v4: 누름 */
   --dur-pop: 180ms;                               /* v4: 드롭다운 (v3 --ease-pop 160ms를 대체) */
   --dur: 240ms;                                   /* v4: 절·하위 전환 */
+  --lift: -2px;                                   /* v6.2: 홈 카드 hover 들림(카드 ::after가 같은 값으로 히트를 아래로 넓힌다) */
 }
 
 @supports (height: 100dvh) {
@@ -156,6 +157,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;   /* v6.2: 누름 효과가 있으니 모바일 탭 번쩍임(회색 덮개)은 끈다 */
   text-size-adjust: 100%;
   scroll-behavior: smooth;        /* v4(§6-v4): app.js의 scrollTo·해시 이동이 같이 부드러워진다 */
 }
@@ -329,7 +331,7 @@ html[data-theme="dark"] .icon-moon { display: none; }
   font-size: var(--text-ui);
   color: var(--ink-2);
   white-space: nowrap;
-  transition: color var(--ease);
+  transition: color var(--ease), transform var(--dur-fast) var(--ease-out);   /* v6.2: 누름 */
 }
 /* v3: 현재 표시는 글자색·굵기만. hover 배경 상자와 파란 밑줄은 삭제(§2) */
 .nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
@@ -446,7 +448,7 @@ html[data-theme="dark"] .icon-moon { display: none; }
   font-weight: 500;
   color: var(--ink);
   white-space: nowrap;
-  transition: background var(--ease);
+  transition: background var(--ease), transform var(--dur-fast) var(--ease-out);   /* v6.2: 누름 */
 }
 .menu-head .arrow { color: var(--ink-3); }
 
@@ -496,7 +498,7 @@ html[data-theme="dark"] .icon-moon { display: none; }
   color: var(--ink-2);
   white-space: normal;
   overflow-wrap: anywhere;
-  transition: background var(--ease), color var(--ease);
+  transition: background var(--ease), color var(--ease), transform var(--dur-fast) var(--ease-out);   /* v6.2: 누름 */
 }
 
 /* v5(§2-v5): 복사 → ✓ (1500ms 뒤 되돌리는 것은 app.js). 초록은 이 프로젝트에서 안 써 --ink */
@@ -730,6 +732,15 @@ html[data-theme="dark"] .icon-moon { display: none; }
     color var(--ease),
     border-color var(--ease),
     transform var(--dur-fast) var(--ease-out);
+}
+/* v6.2: hover로 2px 들리면 아래 가장자리에 있던 커서가 카드 밖으로 나가 hover가 풀리고, 내려오면 다시 걸린다(1초에 15회 진동 실측).
+   투명 ::after로 히트를 들림만큼 아래로 넓혀 들린 뒤에도 원래 자리가 카드 안이게 한다 */
+a.card { position: relative; }   /* .group.card(묶음 상자)도 .card라 홈 카드만 a.card로 가른다 */
+a.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  bottom: var(--lift);
 }
 
 .card-num {
@@ -1006,7 +1017,7 @@ em {
   box-shadow: var(--shadow-sm);
   /* v4(§6-v4): 테마 전환(속성 명시) */
   transition: background-color var(--ease), color var(--ease), border-color var(--ease), box-shadow var(--ease),
-    transform var(--dur-fast) var(--ease-out);   /* v6.1: 들림·누름 */
+    transform var(--dur-fast) var(--ease-out);   /* v6.2: 누름만(들림은 홈 카드뿐) */
 }
 
 /* v6.1(2026-09-18 사용자): 제목 끝 괄호 묶음은 통째로 다음 줄로(inline-block: 안 들어가면 내려가고, 상자보다 넓으면 안에서 줄바꿈) */
@@ -1355,22 +1366,27 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   color: var(--ink-3);
 }
 
-/* ─────────────────────────────────────────────  13-v4. 누름 (§6-v4)
+/* ─────────────────────────────────────────────  13-v4. 누름 (§6-v4 · v6.2)
    모든 기기. transform만 — 배경·크기(레이아웃)는 건드리지 않는다.
-   .ctl·.nav-btn·.subnav a·.crumb a의 ::before(히트 44)는 자식이라 같이 3% 줄지만 누르는 동안뿐이다 */
+   .ctl·.nav-btn·.subnav a·.crumb a의 ::before(히트 44)는 자식이라 같이 3% 줄지만 누르는 동안뿐이다.
+   v6.2(2026-09-18 사용자 "일관성"): 역할 셋 = 값 셋뿐.
+   ① 작은 조작 요소(버튼·칩·탭·드롭다운 항목) .97  ② 이동하는 홈 카드 .985(+hover 들림)  ③ 본문 상자 .99(살짝, 들림 없음) */
 .ctl:active,
 .nav-btn:active,
+.nav-link:active,
 .subnav a:active,
 .tab:active,
 .lang-btn:active,
+.menu-head:active,
 .menu-list a:active,
+.contact-menu .mail-list a:active,
 .lang-menu button:active { transform: scale(.97); }
 
-/* v6.1(§2-v6.1): 사용자 "상자 효과 전부" — 본문 상자도 홈 카드와 같은 누름·hover 들림 */
-.card:active,
+a.card:active { transform: scale(.985); }
+
 .entry:active,
 .group.card:active,
-.sub-body.timeline:active { transform: scale(.985); }
+.sub-body.timeline:active { transform: scale(.99); }
 
 /* ─────────────────────────────────────────────  14. hover (포인터 기기 전용)
    v3: hover 배경 상자는 드롭다운 "안" 항목에만. 나머지는 글자색만 --ink (§2) */
@@ -1390,20 +1406,15 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   .contact-menu .mail-list a:hover,
   .lang-menu button:hover { background: var(--surface-2); color: var(--ink); }
 
-  /* v6.1(§2-v6.1): 사용자 "상자 효과 전부" — 본문 상자·묶음 카드·Journey 상자·탭 패널도 같은 들림 */
-  .card:hover,
-  .entry:hover,
-  .group.card:hover,
-  .sub-body.timeline:hover {
+  /* v6.2(2026-09-18 사용자): 들림은 이동하는 홈 카드만. 본문 상자(entry·group.card·timeline·tabpanel)는 hover 없음 —
+     v6.1의 "상자 전부 들림"은 아래 가장자리 진동(1초 15회)과 큰 글 상자의 재래스터 번쩍임을 만들었다 */
+  a.card:hover {
     box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    transform: translateY(var(--lift));
   }
-  .card:hover .card-more { color: var(--ink); }
+  a.card:hover .card-more { color: var(--ink); }
   /* v4(§6-v4): 들어올린 채로 눌린다 — 두 transform을 합쳐 쓴다 */
-  .card:active,
-  .entry:active,
-  .group.card:active,
-  .sub-body.timeline:active { transform: translateY(-2px) scale(.985); }
+  a.card:active { transform: translateY(var(--lift)) scale(.985); }
 
   /* 파랑이 쓰이는 세 자리 중 하나 — 링크 hover (§2) */
   .plain a:hover,
@@ -1605,19 +1616,10 @@ html:not([data-view]) .sub-title {
   .nav-btn .icon-caret,
   .lang-btn .icon-caret { transition-duration: 0s; }
 
-  .ctl:active,
-  .nav-btn:active,
-  .subnav a:active,
-  .tab:active,
-  .lang-btn:active,
-  .menu-list a:active,
-  .lang-menu button:active,
-  .card:active,
-  .card:hover,
-  .card:hover:active,
-  .entry:active, .entry:hover, .entry:hover:active,
-  .group.card:active, .group.card:hover, .group.card:hover:active,
-  .sub-body.timeline:active, .sub-body.timeline:hover, .sub-body.timeline:hover:active { transform: none; }
+  /* v6.2: 누름(scale ≤ 3%, 120ms)은 "눌렸다"는 응답이라 reduce에서도 남긴다 — 이 PC는 Windows 설정 때문에 늘 reduce인데
+     사용자가 누름을 원했다(v6.1까지는 전부 none). 이동인 hover 들림만 끈다(그림자 변화는 남는다) */
+  a.card:hover { transform: none; }
+  a.card:active { transform: scale(.985); }
 }
 
 /* ─────────────────────────────────────────────  19. 인쇄 — 전부 표시, 조작 요소·그림자 없음 */

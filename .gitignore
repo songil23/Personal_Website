@@ -12,11 +12,11 @@
 !/fonts/Pretendard-Regular.woff2
 !/fonts/Pretendard-Medium.woff2
 !/images/
-!/images/About_IMG_9754.webp
+!/images/About_IMG_9754.jpeg
 !/images/Experience_image.webp
 !/images/Music_image.webp
-!/images/Music_IMG_9960.webp
-!/images/Music_KakaoTalk_20260424_000154758.webp
+!/images/Music_IMG_9960.jpeg
+!/images/Music_KakaoTalk_20260424_000154758.jpg
 !/images/map.webp
 !/images/og.jpg
 !/images/flags/
@@ -43,3 +43,4 @@
 # <!-- 2026-09-17 codex: include the user-selected social preview photo -->
 # <!-- 2026-09-17 claude v6: 대표 사진 원본(3.4 MB)은 원본/공유/로, 공개는 빌더가 만든 og.jpg(1200×630)만 -->
 # <!-- 2026-09-18 claude v6.1: 사진·썸네일 WebP, 지도 무손실 WebP, 글꼴은 서브셋(같은 이름) -->
+# <!-- 2026-09-19 claude v6.4: 사진은 원본 해상도·무손실 — JPEG 원본은 확장자 그대로, PNG만 .webp -->

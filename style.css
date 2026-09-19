@@ -296,12 +296,24 @@ html[data-theme="dark"] .icon-moon { display: none; }
   grid-area: brand;
   display: inline-flex;
   align-items: center;
-  height: var(--header);
+  height: var(--target);         /* v6.7: --header(56·64) → 44. 포커스 링이 화면 위 끝에 잘리고 아래 가로선을 넘던 것 — 가운데 정렬은 그대로(행 가운데) */
+  border-radius: var(--r-8);     /* v6.7: 포커스 링을 .ctl과 같은 모양으로 */
   font-size: var(--text-brand);
   font-weight: 500;
   letter-spacing: .04em;
   color: var(--ink);
   white-space: nowrap;
+  gap: var(--s-8);               /* v6.7: 홈 아이콘↔이름 8(= 언어 버튼 지구본↔글자) */
+}
+/* v6.7(2026-09-19 사용자): 이름 왼쪽 홈 아이콘 16px — 색은 헤더 아이콘(.ctl)과 같은 --ink-2, hover에서 --ink(§14).
+   세로 정렬은 flex 가운데 그대로: 경로가 viewBox 가운데라 아이콘 잉크 중심 = 이름 대문자 잉크 중심 = 헤더 띠 중심(실측 Δ0) */
+.brand .icon-home {
+  color: var(--ink-2);
+  transition: color var(--ease);
+}
+/* 320~339: 이름+아이콘(+24)과 44×4 아이콘이 한 줄에 안 들어간다(320 실측 겹침 1.6px) → 아이콘만 숨긴다. 이름은 여전히 홈 링크 */
+@media (max-width: 339px) {
+  .brand .icon-home { display: none; }
 }
 
 .nav {
@@ -1389,7 +1401,8 @@ a.card:active { transform: scale(.985); }
   .crumb a:hover,
   .video-fallback:hover,           /* v5: 밑줄·파랑 없는 링크는 글자색만 (§2) */
   .footer-head:hover,
-  .footer-col ul a:hover { color: var(--ink); }
+  .footer-col ul a:hover,
+  .brand:hover .icon-home { color: var(--ink); }   /* v6.7: 홈 아이콘도 헤더 아이콘처럼 */
 
   .menu-head:hover,
   .menu-list a:hover,
@@ -1621,6 +1634,7 @@ html:not([data-view]) .sub-title {
   .skip,
   .crumb,          /* v4: 절이 전부 펼쳐지므로 현재 하위 표시는 뜻이 없다 */
   .tablist,        /* v6: 인쇄에서는 탭 패널을 전부 펼치므로 탭 줄이 뜻이 없다 */
+  .brand .icon-home,   /* v6.7: 종이에서는 누를 수 없다 — 이름만 */
   .subnav { display: none; }
 
   /* v6(§2-v6): [hidden]의 display:none이 !important(§3)라 같은 무게로 덮는다 */

@@ -34,12 +34,12 @@
   --text-h1: clamp(26px, 22px + 1vw, 34px);
   --text-h2: clamp(20px, 18px + .6vw, 24px);
   --text-group: 20px;   /* §5 타임라인 연도 */
-  --text-lead: 18px;    /* §4 홈 한 줄 */
+  --text-lead: 18px;    /* §4 홈 한 줄 — v6.5에서 소개 문단(--text-md)으로 바뀌어 쓰는 곳이 없다(명세 §1에 남아 토큰만) */
   --text-h3: 17px;      /* §5 항목·카드 제목 */
   --text-brand: 17px;   /* §3 브랜드 */
   --text-body: 15px;
   --text-ui: 15px;
-  --text-md: 16px;      /* v4: 상자 없는 절의 가운데 목록 — v5에서 그 목록이 상자로 들어가 쓰는 곳이 없다(명세 §1에 남아 있어 토큰만 남긴다) */
+  --text-md: 16px;      /* v4: 상자 없는 절의 가운데 목록(v5에서 없어짐) → v6.5: 홈 소개 문단(.hero-intro) */
   --text-desc: 14px;    /* v4: 절 설명(.view-desc) — 키워드 요약이라 한 단 작게 */
   --text-chip-dense: 14px;   /* v5(§2-v5): 하위 8개 이상인 절의 칩 — 영어가 한 줄에 들어가게 */
   --ls-tight: -.01em;        /* v5(§2-v5): 그 칩의 자간 */
@@ -103,6 +103,7 @@
   --menu-height: 70vh;            /* 팝업은 본문을 남기고, 긴 목록만 안에서 스크롤 */
   --hero-photo: 200px;            /* 추가(§4): ≥834 홈 사진 열 */
   --hero-photo-sm: 160px;         /* 추가(§4): ≤833 홈 사진 폭 */
+  --measure: 36em;                /* v6.5: 홈 소개 문단 최대 줄 길이(16px에서 576px) — 실측은 임시/구현검증_v65/ */
   --year-col: 220px;              /* v6(§2-v6): 140 → 260(≥1200). 834~1199는 200(§15에서 재정의) — 상자 안 내용을 오른쪽으로 */
   --dot: 6px;                     /* v5(§2-v5): 8 → 6. 링 없음은 v4 그대로 */
   --tw-dur-default: 2.4s;         /* v4(§5): 빌더가 --tw-dur를 못 준 점의 기본 반짝임 주기 */
@@ -661,10 +662,14 @@ html[data-theme="dark"] .icon-moon { display: none; }
   color: var(--ink);
 }
 
-.hero-line {
-  margin-top: var(--s-12);
-  font-size: var(--text-lead);
-  line-height: 1.5;
+/* v6.5(2026-09-19 사용자): 한 줄(18px) 자리에 소개 두 문단 — 읽는 글이라 본문 문단으로.
+   줄 길이는 --measure로 제한(영어 한 줄 60~80자), 줄 간격은 body 1.55를 그대로 받는다 */
+.hero-intro {
+  display: grid;
+  gap: var(--s-12);
+  max-width: var(--measure);
+  margin-top: var(--s-16);
+  font-size: var(--text-md);
   color: var(--ink-2);
   text-wrap: pretty;
 }
@@ -677,20 +682,19 @@ html[data-theme="dark"] .icon-moon { display: none; }
   color: var(--ink);
 }
 
-/* v6.1(2026-09-18 사용자): ≤833 홈 — 사진 왼쪽, 이름과 한 줄 소개는 사진 오른쪽(세로 가운데 짝), 핵심 사실은 아래 전체 폭.
-   .hero-text를 display:contents로 풀어 이름·한 줄·사실을 .hero 그리드의 직접 항목으로 만든다.
-   이름은 사진 위쪽 정렬(사용자 2026-09-18 2차 지시), 한 줄은 그 아래 12 */
+/* v6.1(2026-09-18 사용자): ≤833 홈 — 사진 왼쪽, 이름은 사진 위쪽에 맞춰 오른쪽, 핵심 사실은 아래 전체 폭.
+   .hero-text를 display:contents로 풀어 이름·소개·사실을 .hero 그리드의 직접 항목으로 만든다.
+   v6.5: 소개가 두 문단이라 사진 옆 좁은 칸(≈170px)이 아니라 사진 행 아래 전체 폭(사실 위)으로 */
 @media (max-width: 833px) {
   .hero {
     grid-template-columns: var(--hero-photo-sm) minmax(0, 1fr);
-    grid-template-rows: auto 1fr auto;    /* 사용자(2026-09-18): 이름은 사진 위쪽에, 한 줄은 그 바로 아래(12). 2행이 1fr이라 사진의 남는 높이를 받는다(auto면 1행도 늘어나 한 줄이 내려갔다, 실측 201→125) */
     column-gap: var(--s-20);
     row-gap: 0;
   }
   .hero-text { display: contents; }
-  .hero-photo { grid-column: 1; grid-row: 1 / 3; }
+  .hero-photo { grid-column: 1; grid-row: 1; }
   .hero-name { grid-column: 2; grid-row: 1; align-self: start; line-height: 1; }   /* 글자 상자 위 = 사진 위 */
-  .hero-line { grid-column: 2; grid-row: 2; align-self: start; }
+  .hero-intro { grid-column: 1 / -1; grid-row: 2; margin-top: var(--s-20); }
   .facts { grid-column: 1 / -1; grid-row: 3; }
 }
 

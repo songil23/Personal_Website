@@ -103,7 +103,6 @@
   --menu-height: 70vh;            /* 팝업은 본문을 남기고, 긴 목록만 안에서 스크롤 */
   --hero-photo: 200px;            /* 추가(§4): ≥834 홈 사진 열 */
   --hero-photo-sm: 160px;         /* 추가(§4): ≤833 홈 사진 폭 */
-  --measure: 36em;                /* v6.5: 홈 소개 문단 최대 줄 길이(16px에서 576px) — 실측은 임시/구현검증_v65/ */
   --year-col: 220px;              /* v6(§2-v6): 140 → 260(≥1200). 834~1199는 200(§15에서 재정의) — 상자 안 내용을 오른쪽으로 */
   --dot: 6px;                     /* v5(§2-v5): 8 → 6. 링 없음은 v4 그대로 */
   --tw-dur-default: 2.4s;         /* v4(§5): 빌더가 --tw-dur를 못 준 점의 기본 반짝임 주기 */
@@ -662,40 +661,34 @@ html[data-theme="dark"] .icon-moon { display: none; }
   color: var(--ink);
 }
 
-/* v6.5(2026-09-19 사용자): 한 줄(18px) 자리에 소개 두 문단 — 읽는 글이라 본문 문단으로.
-   줄 길이는 --measure로 제한(영어 한 줄 60~80자), 줄 간격은 body 1.55를 그대로 받는다 */
+/* v6.5(2026-09-19 사용자): 한 줄(18px) 자리에 소개 두 문단 — 읽는 글이라 본문 문단으로(16px, 줄 간격 body 1.55).
+   v6.6(2026-09-19 사용자): 폭 제한(--measure 576) 삭제 → 글 열 끝(= 컨테이너 오른쪽)까지. 양쪽 정렬(마지막 줄은 왼쪽 —
+   justify 기본). "좁은 칸 justify 금지"(song-style)보다 사용자 지시가 위 — 이 소개글에만.
+   block + p 간격(grid 금지): grid·flex는 BFC라 ≤833에서 떠 있는 사진을 감싸 흐르지 못하고 통째로 옆에 붙는다 */
 .hero-intro {
-  display: grid;
-  gap: var(--s-12);
-  max-width: var(--measure);
   margin-top: var(--s-16);
   font-size: var(--text-md);
   color: var(--ink-2);
+  text-align: justify;
   text-wrap: pretty;
 }
+.hero-intro > p + p { margin-top: var(--s-12); }
+/* v6.6: 영어만 하이픈 — 사진 옆 좁은 칸(≈170px)에서 양쪽 정렬 낱말 간격이 공백의 11배(390)까지 벌어졌다 → 4.2배
+   (임시/구현검증_v66/hero_v66*.json). 한국어는 낱말을 끊지 않는다(keep-all 유지) */
+.hero-intro [lang="en"] { -webkit-hyphens: auto; hyphens: auto; }
 
-.facts {
-  display: grid;
-  gap: var(--s-6);
-  margin-top: var(--s-20);
-  font-size: var(--text-ui);
-  color: var(--ink);
-}
-
-/* v6.1(2026-09-18 사용자): ≤833 홈 — 사진 왼쪽, 이름은 사진 위쪽에 맞춰 오른쪽, 핵심 사실은 아래 전체 폭.
-   .hero-text를 display:contents로 풀어 이름·소개·사실을 .hero 그리드의 직접 항목으로 만든다.
-   v6.5: 소개가 두 문단이라 사진 옆 좁은 칸(≈170px)이 아니라 사진 행 아래 전체 폭(사실 위)으로 */
+/* v6.1(2026-09-18 사용자): ≤833 홈 — 사진 왼쪽, 이름은 사진 위쪽에 맞춰 오른쪽.
+   v6.6(2026-09-19 사용자): 소개글은 이름 바로 아래에서 사진 오른쪽으로 흐르다 사진 높이를 넘으면 사진 아래 전체 폭으로
+   이어진다 = 사진 float. 그리드(v6.1 display:contents)로는 한 글이 두 칸을 이어 흐를 수 없다.
+   핵심 사실(clear 하던 목록)은 삭제(2026-09-19 사용자) → flow-root로 hero가 사진을 감싼다(글이 짧아도 아래 구분선과 안 겹침) */
 @media (max-width: 833px) {
-  .hero {
-    grid-template-columns: var(--hero-photo-sm) minmax(0, 1fr);
-    column-gap: var(--s-20);
-    row-gap: 0;
+  .hero { display: flow-root; }
+  .hero-photo {
+    float: left;
+    margin-right: var(--s-20);    /* v6.1 사진 | 이름 열 간격 그대로 */
+    margin-bottom: var(--s-12);   /* 사진 아래로 넘어간 줄과의 간격 */
   }
-  .hero-text { display: contents; }
-  .hero-photo { grid-column: 1; grid-row: 1; }
-  .hero-name { grid-column: 2; grid-row: 1; align-self: start; line-height: 1; }   /* 글자 상자 위 = 사진 위 */
-  .hero-intro { grid-column: 1 / -1; grid-row: 2; margin-top: var(--s-20); }
-  .facts { grid-column: 1 / -1; grid-row: 3; }
+  .hero-name { line-height: 1; }  /* 글자 상자 위 = 사진 위 */
 }
 
 

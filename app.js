@@ -63,18 +63,19 @@
       var el = candidates[i];
       if (!el) continue;
       var pos = getComputedStyle(el).position;
-      if (pos === 'sticky' || pos === 'fixed') return el.getBoundingClientRect().height;
+      if (/sticky$/.test(pos) || pos === 'fixed') return el.getBoundingClientRect().height;   // v6.9: -webkit-sticky도
     }
     return 0;
   }
   /* v5: 빵부스러기가 헤더 아래에 고정되므로(§2-v5) 하위 전환 스크롤은 그 높이만큼 더 내려 잡는다 */
   function stuckOffset() {
     var crumb = one('.view.is-active .crumb');
-    return stickyOffset() + (crumb && getComputedStyle(crumb).position === 'sticky' ? crumb.getBoundingClientRect().height : 0);
+    return stickyOffset() + (crumb && /sticky$/.test(getComputedStyle(crumb).position) ? crumb.getBoundingClientRect().height : 0);
   }
 
   function route(initial) {
-    if (location.hash === '#main') return;   // 건너뛰기 링크(.skip): 라우팅 대상이 아니다
+    // v6.9(K-8): 건너뛰기 링크(.skip)는 hashchange만 건너뛴다. 첫 로드의 #main은 정상 라우팅(홈)
+    if (!initial && location.hash === '#main') return;
     var r = parseHash(location.hash, SITE);
 
     // 주소 교정: 빈 해시 + 홈이면 그대로 둔다.
@@ -134,6 +135,25 @@
     }
   }
 
+  /* v6.9: 지금 화면과 같은 곳을 가리키는 해시 링크(#절/하위 · 정규화하면 같아지는 #절)는 조각 이동을 막는다.
+     ①의 id 있는 앵커(span.anchor)가 생긴 뒤로, 같은 해시를 다시 고르면 브라우저가 조각 이동을 하면서
+     포커스를 문서(body)로 되돌린다. 같은 해시면 hashchange가 없어 route()가 돌지 않고, #절 별칭이면
+     돌아도 화면이 같아 포커스를 옮기지 않는다 — 어느 쪽이든 되찾을 기회가 없다
+     → 메뉴가 여는 버튼에 돌려준 포커스·누른 링크의 포커스가 사라졌다(실측: 같은 해시 10경로 × 마우스·Enter).
+     막으면 v6.8과 같다: 화면·주소·스크롤 그대로, 포커스는 누른 링크(메뉴 안이면 closePanel이 여는 버튼으로).
+     홈(#)·#main·모르는 절·깨진 인코딩·보조키/가운데 클릭·주소가 화면과 어긋난 때(#main 뒤)는 건드리지 않는다.
+     아는 절의 모르는 하위(#about/없는것)는 route()와 같은 parseHash 규칙대로 첫 하위로 읽는다 — 그게 지금 화면이면 막는다.
+     초기화가 끝까지 못 간 폴백 화면(data-ready 없음 · 전 절 펼침)에서는 막지 않는다 — 거기서는 같은 목적지로 가는
+     앵커 이동이 필요한 스크롤이다(Codex N-1: current가 정해진 뒤에 던지면 이 리스너도 살아남는다). */
+  document.addEventListener('click', function (e) {
+    if (!root.hasAttribute('data-ready')) return;
+    if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target && e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || location.hash !== current.hash) return;
+    var r = parseHash(a.getAttribute('href'), SITE);
+    if (r.view !== 'home' && r.hash === current.hash) e.preventDefault();
+  });
+
   /* v4: document.title = "<절 제목(현재 언어)> · <이름>", 홈은 이름만 */
   var NAME = (one('.brand') && one('.brand').textContent.trim()) || document.title;
   function visibleText(el) {
@@ -151,6 +171,7 @@
   /* ---------- 2. disclosure 공통 ---------- */
   var groups = [];
   var openGroup = null;
+  var mediaRestore = 0;        // v6.9(H-1): 폭 변경 뒤 미뤄 둔 포커스 복원의 예약 id
   var narrow = window.matchMedia('(max-width: 1199px)');   // v3: <1200은 탭 대신 ⋯ 메뉴
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
 
@@ -164,24 +185,33 @@
     g.openTimer = 0;
     g.closeTimer = 0;
   }
+  /* v6.9: 포커스를 돌려줄 곳. 폭이 1200 경계를 넘으면 여는 버튼 자체가 숨으므로
+     그 자리를 대신하는 버튼(<1200은 ⋯, ≥1200은 그 절의 탭)으로 넘긴다 */
+  function backTarget(g) {
+    if (g.btn.offsetParent) return g.btn;
+    var alt = g.isNav ? one('.ctl-more') : one('.nav-item[data-section="' + (current.view || '') + '"] .nav-btn');
+    return alt && alt.offsetParent ? alt : null;
+  }
   function openPanel(g, pinned) {
     if (openGroup && openGroup !== g) closePanel(openGroup, false);
     clearTimers(g);
     g.panel.hidden = false;
     g.btn.setAttribute('aria-expanded', 'true');
-    g.owner.classList.add('is-open');
     if (pinned) g.pinned = true;
     openGroup = g;
   }
   function closePanel(g, refocus) {
     if (!g) return;
     clearTimers(g);
+    // v6.9: 숨기기 전에 포커스가 패널 안에 있으면 되돌린다 — 안 그러면 사라진 요소에 남아 body로 떨어진다
+    var at = document.activeElement;
+    var stray = g.panel.contains(at) || (g.hadFocus && (!at || at === document.body));
     g.panel.hidden = true;
     g.btn.setAttribute('aria-expanded', 'false');
-    g.owner.classList.remove('is-open');
     g.pinned = false;
+    g.hadFocus = false;
     if (openGroup === g) openGroup = null;
-    if (refocus) focusQuiet(g.btn);
+    if (refocus || stray) focusQuiet(backTarget(g));
   }
   function closeAll(refocus) { closePanel(openGroup, refocus); }
   function inside(g, node) {
@@ -202,6 +232,7 @@
       isNav: isNav,
       owner: (isNav ? btn.closest('.nav-item') : btn.closest('.disclosure')) || btn.parentNode,
       pinned: false,
+      hadFocus: false,
       openTimer: 0,
       closeTimer: 0
     };
@@ -219,6 +250,9 @@
       openPanel(g, true);
       focusQuiet(one('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])', panel));
     });
+    // v6.9: 폭 변화로 패널이 숨을 때 브라우저가 matchMedia 리스너보다 먼저 포커스를 떼어 간다
+    //       → 그 순간 activeElement는 이미 body다. 들어온 적이 있었는지를 미리 적어 둔다.
+    panel.addEventListener('focusin', function () { g.hadFocus = true; });
     panel.addEventListener('click', function (e) {
       // v5: 복사 버튼(.copy)은 팝오버를 닫지 않는다 — 주소를 눈으로 확인한 채 ✓를 본다
       if (e.target.closest && e.target.closest('a[href], button:not(.copy)')) closePanel(g, false);
@@ -226,6 +260,10 @@
     g.owner.addEventListener('focusout', function (e) {
       if (openGroup !== g) return;
       if (e.relatedTarget && inside(g, e.relatedTarget)) return;
+      // v6.9(H-3): relatedTarget이 null인 경로는 강제 숨김만이 아니다(자발적 blur·창 비활성도 null).
+      //   실측: 자발적 이탈이면 그 요소가 아직 배치에 있고(rects 1), 숨겨져 잃은 것이면 0이다.
+      var gone = e.target.getClientRects && e.target.getClientRects().length === 0;
+      if (!gone) g.hadFocus = false;   // 스스로 나갔다(Tab·blur 등) — 되돌리면 그 이동을 가로챈다
       closePanel(g, false);
     });
 
@@ -254,7 +292,21 @@
       closeAll(true);
     }
   });
-  onMedia(narrow, function () { closeAll(false); });
+  onMedia(narrow, function () {
+    var g = openGroup, back = g && (g.hadFocus || g.panel.contains(document.activeElement));
+    if (mediaRestore) { cancelAnimationFrame(mediaRestore); mediaRestore = 0; }   // 낡은 예약은 버린다
+    closeAll(false);
+    if (!back) return;
+    // 새 폭의 배치가 끝난 뒤에 고른다. 다만 그 사이에 사용자·라우터·다른 메뉴가
+    // 포커스를 정했을 수 있으므로 실행 시점에 소유권을 다시 본다(H-1).
+    mediaRestore = requestAnimationFrame(function () {
+      mediaRestore = 0;
+      if (openGroup) return;                                    // 그 사이 다른 메뉴가 열렸다
+      var at = document.activeElement;
+      if (at && at !== document.body && at.getClientRects().length) return;   // 보이는 요소가 이미 포커스를 가졌다
+      focusQuiet(backTarget(g));
+    });
+  });
   onMedia(fine, function () { if (!fine.matches && openGroup && !openGroup.pinned) closeAll(false); });
 
   /* ---------- 3. 언어 ---------- */
@@ -300,7 +352,7 @@
 
   /* ---------- 5. ✉ 메일 주소 복사 (v5 §2-v5) ---------- */
   var COPY_DONE_MS = 1500;
-  function writeClipboard(text) {
+  function writeClipboard(text, near) {
     // clipboard API는 안전한 문맥(https·file·localhost)에서만. 실패하면 옛 방식(임시 textarea + execCommand)
     var viaApi = (navigator.clipboard && navigator.clipboard.writeText)
       ? navigator.clipboard.writeText(text) : Promise.reject(new Error('no clipboard api'));
@@ -310,18 +362,30 @@
       ta.setAttribute('readonly', '');
       ta.style.position = 'fixed';
       ta.style.top = '-1000px';
-      document.body.appendChild(ta);
-      ta.select();
+      // v6.9: textarea를 팝오버 안에 둔다 — body에 두면 select()가 팝오버 밖으로 포커스를 빼
+      //       focusout이 팝오버를 닫아 버린다(복사는 되지만 주소가 사라진다)
+      var host = (near && near.closest && near.closest('.menu')) || document.body;
+      // v6.9(H-4): 거절을 기다리는 사이 메뉴가 닫혔을 수 있다. 숨은 곳에 붙이면 선택·복사가 안 된다.
+      if (!host.getClientRects().length) host = document.body;
+      var back = document.activeElement;
       var ok = false;
-      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
-      document.body.removeChild(ta);
+      host.appendChild(ta);
+      try {
+        ta.select();
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      } finally {
+        // v6.9(H-5): 되돌리기가 던져도 textarea는 반드시 지운다.
+        //   순서는 그대로 — 포커스가 붙은 채 지우면 focusout이 팝오버를 닫는다.
+        try { if (back && back !== document.body) focusQuiet(back); }
+        finally { if (ta.parentNode) ta.parentNode.removeChild(ta); }
+      }
       if (!ok) throw new Error('copy failed');
     });
   }
   all('.copy[data-copy]').forEach(function (b) {
     var timer = 0;
     b.addEventListener('click', function () {
-      writeClipboard(b.getAttribute('data-copy') || '').then(function () {
+      writeClipboard(b.getAttribute('data-copy') || '', b).then(function () {
         b.classList.add('is-done');
         var live = one('.copy-live', b.closest('.menu') || document);
         if (live) {
@@ -379,4 +443,8 @@
   /* ---------- 실행 ---------- */
   window.addEventListener('hashchange', function () { route(false); });
   route(true);
+  /* v6.9(①): 성공 신호. 초기화가 여기까지 던지지 않고 왔을 때만 선다.
+     head의 DOMContentLoaded 검사가 이 속성이 없으면 data-view를 떼어 「JS 없음」 화면으로 돌린다.
+     반드시 동기로 — rAF·setTimeout·load 안에 넣으면 느린 정상 로딩을 실패로 오판한다. */
+  root.setAttribute('data-ready', '');
 })();

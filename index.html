@@ -25,6 +25,7 @@
 <meta name="twitter:image" content="https://songil23.github.io/Personal_Website/images/og.jpg">
 <meta name="twitter:image:alt" content="IL SONG">
 <link rel="canonical" href="https://songil23.github.io/Personal_Website/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"IL SONG","url":"https://songil23.github.io/Personal_Website/","image":"https://songil23.github.io/Personal_Website/images/og.jpg","sameAs":["https://www.instagram.com/songil23/"]}</script>
 <meta name="theme-color" content="#161616">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%23262626%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2234%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%20font-family%3D%22system-ui%2C-apple-system%2CSegoe%20UI%2Csans-serif%22%20font-size%3D%2230%22%20font-weight%3D%22500%22%20fill%3D%22%23ffffff%22%3EIS%3C/text%3E%3C/svg%3E">
 <style>/* 생성: 절·하위 표시 규칙 */
@@ -83,23 +84,29 @@ html[data-sub="more/music"] .sub:not([data-sub="more/music"]){display:none}
 html[data-sub="more/music"] .crumb-sub:not([data-sub="more/music"]){display:none}
 html[data-sub="more/photos-videos"] .sub:not([data-sub="more/photos-videos"]){display:none}
 html[data-sub="more/photos-videos"] .crumb-sub:not([data-sub="more/photos-videos"]){display:none}
+html[data-view] .anchor{display:none}
 </style>
 <script>
 var SITE={"about":["bio","journey"],"experience":["exchange-programs","leadership","north-korea-talks","volunteering","teaching-mentoring","affiliated-organizations","clubs","book-club","countries-visited","other"],"projects":["ecostep","powerpoint","certifications","ai","notion"],"research":["research-experience","coursework"],"awards":["university","high-school","press"],"more":["music","photos-videos"]};
-try{var d=document.documentElement,s=localStorage,l=s.getItem('lang');l=(l==='ko'||l==='en')?l:'en';
-var t=s.getItem('theme');t=(t==='light')?'light':'dark';d.setAttribute('data-theme',t);d.setAttribute('data-lang',l);d.lang=l;
-var h=location.hash.slice(1).split('/'),v=h[0],u=h[1];if(!SITE[v]){v='home';u=null}else if(SITE[v].indexOf(u)<0){u=SITE[v][0]}
-d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){}
+(function(){var d=document.documentElement,l='en',t='dark',v='home',u=null,s,h,a,b;
+try{s=localStorage;if(s.getItem('lang')==='ko')l='ko';if(s.getItem('theme')==='light')t='light'}catch(e){}
+d.setAttribute('data-theme',t);d.setAttribute('data-lang',l);d.lang=l;
+try{h=location.hash.slice(1).split('/');a=decodeURIComponent(h[0]);b=h.length>1?decodeURIComponent(h[1]):null;
+if(Object.prototype.hasOwnProperty.call(SITE,a)){v=a;u=SITE[a].indexOf(b)<0?SITE[a][0]:b}}catch(e){}
+d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);
+document.addEventListener('DOMContentLoaded',function(){if(d.hasAttribute('data-ready'))return;
+d.removeAttribute('data-view');d.removeAttribute('data-sub');
+var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrollIntoView()})})();
 </script>
 <link rel="preload" href="fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Pretendard-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=3f1c4a8c">
 </head>
 <body>
 <a class="skip" href="#main"><span class="if-ko">본문으로</span><span class="if-en">Skip to content</span></a>
 <header class="site-header"><div class="header-inner">
 <a class="brand" href="#"><svg class="icon icon-home" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.25V10.5L12 3.75l8 6.75v9.75z"/><path d="M9.5 20.25V15h5v5.25"/></svg>IL SONG</a>
-<nav class="nav" aria-label="Sections"><ul class="nav-list">
+<nav class="nav" aria-labelledby="label-nav"><span class="sr" id="label-nav"><span lang="ko">섹션</span><span lang="en">Sections</span></span><ul class="nav-list">
 <li class="nav-item" data-section="about">
 <a class="nav-link" href="#about"><span lang="ko">소개</span><span lang="en">About</span></a>
 <button class="nav-btn" type="button" aria-expanded="false" aria-controls="menu-about"><span class="nav-label"><span lang="ko">소개</span><span lang="en">About</span></span><svg class="icon icon-caret" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -122,7 +129,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <li><a href="#experience/north-korea-talks" data-sub="experience/north-korea-talks"><span lang="ko">북한 관련 강연</span><span lang="en">Talks on North Korea</span></a></li>
 <li><a href="#experience/volunteering" data-sub="experience/volunteering"><span lang="ko">봉사</span><span lang="en">Volunteering</span></a></li>
 <li><a href="#experience/teaching-mentoring" data-sub="experience/teaching-mentoring"><span lang="ko">교육·멘토링</span><span lang="en">Teaching &amp; Mentoring</span></a></li>
-<li><a href="#experience/affiliated-organizations" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Affiliated Organizations</span></a></li>
+<li><a href="#experience/affiliated-organizations" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Organizations Supported</span></a></li>
 <li><a href="#experience/clubs" data-sub="experience/clubs"><span lang="ko">동아리</span><span lang="en">Clubs</span></a></li>
 <li><a href="#experience/book-club" data-sub="experience/book-club"><span lang="ko">독서 모임</span><span lang="en">Book Club</span></a></li>
 <li><a href="#experience/countries-visited" data-sub="experience/countries-visited"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></a></li>
@@ -161,7 +168,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <div class="menu nav-menu" id="menu-awards" hidden>
 <a class="menu-head" href="#awards"><span lang="ko">수상 &amp; 기사</span><span lang="en">Awards &amp; Press</span><span class="arrow" aria-hidden="true">→</span></a>
 <ul class="menu-list">
-<li><a href="#awards/university" data-sub="awards/university"><span lang="ko">대학</span><span lang="en">University</span></a></li>
+<li><a href="#awards/university" data-sub="awards/university"><span lang="ko">대학교</span><span lang="en">University</span></a></li>
 <li><a href="#awards/high-school" data-sub="awards/high-school"><span lang="ko">중고등학교</span><span lang="en">Middle &amp; High School</span></a></li>
 <li><a href="#awards/press" data-sub="awards/press"><span lang="ko">기사</span><span lang="en">Press</span></a></li>
 </ul>
@@ -203,7 +210,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <li><a href="#experience/north-korea-talks" data-sub="experience/north-korea-talks"><span lang="ko">북한 관련 강연</span><span lang="en">Talks on North Korea</span></a></li>
 <li><a href="#experience/volunteering" data-sub="experience/volunteering"><span lang="ko">봉사</span><span lang="en">Volunteering</span></a></li>
 <li><a href="#experience/teaching-mentoring" data-sub="experience/teaching-mentoring"><span lang="ko">교육·멘토링</span><span lang="en">Teaching &amp; Mentoring</span></a></li>
-<li><a href="#experience/affiliated-organizations" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Affiliated Organizations</span></a></li>
+<li><a href="#experience/affiliated-organizations" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Organizations Supported</span></a></li>
 <li><a href="#experience/clubs" data-sub="experience/clubs"><span lang="ko">동아리</span><span lang="en">Clubs</span></a></li>
 <li><a href="#experience/book-club" data-sub="experience/book-club"><span lang="ko">독서 모임</span><span lang="en">Book Club</span></a></li>
 <li><a href="#experience/countries-visited" data-sub="experience/countries-visited"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></a></li>
@@ -221,7 +228,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <li><a href="#research/coursework" data-sub="research/coursework"><span lang="ko">전공 수강 과목</span><span lang="en">Major Coursework</span></a></li>
 </ul></div>
 <div class="more-group"><a class="menu-head" href="#awards"><span lang="ko">수상 &amp; 기사</span><span lang="en">Awards &amp; Press</span><span class="arrow" aria-hidden="true">→</span></a><ul class="menu-list">
-<li><a href="#awards/university" data-sub="awards/university"><span lang="ko">대학</span><span lang="en">University</span></a></li>
+<li><a href="#awards/university" data-sub="awards/university"><span lang="ko">대학교</span><span lang="en">University</span></a></li>
 <li><a href="#awards/high-school" data-sub="awards/high-school"><span lang="ko">중고등학교</span><span lang="en">Middle &amp; High School</span></a></li>
 <li><a href="#awards/press" data-sub="awards/press"><span lang="ko">기사</span><span lang="en">Press</span></a></li>
 </ul></div>
@@ -247,21 +254,23 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <h2 class="cards-title"><span lang="ko">하이라이트</span><span lang="en">Highlights</span></h2>
 <ul class="cards">
 <li><a class="card" href="#experience/exchange-programs"><span class="card-num">01</span><h3 class="card-title"><span lang="ko">교환 프로그램</span><span lang="en">Exchange Programs</span></h3><p class="card-text"><span lang="ko">University of Wisconsin–Green Bay, 미국 국무부 UGRAD Program</span><span lang="en">University of Wisconsin–Green Bay, U.S. Department of State UGRAD Program</span></p><span class="card-more"><span class="if-ko">보기 →</span><span class="if-en">View →</span></span></a></li>
-<li><a class="card" href="#projects/ecostep"><span class="card-num">02</span><h3 class="card-title"><span lang="ko">EcoStep 앱</span><span lang="en">EcoStep App</span></h3><p class="card-text"><span lang="ko">플라스틱 사용 저감 앱, 기획부터 출시까지 주도</span><span lang="en">An app for reducing plastic use, led from planning to launch</span></p><span class="card-more"><span class="if-ko">보기 →</span><span class="if-en">View →</span></span></a></li>
-<li><a class="card" href="#awards/press"><span class="card-num">03</span><h3 class="card-title"><span lang="ko">기사</span><span lang="en">Press</span></h3><p class="card-text"><span lang="ko">미국 국무부 Global Scholar 선정 기사 외 1편</span><span lang="en">Featured as U.S. State Department Global Scholar, and one more article</span></p><span class="card-more"><span class="if-ko">보기 →</span><span class="if-en">View →</span></span></a></li>
+<li><a class="card" href="#projects/ecostep"><span class="card-num">02</span><h3 class="card-title"><span lang="ko">EcoStep 앱</span><span lang="en">EcoStep App</span></h3><p class="card-text"><span lang="ko">플라스틱 사용 저감 앱, 기획부터 출시까지 주도</span><span lang="en">Plastic-reduction app — led end to end, from planning to launch</span></p><span class="card-more"><span class="if-ko">보기 →</span><span class="if-en">View →</span></span></a></li>
+<li><a class="card" href="#awards/press"><span class="card-num">03</span><h3 class="card-title"><span lang="ko">기사</span><span lang="en">Press</span></h3><p class="card-text"><span lang="ko">미국 국무부 Global Scholar 선정 기사 외 1편</span><span lang="en">Named a U.S. Department of State Global Scholar — and one earlier feature</span></p><span class="card-more"><span class="if-ko">보기 →</span><span class="if-en">View →</span></span></a></li>
 </ul>
 </section>
 <section class="view" id="view-about" data-view="about">
 <p class="crumb"><a href="#about"><span lang="ko">소개</span><span lang="en">About</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="about/bio"><span lang="ko">소개</span><span lang="en">Bio</span></span><span class="crumb-sub" data-sub="about/journey"><span lang="ko">연혁</span><span lang="en">Journey</span></span></p>
+<span class="anchor" id="about"></span>
 <header class="view-head">
 <h1 class="view-title" tabindex="-1"><span lang="ko">소개</span><span lang="en">About</span></h1>
 <p class="view-desc"><span lang="ko">북한 출생 · Yonsei 경영학 · SGH·UWGB 교환 · 한국어·영어·중국어</span><span lang="en">Born in North Korea · Business at Yonsei · Exchange at SGH &amp; UWGB · Korean, English, Chinese</span></p>
-<nav class="subnav" aria-label="In this section"><ul>
+<nav class="subnav" aria-labelledby="label-subnav-about"><span class="sr" id="label-subnav-about"><span lang="ko">이 절 안에서</span><span lang="en">In this section</span></span><ul>
 <li><a href="#about/bio" data-sub="about/bio"><span lang="ko">소개</span><span lang="en">Bio</span></a></li>
 <li><a href="#about/journey" data-sub="about/journey"><span lang="ko">연혁</span><span lang="en">Journey</span></a></li>
 </ul></nav>
 </header>
 <section class="sub" id="sub-about-bio" data-sub="about/bio">
+<span class="anchor" id="about/bio"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">소개</span><span lang="en">Bio</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
@@ -276,8 +285,8 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <h3 class="group-title"><span lang="ko">학력</span><span lang="en">Education</span></h3>
 <ul class="plain">
 <li><a lang="ko" href="https://www.yonsei.ac.kr/sc/index.do" target="_blank" rel="noopener">Yonsei University 경영학 학사 (2023.3 ~ 2027.8)</a><a lang="en" href="https://www.yonsei.ac.kr/sites/en_sc/index.do" target="_blank" rel="noopener">BBA, Business Administration, Yonsei University (2023.3 ~ 2027.8)</a></li>
-<li><a href="https://www.sgh.waw.pl/en" target="_blank" rel="noopener"><span lang="ko">SGH Warsaw School of Economics 교환학생, 경영학 (2026.10 ~ 2027.2)</span><span lang="en">Exchange, Business Administration, SGH Warsaw School of Economics (2026.10 ~ 2027.2)</span></a></li>
-<li><a href="https://www.uwgb.edu/" target="_blank" rel="noopener"><span lang="ko">University of Wisconsin–Green Bay 교환학생, 경영학 (2026.1 ~ 2026.5)</span><span lang="en">Exchange, Business Administration, University of Wisconsin–Green Bay (2026.1 ~ 2026.5)</span></a></li>
+<li><a href="https://www.sgh.waw.pl/en" target="_blank" rel="noopener"><span lang="ko">SGH Warsaw School of Economics 교환학생, 경영학 (2026.10 ~ 2027.2)</span><span lang="en">Exchange student in Business Administration, SGH Warsaw School of Economics (2026.10 ~ 2027.2)</span></a></li>
+<li><a href="https://www.uwgb.edu/" target="_blank" rel="noopener"><span lang="ko">University of Wisconsin–Green Bay 교환학생, 경영학 (2026.1 ~ 2026.5)</span><span lang="en">Exchange student in Business Administration, University of Wisconsin–Green Bay (2026.1 ~ 2026.5)</span></a></li>
 </ul>
 </section>
 <section class="group card">
@@ -292,6 +301,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-about-journey" data-sub="about/journey">
+<span class="anchor" id="about/journey"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">연혁</span><span lang="en">Journey</span></h2>
 <div class="sub-body timeline">
 <section class="group">
@@ -303,7 +313,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </ul></li>
 <li><span lang="ko">University of Wisconsin–Green Bay 교환학생, 미국 (1월 ~ 5월)</span><span lang="en">Exchange student at University of Wisconsin–Green Bay, USA (January ~ May)</span>
 <ul>
-<li><span lang="ko">Fulbright Korea · World Learning · 주한미국대사관 지원</span><span lang="en">Supported by Fulbright Korea, World Learning &amp; U.S. Embassy in Korea</span></li>
+<li><span lang="ko">Fulbright Korea · World Learning · 주한미국대사관 지원</span><span lang="en">Supported by Fulbright Korea, World Learning, and the U.S. Embassy in Korea</span></li>
 </ul></li>
 </ul>
 </section>
@@ -311,8 +321,8 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <h3 class="group-title">2025</h3>
 <ul class="plain">
 <li><span lang="ko">EcoStep 앱 기획·개발</span><span lang="en">Planning and development of the EcoStep app</span></li>
-<li><span lang="ko">SEF 2025 SDGs 달성 촉진 학부 연구 프로젝트 참여</span><span lang="en">Participated in the SEF 2025 SDGs Achievement Promotion Undergraduate Research Project</span></li>
-<li><span lang="ko">경영학과 상위 1% (2025학년도 2학기)</span><span lang="en">Top 1% in Business Administration, 2025 Fall Semester</span></li>
+<li><span lang="ko">SEF 2025 SDGs 달성 촉진 학부 연구 프로젝트 참여</span><span lang="en">Participant, SEF 2025 Undergraduate Research Project on advancing the SDGs</span></li>
+<li><a href="https://ysb.yonsei.ac.kr/ysb/news/notice.do?mode=view&amp;articleNo=24123" target="_blank" rel="noopener"><span lang="ko">경영학과 최우등 (2025학년도 2학기, 상위 1%)</span><span lang="en">Distinguished Honors in Business Administration, Fall 2025 (Top 1%)</span></a></li>
 <li>Yonsei Social Entrepreneurship Award (Advanced Practical Writing)</li>
 </ul>
 </section>
@@ -332,9 +342,9 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <section class="group">
 <h3 class="group-title">2017 ~ 2022</h3>
 <ul class="plain">
-<li><span lang="ko">고등학교 3년 전교 1등</span><span lang="en">Ranked 1st in school throughout all 3 years of high school</span></li>
+<li><span lang="ko">고등학교 3년 전교 1등</span><span lang="en">Ranked 1st school-wide, all three years of high school</span></li>
 <li><span lang="ko">2022 학생회장 · 2021 학생부회장 · 2018 총무</span><span lang="en">2022 School President · 2021 School Vice President · 2018 School Treasurer</span></li>
-<li><span lang="ko">3년 전 과목 학업우수상</span><span lang="en">Academic Excellence Award in all subjects throughout all 3 years of high school</span></li>
+<li><span lang="ko">3년간 전 과목 학업우수상</span><span lang="en">Academic Excellence Award in every subject, all three years of high school</span></li>
 </ul>
 </section>
 <section class="group">
@@ -359,17 +369,18 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </section>
 </section>
 <section class="view" id="view-experience" data-view="experience">
-<p class="crumb"><a href="#experience"><span lang="ko">활동</span><span lang="en">Experience</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="experience/exchange-programs"><span lang="ko">교환 프로그램</span><span lang="en">Exchange Programs</span></span><span class="crumb-sub" data-sub="experience/leadership"><span lang="ko">리더십</span><span lang="en">Leadership</span></span><span class="crumb-sub" data-sub="experience/north-korea-talks"><span lang="ko">북한 관련 강연</span><span lang="en">Talks on North Korea</span></span><span class="crumb-sub" data-sub="experience/volunteering"><span lang="ko">봉사</span><span lang="en">Volunteering</span></span><span class="crumb-sub" data-sub="experience/teaching-mentoring"><span lang="ko">교육·멘토링</span><span lang="en">Teaching &amp; Mentoring</span></span><span class="crumb-sub" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Affiliated Organizations</span></span><span class="crumb-sub" data-sub="experience/clubs"><span lang="ko">동아리</span><span lang="en">Clubs</span></span><span class="crumb-sub" data-sub="experience/book-club"><span lang="ko">독서 모임</span><span lang="en">Book Club</span></span><span class="crumb-sub" data-sub="experience/countries-visited"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></span><span class="crumb-sub" data-sub="experience/other"><span lang="ko">기타</span><span lang="en">Other</span></span></p>
+<p class="crumb"><a href="#experience"><span lang="ko">활동</span><span lang="en">Experience</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="experience/exchange-programs"><span lang="ko">교환 프로그램</span><span lang="en">Exchange Programs</span></span><span class="crumb-sub" data-sub="experience/leadership"><span lang="ko">리더십</span><span lang="en">Leadership</span></span><span class="crumb-sub" data-sub="experience/north-korea-talks"><span lang="ko">북한 관련 강연</span><span lang="en">Talks on North Korea</span></span><span class="crumb-sub" data-sub="experience/volunteering"><span lang="ko">봉사</span><span lang="en">Volunteering</span></span><span class="crumb-sub" data-sub="experience/teaching-mentoring"><span lang="ko">교육·멘토링</span><span lang="en">Teaching &amp; Mentoring</span></span><span class="crumb-sub" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Organizations Supported</span></span><span class="crumb-sub" data-sub="experience/clubs"><span lang="ko">동아리</span><span lang="en">Clubs</span></span><span class="crumb-sub" data-sub="experience/book-club"><span lang="ko">독서 모임</span><span lang="en">Book Club</span></span><span class="crumb-sub" data-sub="experience/countries-visited"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></span><span class="crumb-sub" data-sub="experience/other"><span lang="ko">기타</span><span lang="en">Other</span></span></p>
+<span class="anchor" id="experience"></span>
 <header class="view-head">
 <h1 class="view-title" tabindex="-1"><span lang="ko">활동</span><span lang="en">Experience</span></h1>
 <p class="view-desc"><span lang="ko">UGRAD · Fulbright Korea · 리더십 · 북한 강연 · 봉사·멘토링 · 여행</span><span lang="en">UGRAD · Fulbright Korea · Leadership · Talks on North Korea · Volunteering &amp; Mentoring · Travel</span></p>
-<nav class="subnav" data-dense aria-label="In this section"><ul>
+<nav class="subnav" data-dense aria-labelledby="label-subnav-experience"><span class="sr" id="label-subnav-experience"><span lang="ko">이 절 안에서</span><span lang="en">In this section</span></span><ul>
 <li><a href="#experience/exchange-programs" data-sub="experience/exchange-programs"><span lang="ko">교환 프로그램</span><span lang="en">Exchange Programs</span></a></li>
 <li><a href="#experience/leadership" data-sub="experience/leadership"><span lang="ko">리더십</span><span lang="en">Leadership</span></a></li>
 <li><a href="#experience/north-korea-talks" data-sub="experience/north-korea-talks"><span lang="ko">북한 관련 강연</span><span lang="en">Talks on North Korea</span></a></li>
 <li><a href="#experience/volunteering" data-sub="experience/volunteering"><span lang="ko">봉사</span><span lang="en">Volunteering</span></a></li>
 <li><a href="#experience/teaching-mentoring" data-sub="experience/teaching-mentoring"><span lang="ko">교육·멘토링</span><span lang="en">Teaching &amp; Mentoring</span></a></li>
-<li><a href="#experience/affiliated-organizations" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Affiliated Organizations</span></a></li>
+<li><a href="#experience/affiliated-organizations" data-sub="experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Organizations Supported</span></a></li>
 <li><a href="#experience/clubs" data-sub="experience/clubs"><span lang="ko">동아리</span><span lang="en">Clubs</span></a></li>
 <li><a href="#experience/book-club" data-sub="experience/book-club"><span lang="ko">독서 모임</span><span lang="en">Book Club</span></a></li>
 <li><a href="#experience/countries-visited" data-sub="experience/countries-visited"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></a></li>
@@ -377,6 +388,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </ul></nav>
 </header>
 <section class="sub" id="sub-experience-exchange-programs" data-sub="experience/exchange-programs">
+<span class="anchor" id="experience/exchange-programs"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">교환 프로그램</span><span lang="en">Exchange Programs</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="2">
@@ -391,29 +403,30 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <h3 class="entry-title"><span lang="ko">University of Wisconsin–Green Bay <span class="paren">(미국)</span></span><span lang="en">University of Wisconsin–Green Bay <span class="paren">(USA)</span></span></h3>
 <ul class="entry-lines">
 <li class="date">2026.01 ~ 2026.05</li>
-<li><a href="https://www.globalugrad.org/" target="_blank" rel="noopener"><span lang="ko">UGRAD Program (미국 국무부 프로그램)</span><span lang="en">UGRAD Program (U.S. Department of State Program)</span></a></li>
+<li><a href="https://www.globalugrad.org/" target="_blank" rel="noopener"><span lang="ko">UGRAD Program (미국 국무부 프로그램)</span><span lang="en">UGRAD Program (U.S. Department of State)</span></a></li>
 <li><a lang="ko" href="https://www.fulbright.or.kr/" target="_blank" rel="noopener">Fulbright Korea 재정 지원</a><a lang="en" href="https://www.fulbright.or.kr/en/" target="_blank" rel="noopener">Financially supported by Fulbright Korea</a></li>
-<li><a href="https://www.worldlearning.org/" target="_blank" rel="noopener"><span lang="ko">World Learning 총괄 지원</span><span lang="en">Overall support from World Learning</span></a></li>
+<li><a href="https://www.worldlearning.org/" target="_blank" rel="noopener"><span lang="ko">World Learning 총괄 지원</span><span lang="en">Administered by World Learning</span></a></li>
 </ul>
 </article>
 </div>
 </div>
 </section>
 <section class="sub" id="sub-experience-leadership" data-sub="experience/leadership">
+<span class="anchor" id="experience/leadership"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">리더십</span><span lang="en">Leadership</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="2">
 <article class="entry">
 <h3 class="entry-title"><span lang="ko">대학교</span><span lang="en">University</span></h3>
 <ul class="entry-lines">
-<li><span lang="ko">Social Engagement Fund 2025 (SEF 2025) EcoStep 팀장</span><span lang="en">Social Engagement Fund 2025 (SEF 2025) EcoStep Team Leader</span></li>
-<li><span lang="ko">대학 수업 팀 프로젝트 팀장</span><span lang="en">University Course Team Project Leader</span>
+<li><span lang="ko">Social Engagement Fund (SEF) 2025 EcoStep 팀장</span><span lang="en">Social Engagement Fund (SEF) 2025 EcoStep Team Leader</span></li>
+<li><span lang="ko">대학 수업 팀 프로젝트 팀장</span><span lang="en">Team Leader for University Course Projects</span>
 <ul>
-<li><span lang="ko">Leadership Development (2026학년도 1학기, UWGB)</span><span lang="en">Leadership Development (2026 Spring Semester, UWGB)</span></li>
-<li><span lang="ko">Strategy and Success (2025학년도 2학기)</span><span lang="en">Strategy and Success (2025 Fall Semester)</span></li>
-<li><span lang="ko">Management Information Systems (2025학년도 2학기)</span><span lang="en">Management Information Systems (2025 Fall Semester)</span></li>
-<li><span lang="ko">Production and Operations Management (2025학년도 1학기)</span><span lang="en">Production and Operations Management (2025 Spring Semester)</span></li>
-<li><span lang="ko">Organizational Behavior (2024학년도 2학기)</span><span lang="en">Organizational Behavior (2024 Fall Semester)</span></li>
+<li><span lang="ko">Leadership Development (2026학년도 1학기, UWGB)</span><span lang="en">Leadership Development (Spring 2026, UWGB)</span></li>
+<li><span lang="ko">진정한승자가되기위한전략 (2025학년도 2학기)</span><span lang="en">Strategy and Success (Fall 2025)</span></li>
+<li><span lang="ko">경영정보시스템 (2025학년도 2학기)</span><span lang="en">Management Information Systems (Fall 2025)</span></li>
+<li><span lang="ko">생산및운영관리 (2025학년도 1학기)</span><span lang="en">Production and Operations Management (Spring 2025)</span></li>
+<li><span lang="ko">조직행동론 (2024학년도 2학기)</span><span lang="en">Organizational Behavior (Fall 2024)</span></li>
 </ul></li>
 </ul>
 </article>
@@ -429,10 +442,11 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-experience-north-korea-talks" data-sub="experience/north-korea-talks">
+<span class="anchor" id="experience/north-korea-talks"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">북한 관련 강연</span><span lang="en">Talks on North Korea</span></h2>
 <div class="sub-body">
 <div class="lead">
-<p><span lang="ko">아래 기관에서 북한의 경제·교육·사회 등을 주제로 강연</span><span lang="en">Conducted lectures on North Korean economy, education, society, etc. at the following organizations.</span></p>
+<p><span lang="ko">아래 기관에서 북한의 경제·교육·사회 등을 주제로 강연</span><span lang="en">Lectures on North Korea&#x27;s economy, education, and society at the organizations below</span></p>
 </div>
 <article class="entry has-photo">
 <div class="entry-text"><h3 class="entry-title"><a href="https://www.bica-tx.org" target="_blank" rel="noopener">BICA <span class="paren">(Bridge International Christian Academy)</span></a></h3></div>
@@ -452,6 +466,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-experience-volunteering" data-sub="experience/volunteering">
+<span class="anchor" id="experience/volunteering"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">봉사</span><span lang="en">Volunteering</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="2" data-equal="">
@@ -468,53 +483,56 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-experience-teaching-mentoring" data-sub="experience/teaching-mentoring">
+<span class="anchor" id="experience/teaching-mentoring"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">교육·멘토링</span><span lang="en">Teaching &amp; Mentoring</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="3">
 <article class="entry">
 <h3 class="entry-title"><span lang="ko">학업 멘토링</span><span lang="en">Academic Mentoring</span></h3>
 <ul class="entry-lines">
-<li><span lang="ko">중·고등학생 9명 학업 멘토링</span><span lang="en">Provided academic mentoring to 9 middle and high school students.</span></li>
+<li><span lang="ko">중·고등학생 9명 학업 멘토링</span><span lang="en">Provided academic mentoring to 9 middle and high school students</span></li>
 </ul>
 </article>
 <article class="entry">
 <h3 class="entry-title"><span lang="ko">진로 코칭</span><span lang="en">Career Coaching</span></h3>
 <ul class="entry-lines">
-<li><span lang="ko">제3국 출신 학생 1명의 진로 설계와 대학 입시 준비 지원</span><span lang="en">Helped a third-country student with career planning and university entrance preparation.</span></li>
+<li><span lang="ko">제3국 출신 학생 1명의 진로 설계와 대학 입시 준비 지원</span><span lang="en">Helped a third-country student with career planning and university admissions preparation</span></li>
 </ul>
 </article>
 <article class="entry">
 <h3 class="entry-title"><span lang="ko">동아리 조직 자문</span><span lang="en">Club Organization Advisory</span></h3>
 <ul class="entry-lines">
-<li><span lang="ko">Yonsei University 동아리의 설립과 조직 구조 자문</span><span lang="en">Advised on the establishment and organizational structure of a Yonsei University club.</span></li>
+<li><span lang="ko">Yonsei University 동아리의 설립과 조직 구조 자문</span><span lang="en">Advised on the establishment and organizational structure of a Yonsei University club</span></li>
 </ul>
 </article>
 </div>
 </div>
 </section>
 <section class="sub" id="sub-experience-affiliated-organizations" data-sub="experience/affiliated-organizations">
-<h2 class="sub-title" tabindex="-1"><span lang="ko">후원 단체</span><span lang="en">Affiliated Organizations</span></h2>
+<span class="anchor" id="experience/affiliated-organizations"></span>
+<h2 class="sub-title" tabindex="-1"><span lang="ko">후원 단체</span><span lang="en">Organizations Supported</span></h2>
 <div class="sub-body">
 <div class="lead">
-<p><span lang="ko">장학금 일부를 아래 두 단체에 기부</span><span lang="en">Donating a portion of my scholarships to the following two organizations.</span></p>
+<p><span lang="ko">장학금 일부를 아래 두 단체에 기부</span><span lang="en">A portion of scholarship funds donated to the two organizations below</span></p>
 </div>
 <div class="boxes" data-cols="2">
 <article class="entry">
 <h3 class="entry-title"><a lang="ko" href="https://hdschool.org/" target="_blank" rel="noopener">Heavenly Dream School</a><a lang="en" href="https://www.heavenlydream.org/" target="_blank" rel="noopener">Heavenly Dream School</a></h3>
 <ul class="entry-lines">
-<li><span lang="ko">탈북 학생을 교육하는 중·고등학교</span><span lang="en">A middle and high school educating North Korean defector students.</span></li>
+<li><span lang="ko">탈북 학생을 교육하는 중·고등학교</span><span lang="en">A combined middle and high school educating North Korean defector students</span></li>
 </ul>
 </article>
 <article class="entry">
 <h3 class="entry-title"><a lang="ko" href="https://www.miral.org/" target="_blank" rel="noopener">Milal Welfare Foundation</a><a lang="en" href="https://en.miral.org/" target="_blank" rel="noopener">Milal Welfare Foundation</a></h3>
 <ul class="entry-lines">
-<li><a href="https://lighting.miral.org/" target="_blank" rel="noopener"><span lang="ko">Milal Welfare Foundation의 Solar Lantern Project 후원</span><span lang="en">Supporting the Milal Welfare Foundation&#x27;s Solar Lantern Project.</span></a></li>
+<li><a href="https://lighting.miral.org/" target="_blank" rel="noopener"><span lang="ko">Milal Welfare Foundation의 Solar Lantern Project 후원</span><span lang="en">Supporting the Milal Welfare Foundation&#x27;s Solar Lantern Project</span></a></li>
 </ul>
 </article>
 </div>
 </div>
 </section>
 <section class="sub" id="sub-experience-clubs" data-sub="experience/clubs">
+<span class="anchor" id="experience/clubs"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">동아리</span><span lang="en">Clubs</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="2">
@@ -522,38 +540,40 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <h3 class="entry-title"><a href="https://www.instagram.com/yic_worshipteam/" target="_blank" rel="noopener"><span lang="ko">연세대학교 국제캠퍼스 찬양팀<span class="paren">(연국찬)</span></span><span lang="en">Yonsei University International Campus Praise Team</span></a></h3>
 <ul class="entry-lines">
 <li class="date">2023.03 ~ 2023.12</li>
-<li><span lang="ko">Yonsei University 국제캠퍼스 찬양팀 드럼 연주</span><span lang="en">Played drums in the Yonsei University International Campus Praise Team.</span></li>
+<li><span lang="ko">Yonsei University 국제캠퍼스 찬양팀 드럼 연주</span><span lang="en">Played drums in the Yonsei University International Campus Praise Team</span></li>
 </ul>
 </article>
 <article class="entry">
 <h3 class="entry-title"><a href="https://www.instagram.com/tongilyonsei/" target="_blank" rel="noopener"><span lang="ko">통일한마당</span><span lang="en">Tongil Hanmadang</span></a></h3>
 <ul class="entry-lines">
 <li class="date">2024.03 ~ 2024.06</li>
-<li><span lang="ko">Yonsei University 북한인권 동아리 활동</span><span lang="en">Active member of Yonsei University&#x27;s North Korean Human Rights Club.</span></li>
+<li><span lang="ko">Yonsei University 북한인권 동아리 활동</span><span lang="en">Member of Yonsei University&#x27;s North Korean Human Rights Club</span></li>
 </ul>
 </article>
 </div>
 </div>
 </section>
 <section class="sub" id="sub-experience-book-club" data-sub="experience/book-club">
+<span class="anchor" id="experience/book-club"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">독서 모임</span><span lang="en">Book Club</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
 <section class="group card">
 <h3 class="group-title"><span lang="ko">느낌표 독서회!</span><span lang="en">Exclamation Book Club!</span></h3>
 <ul class="plain">
-<li><span lang="ko">2022년부터 매달 1권 독서</span><span lang="en">Reading one book per month since 2022.</span></li>
-<li><span lang="ko">경제·사회·문화·정치·철학·소설 등 다양한 장르</span><span lang="en">Various genres including economics, society, culture, politics, philosophy, and fiction.</span></li>
+<li><span lang="ko">2022년부터 매달 1권 독서</span><span lang="en">Reading one book per month since 2022</span></li>
+<li><span lang="ko">경제·사회·문화·정치·철학·소설 등 다양한 장르</span><span lang="en">Books on economics, society, culture, politics, and philosophy, as well as fiction</span></li>
 </ul>
 </section>
 </div>
 </div>
 </section>
 <section class="sub" id="sub-experience-countries-visited" data-sub="experience/countries-visited">
+<span class="anchor" id="experience/countries-visited"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></h2>
 <div class="sub-body">
-<figure class="map">
-<div class="map-img" role="img" aria-label="Countries Visited">
+<figure class="map"><span class="sr" id="label-map"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></span>
+<div class="map-img" role="img" aria-labelledby="label-map">
 <span class="dot" style="left:79.6%;top:24.9%;--tw-dur:3.5s;--tw-delay:-1.80s"><span class="sr">North Korea</span></span>
 <span class="dot" style="left:80.4%;top:27.3%;--tw-dur:2.7s;--tw-delay:-1.00s"><span class="sr">South Korea</span></span>
 <span class="dot" style="left:73.2%;top:27.2%;--tw-dur:2.2s;--tw-delay:-2.04s"><span class="sr">China</span></span>
@@ -617,6 +637,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-experience-other" data-sub="experience/other">
+<span class="anchor" id="experience/other"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">기타</span><span lang="en">Other</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
@@ -631,10 +652,11 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </section>
 <section class="view" id="view-projects" data-view="projects">
 <p class="crumb"><a href="#projects"><span lang="ko">프로젝트 &amp; 역량</span><span lang="en">Projects &amp; Skills</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="projects/ecostep"><span lang="ko">EcoStep 앱</span><span lang="en">EcoStep App</span></span><span class="crumb-sub" data-sub="projects/powerpoint">PowerPoint</span><span class="crumb-sub" data-sub="projects/certifications"><span lang="ko">자격증</span><span lang="en">Certifications</span></span><span class="crumb-sub" data-sub="projects/ai">AI</span><span class="crumb-sub" data-sub="projects/notion">Notion</span></p>
+<span class="anchor" id="projects"></span>
 <header class="view-head">
 <h1 class="view-title" tabindex="-1"><span lang="ko">프로젝트 &amp; 역량</span><span lang="en">Projects &amp; Skills</span></h1>
-<p class="view-desc"><span lang="ko">EcoStep 앱 · PPT · ITQ·GTQ·HubSpot · Notion · AI</span><span lang="en">EcoStep App · PPT · ITQ, GTQ, HubSpot · Notion · AI</span></p>
-<nav class="subnav" aria-label="In this section"><ul>
+<p class="view-desc"><span lang="ko">EcoStep 앱 · PPT · ITQ·GTQ·HubSpot · AI · Notion</span><span lang="en">EcoStep App · PPT · ITQ, GTQ, HubSpot · AI · Notion</span></p>
+<nav class="subnav" aria-labelledby="label-subnav-projects"><span class="sr" id="label-subnav-projects"><span lang="ko">이 절 안에서</span><span lang="en">In this section</span></span><ul>
 <li><a href="#projects/ecostep" data-sub="projects/ecostep"><span lang="ko">EcoStep 앱</span><span lang="en">EcoStep App</span></a></li>
 <li><a href="#projects/powerpoint" data-sub="projects/powerpoint">PowerPoint</a></li>
 <li><a href="#projects/certifications" data-sub="projects/certifications"><span lang="ko">자격증</span><span lang="en">Certifications</span></a></li>
@@ -643,6 +665,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </ul></nav>
 </header>
 <section class="sub" id="sub-projects-ecostep" data-sub="projects/ecostep">
+<span class="anchor" id="projects/ecostep"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">EcoStep 앱</span><span lang="en">EcoStep App</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
@@ -650,7 +673,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <ul class="entry-lines">
 <li><span lang="ko">플라스틱 사용 저감을 목표로 한 친환경 앱</span><span lang="en">An eco-friendly app aimed at reducing plastic use</span></li>
 <li><span lang="ko">연세대학교 글로벌사회공헌원 지원</span><span lang="en">Supported by Yonsei University&#x27;s Institute for Global Engagement &amp; Empowerment</span></li>
-<li><span lang="ko">기획, 개발, 배포 전 과정 주도</span><span lang="en">Led the entire process: planning, development, and deployment</span></li>
+<li><span lang="ko">기획, 개발, 배포 전 과정 주도</span><span lang="en">Led the entire process: planning, development, and launch</span></li>
 </ul>
 </article>
 </div>
@@ -674,13 +697,14 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-projects-powerpoint" data-sub="projects/powerpoint">
+<span class="anchor" id="projects/powerpoint"></span>
 <h2 class="sub-title" tabindex="-1">PowerPoint</h2>
 <div class="sub-body">
 <div class="boxes" data-cols="2">
 <article class="entry entry-plain">
 <ul class="entry-lines">
-<li><span lang="ko">대학 팀 프로젝트와 여러 행사를 위해 만든 발표 자료</span><span lang="en">PPT presentations created for university team projects and various events.</span></li>
-<li><span lang="ko">글로 된 내용을 시각적으로 구조화하는 일을 즐기고 잘함</span><span lang="en">I enjoy structuring written content into visuals and am good at it.</span></li>
+<li><span lang="ko">대학 팀 프로젝트와 여러 행사를 위해 만든 발표 자료</span><span lang="en">Presentation decks for university team projects and events</span></li>
+<li><span lang="ko">글로 된 내용을 시각적으로 구조화하는 일을 즐기고 잘함</span><span lang="en">Turning written material into clear visual structure</span></li>
 </ul>
 </article>
 <article class="entry entry-files">
@@ -692,6 +716,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-projects-certifications" data-sub="projects/certifications">
+<span class="anchor" id="projects/certifications"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">자격증</span><span lang="en">Certifications</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="3">
@@ -711,7 +736,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </ul>
 </article>
 <article class="entry">
-<h3 class="entry-title">HubSpot Certifications</h3>
+<h3 class="entry-title"><a href="https://academy.hubspot.com/certification-overview" target="_blank" rel="noopener">HubSpot Certifications</a></h3>
 <ul class="entry-lines">
 <li>Social Media Marketing</li>
 <li>Content Marketing</li>
@@ -723,6 +748,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-projects-ai" data-sub="projects/ai">
+<span class="anchor" id="projects/ai"></span>
 <h2 class="sub-title" tabindex="-1">AI</h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
@@ -735,6 +761,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-projects-notion" data-sub="projects/notion">
+<span class="anchor" id="projects/notion"></span>
 <h2 class="sub-title" tabindex="-1">Notion</h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
@@ -749,15 +776,17 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </section>
 <section class="view" id="view-research" data-view="research">
 <p class="crumb"><a href="#research"><span lang="ko">관심 연구</span><span lang="en">Research Interests</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="research/research-experience"><span lang="ko">연구 경험</span><span lang="en">Research Experience</span></span><span class="crumb-sub" data-sub="research/coursework"><span lang="ko">전공 수강 과목</span><span lang="en">Major Coursework</span></span></p>
+<span class="anchor" id="research"></span>
 <header class="view-head">
 <h1 class="view-title" tabindex="-1"><span lang="ko">관심 연구</span><span lang="en">Research Interests</span></h1>
 <p class="view-desc"><span lang="ko">전략 · 혁신 · 문화(조직문화, 문화와 경영전략) · 경제 체제와 비즈니스 · AI와의 시너지 · 1인 창업</span><span lang="en">Strategy · Innovation · Culture (Organizational Culture, Culture &amp; Business Strategy) · Economic Systems &amp; Business · Synergy with AI · Solo Entrepreneurship</span></p>
-<nav class="subnav" aria-label="In this section"><ul>
+<nav class="subnav" aria-labelledby="label-subnav-research"><span class="sr" id="label-subnav-research"><span lang="ko">이 절 안에서</span><span lang="en">In this section</span></span><ul>
 <li><a href="#research/research-experience" data-sub="research/research-experience"><span lang="ko">연구 경험</span><span lang="en">Research Experience</span></a></li>
 <li><a href="#research/coursework" data-sub="research/coursework"><span lang="ko">전공 수강 과목</span><span lang="en">Major Coursework</span></a></li>
 </ul></nav>
 </header>
 <section class="sub" id="sub-research-research-experience" data-sub="research/research-experience">
+<span class="anchor" id="research/research-experience"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">연구 경험</span><span lang="en">Research Experience</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
@@ -765,7 +794,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <h3 class="entry-title"><a lang="ko" href="https://igee.yonsei.ac.kr/activity.php?mid=m03_02_03&amp;cmid=m03_02_03" target="_blank" rel="noopener">Social Engagement Fund (SEF) 2025 연구 프로젝트 주도</a><a lang="en" href="https://igee.yonsei.ac.kr/english/activity.php?mid=n03_02_03&amp;cmid=n03_02_03" target="_blank" rel="noopener">Led the Social Engagement Fund (SEF) 2025 Research Project</a></h3>
 <ul class="entry-lines">
 <li><a lang="ko" href="https://igee.yonsei.ac.kr/" target="_blank" rel="noopener">연세대학교 글로벌사회공헌원 주관</a><a lang="en" href="https://igee.yonsei.ac.kr/english/index.php" target="_blank" rel="noopener">Organized by Yonsei University&#x27;s Institute for Global Engagement &amp; Empowerment</a></li>
-<li><span lang="ko">지속가능발전목표(SDGs) 달성 촉진 학부 연구 프로젝트</span><span lang="en">Undergraduate Research Project on Promoting Achievement of Sustainable Development Goals (SDGs)</span></li>
+<li><span lang="ko">지속가능발전목표(SDGs) 달성 촉진 학부 연구 프로젝트</span><span lang="en">Undergraduate Research Project on advancing the Sustainable Development Goals (SDGs)</span></li>
 <li><a href="https://e-igee.org/journal/view.php?doi=10.69841/igee.2026.014" target="_blank" rel="noopener">Song, I., &amp; Jeong, W. (2026). Narrowing the attitude-behavior gap: EcoStep, a mobile application for plastic reduction using visualization, gamification, and personalization. <em>IGEE Proceedings, 3</em>(2), 100–106. https://doi.org/10.69841/igee.2026.014</a></li>
 </ul>
 </article>
@@ -773,6 +802,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-research-coursework" data-sub="research/coursework">
+<span class="anchor" id="research/coursework"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">전공 수강 과목</span><span lang="en">Major Coursework</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="flow">
@@ -783,12 +813,12 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <li><span lang="ko">회계·재무</span><span lang="en">Accounting &amp; Finance</span>
 <ul>
 <li><span lang="ko">회계원리(1)·(2)</span><span lang="en">Principles of Accounting 1 &amp; 2</span></li>
-<li>Principles of Financial Management</li>
+<li><span lang="ko">재무관리</span><span lang="en">Principles of Financial Management</span></li>
 <li>Understanding Business Through Financial Statements</li>
 </ul></li>
 <li><span lang="ko">마케팅</span><span lang="en">Marketing</span>
 <ul>
-<li>Principles of Marketing</li>
+<li><span lang="ko">마케팅</span><span lang="en">Principles of Marketing</span></li>
 <li><span lang="ko">국제마케팅</span><span lang="en">International Marketing</span></li>
 <li>Social Media Marketing</li>
 </ul></li>
@@ -812,8 +842,8 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <article class="entry">
 <h3 class="entry-title"><span lang="ko">경제 <span class="paren">(Economics)</span></span><span lang="en">Economics</span></h3>
 <ul class="entry-lines">
-<li>Introduction to Economics</li>
-<li>Artificial Intelligence and Financial Engineering</li>
+<li><span lang="ko">경제학개론</span><span lang="en">Introduction to Economics</span></li>
+<li><span lang="ko">인공지능과금융공학</span><span lang="en">Artificial Intelligence and Financial Engineering</span></li>
 </ul>
 </article>
 <article class="entry">
@@ -826,8 +856,8 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <h3 class="entry-title"><span lang="ko">유럽·미국사 <span class="paren">(European &amp; American History)</span></span><span lang="en">European &amp; American History</span></h3>
 <ul class="entry-lines">
 <li><span lang="ko">중부유럽의문화와예술</span><span lang="en">Culture and Arts of Central Europe</span></li>
-<li>A Journey Through World Literature</li>
-<li>Literature and the Revolutionary Spirit</li>
+<li><span lang="ko">세계문학감상여행</span><span lang="en">A Journey Through World Literature</span></li>
+<li><span lang="ko">문학과혁명정신</span><span lang="en">Literature and the Revolutionary Spirit</span></li>
 <li>Debating American Democracy</li>
 </ul>
 </article>
@@ -837,23 +867,25 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </section>
 </section>
 <section class="view view-center" id="view-awards" data-view="awards">
-<p class="crumb"><a href="#awards"><span lang="ko">수상 &amp; 기사</span><span lang="en">Awards &amp; Press</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="awards/university"><span lang="ko">대학</span><span lang="en">University</span></span><span class="crumb-sub" data-sub="awards/high-school"><span lang="ko">중고등학교</span><span lang="en">Middle &amp; High School</span></span><span class="crumb-sub" data-sub="awards/press"><span lang="ko">기사</span><span lang="en">Press</span></span></p>
+<p class="crumb"><a href="#awards"><span lang="ko">수상 &amp; 기사</span><span lang="en">Awards &amp; Press</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="awards/university"><span lang="ko">대학교</span><span lang="en">University</span></span><span class="crumb-sub" data-sub="awards/high-school"><span lang="ko">중고등학교</span><span lang="en">Middle &amp; High School</span></span><span class="crumb-sub" data-sub="awards/press"><span lang="ko">기사</span><span lang="en">Press</span></span></p>
+<span class="anchor" id="awards"></span>
 <header class="view-head">
 <h1 class="view-title" tabindex="-1"><span lang="ko">수상 &amp; 기사</span><span lang="en">Awards &amp; Press</span></h1>
-<p class="view-desc"><span lang="ko">경영학과 상위 1% · GPA 4.16 · SEF 2025 장려상 · 고교 3년 전교 1등 · 기사 2편</span><span lang="en">Top 1% in Business · GPA 4.16 · SEF 2025 Award · 1st in High School for 3 Years · 2 Press Articles</span></p>
-<nav class="subnav" aria-label="In this section"><ul>
-<li><a href="#awards/university" data-sub="awards/university"><span lang="ko">대학</span><span lang="en">University</span></a></li>
+<p class="view-desc"><span lang="ko">경영학과 최우등 · GPA 4.16/4.30 · SEF 2025 장려상 · 고교 3년 전교 1등 · 기사 2편</span><span lang="en">Distinguished Honors in Business · GPA 4.16/4.30 · SEF 2025 Encouragement Award · 1st in High School for 3 Years · 2 Press Articles</span></p>
+<nav class="subnav" aria-labelledby="label-subnav-awards"><span class="sr" id="label-subnav-awards"><span lang="ko">이 절 안에서</span><span lang="en">In this section</span></span><ul>
+<li><a href="#awards/university" data-sub="awards/university"><span lang="ko">대학교</span><span lang="en">University</span></a></li>
 <li><a href="#awards/high-school" data-sub="awards/high-school"><span lang="ko">중고등학교</span><span lang="en">Middle &amp; High School</span></a></li>
 <li><a href="#awards/press" data-sub="awards/press"><span lang="ko">기사</span><span lang="en">Press</span></a></li>
 </ul></nav>
 </header>
 <section class="sub" id="sub-awards-university" data-sub="awards/university">
-<h2 class="sub-title" tabindex="-1"><span lang="ko">대학</span><span lang="en">University</span></h2>
+<span class="anchor" id="awards/university"></span>
+<h2 class="sub-title" tabindex="-1"><span lang="ko">대학교</span><span lang="en">University</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
 <article class="entry entry-plain">
 <ul class="entry-lines">
-<li><span lang="ko">상위 1% (2025학년도 2학기)</span><span lang="en">Top 1% (2025 Fall Semester)</span></li>
+<li><a href="https://ysb.yonsei.ac.kr/ysb/news/notice.do?mode=view&amp;articleNo=24123" target="_blank" rel="noopener"><span lang="ko">최우등 (2025학년도 2학기, 상위 1%)</span><span lang="en">Distinguished Honors (Fall 2025, Top 1%)</span></a></li>
 <li>Yonsei Social Entrepreneurship Award (Advanced Practical Writing)</li>
 <li><span lang="ko">Social Engagement Fund (SEF) 2025 장려상</span><span lang="en">Social Engagement Fund (SEF) 2025 Encouragement Award</span></li>
 <li>GPA 4.16 / 4.30</li>
@@ -863,13 +895,14 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-awards-high-school" data-sub="awards/high-school">
+<span class="anchor" id="awards/high-school"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">중고등학교</span><span lang="en">Middle &amp; High School</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
 <article class="entry entry-plain">
 <ul class="entry-lines">
 <li><span lang="ko">2022 학생회장 · 2021 학생부회장 · 2018 총무</span><span lang="en">2022 School President · 2021 School Vice President · 2018 School Treasurer</span></li>
-<li><span lang="ko">3년 전 과목 학업우수상</span><span lang="en">Academic Excellence Award in all subjects throughout all 3 years of high school</span></li>
+<li><span lang="ko">3년간 전 과목 학업우수상</span><span lang="en">Academic Excellence Award in every subject, all three years of high school</span></li>
 <li><span class="file">Awards.pdf</span> <span class="tba"><span class="if-ko">파일 첨부 예정</span><span class="if-en">File to be attached</span></span></li>
 </ul>
 </article>
@@ -877,27 +910,28 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-awards-press" data-sub="awards/press">
+<span class="anchor" id="awards/press"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">기사</span><span lang="en">Press</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
 <article class="entry entry-plain">
 <ul class="entry-lines">
-<li><a href="https://www.hdschool.org/html/story02.php?mode=v&amp;bbs_data=aWR4PTg5MjUmc3RhcnRQYWdlPSZsaXN0Tm89MTI5JnRhYmxlPWRoX2Jic19kYXRhJmNvZGU9b3VyJnNlYXJjaF9pdGVtPSZzZWFyY2hfb3JkZXI9%7C%7C" target="_blank" rel="noopener"><span lang="ko">미국 국무부 Global Scholar 선정 (2026.2)</span><span lang="en">Selected as U.S. State Department Global Scholar (2026.2)</span></a></li>
+<li><a href="https://www.hdschool.org/html/story02.php?mode=v&amp;bbs_data=aWR4PTg5MjUmc3RhcnRQYWdlPSZsaXN0Tm89MTI5JnRhYmxlPWRoX2Jic19kYXRhJmNvZGU9b3VyJnNlYXJjaF9pdGVtPSZzZWFyY2hfb3JkZXI9%7C%7C" target="_blank" rel="noopener"><span lang="ko">미국 국무부 Global Scholar 선정 (2026.2)</span><span lang="en">Selected as a U.S. Department of State Global Scholar (2026.2)</span></a></li>
 <li><a href="https://www.hdschool.org/html/story02.php?mode=v&amp;bbs_data=aWR4PTY1Njgmc3RhcnRQYWdlPSZsaXN0Tm89ODEmdGFibGU9ZGhfYmJzX2RhdGEmY29kZT1vdXImc2VhcmNoX2l0ZW09JnNlYXJjaF9vcmRlcj0=%7C%7C" target="_blank" rel="noopener"><span lang="ko">이 길을 걸어도 괜찮아 (2022.9)</span><span lang="en">It&#x27;s Okay to Walk This Path (2022.9)</span></a></li>
 </ul>
 </article>
 </div>
-<div class="tabs">
-<div class="tablist" role="tablist" aria-label="Tabs">
+<div class="tabs"><span class="sr" id="label-tabs-awards-press"><span lang="ko">탭</span><span lang="en">Tabs</span></span>
+<div class="tablist" role="tablist" aria-labelledby="label-tabs-awards-press">
 <button class="tab" type="button" role="tab" id="tab-awards-press-0" aria-controls="panel-awards-press-0" aria-selected="true" tabindex="0"><span lang="ko">기사 (2026.2)</span><span lang="en">Press (2026.2)</span></button>
 <button class="tab" type="button" role="tab" id="tab-awards-press-1" aria-controls="panel-awards-press-1" aria-selected="false" tabindex="-1"><span lang="ko">기사 (2022.9)</span><span lang="en">Press (2022.9)</span></button>
 </div>
-<section class="tabpanel entry entry-plain" role="tabpanel" id="panel-awards-press-0" aria-labelledby="tab-awards-press-0">
+<section class="tabpanel entry entry-plain" role="tabpanel" id="panel-awards-press-0" aria-labelledby="tab-awards-press-0" tabindex="0">
 <ul class="entry-lines">
 <li><span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></li>
 </ul>
 </section>
-<section class="tabpanel entry entry-plain" role="tabpanel" id="panel-awards-press-1" aria-labelledby="tab-awards-press-1" hidden>
+<section class="tabpanel entry entry-plain" role="tabpanel" id="panel-awards-press-1" aria-labelledby="tab-awards-press-1" tabindex="0" hidden>
 <ul class="entry-lines">
 <li><span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></li>
 </ul>
@@ -908,15 +942,17 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </section>
 <section class="view" id="view-more" data-view="more">
 <p class="crumb"><a href="#more"><span lang="ko">기타</span><span lang="en">More</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="more/music"><span lang="ko">음악</span><span lang="en">Music</span></span><span class="crumb-sub" data-sub="more/photos-videos"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></span></p>
+<span class="anchor" id="more"></span>
 <header class="view-head">
 <h1 class="view-title" tabindex="-1"><span lang="ko">기타</span><span lang="en">More</span></h1>
 <p class="view-desc"><span lang="ko">드럼 · 기타 · 피아노 · 사진 · 영상</span><span lang="en">Drums · Guitar · Piano · Photos · Videos</span></p>
-<nav class="subnav" aria-label="In this section"><ul>
+<nav class="subnav" aria-labelledby="label-subnav-more"><span class="sr" id="label-subnav-more"><span lang="ko">이 절 안에서</span><span lang="en">In this section</span></span><ul>
 <li><a href="#more/music" data-sub="more/music"><span lang="ko">음악</span><span lang="en">Music</span></a></li>
 <li><a href="#more/photos-videos" data-sub="more/photos-videos"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></a></li>
 </ul></nav>
 </header>
 <section class="sub" id="sub-more-music" data-sub="more/music">
+<span class="anchor" id="more/music"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">음악</span><span lang="en">Music</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="2">
@@ -924,16 +960,16 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <h3 class="group-title"><span lang="ko">드럼</span><span lang="en">Drums</span></h3>
 <ul class="plain">
 <li><a href="https://www.uwgb.edu/pep-band/" target="_blank" rel="noopener">UWGB Pep Band</a></li>
-<li><span lang="ko">교회 주간 연주 (2022 ~ 2025)</span><span lang="en">Weekly church performance (2022 ~ 2025)</span></li>
+<li><span lang="ko">매주 교회 연주 (2022 ~ 2025)</span><span lang="en">Weekly church performances (2022 ~ 2025)</span></li>
 <li><span lang="ko">대학 동아리 공연 (연세대학교 국제캠퍼스 찬양팀)</span><span lang="en">University club performances (Yonsei University International Campus Praise Team)</span></li>
 <li><span lang="ko">대학 밴드 공연 (경영대 밴드)</span><span lang="en">University band performances (Business School Band)</span></li>
-<li><span lang="ko">오케스트라 공연 (고등학교)</span><span lang="en">Orchestra performance (High School)</span></li>
+<li><span lang="ko">오케스트라 공연 (고등학교)</span><span lang="en">Orchestra performances (high school)</span></li>
 </ul>
 </section>
 <section class="group card">
 <h3 class="group-title"><span lang="ko">기타·피아노</span><span lang="en">Guitar &amp; Piano</span></h3>
 <ul class="plain">
-<li><span lang="ko">고등학교 후배 기타 멘토링</span><span lang="en">Guitar mentoring for high school juniors</span></li>
+<li><span lang="ko">고등학교 후배 기타 멘토링</span><span lang="en">Guitar mentoring for high school underclassmen</span></li>
 <li><span lang="ko">취미로 피아노</span><span lang="en">Piano as a hobby</span></li>
 </ul>
 </section>
@@ -956,6 +992,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </div>
 </section>
 <section class="sub" id="sub-more-photos-videos" data-sub="more/photos-videos">
+<span class="anchor" id="more/photos-videos"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></h2>
 <div class="sub-body">
 <div class="boxes" data-cols="1">
@@ -970,7 +1007,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </section>
 </main>
 <footer class="site-footer"><div class="footer-inner">
-<nav class="footer-nav" aria-label="Site map">
+<nav class="footer-nav" aria-labelledby="label-sitemap"><span class="sr" id="label-sitemap"><span lang="ko">사이트맵</span><span lang="en">Site map</span></span>
 <div class="footer-col"><a class="footer-head" href="#about/bio"><span lang="ko">소개</span><span lang="en">About</span></a>
 <ul>
 <li><a href="#about/bio"><span lang="ko">소개</span><span lang="en">Bio</span></a></li>
@@ -983,7 +1020,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <li><a href="#experience/north-korea-talks"><span lang="ko">북한 관련 강연</span><span lang="en">Talks on North Korea</span></a></li>
 <li><a href="#experience/volunteering"><span lang="ko">봉사</span><span lang="en">Volunteering</span></a></li>
 <li><a href="#experience/teaching-mentoring"><span lang="ko">교육·멘토링</span><span lang="en">Teaching &amp; Mentoring</span></a></li>
-<li><a href="#experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Affiliated Organizations</span></a></li>
+<li><a href="#experience/affiliated-organizations"><span lang="ko">후원 단체</span><span lang="en">Organizations Supported</span></a></li>
 <li><a href="#experience/clubs"><span lang="ko">동아리</span><span lang="en">Clubs</span></a></li>
 <li><a href="#experience/book-club"><span lang="ko">독서 모임</span><span lang="en">Book Club</span></a></li>
 <li><a href="#experience/countries-visited"><span lang="ko">방문 국가</span><span lang="en">Countries Visited</span></a></li>
@@ -1004,7 +1041,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 </ul></div>
 <div class="footer-col"><a class="footer-head" href="#awards/university"><span lang="ko">수상 &amp; 기사</span><span lang="en">Awards &amp; Press</span></a>
 <ul>
-<li><a href="#awards/university"><span lang="ko">대학</span><span lang="en">University</span></a></li>
+<li><a href="#awards/university"><span lang="ko">대학교</span><span lang="en">University</span></a></li>
 <li><a href="#awards/high-school"><span lang="ko">중고등학교</span><span lang="en">Middle &amp; High School</span></a></li>
 <li><a href="#awards/press"><span lang="ko">기사</span><span lang="en">Press</span></a></li>
 </ul></div>
@@ -1018,7 +1055,7 @@ d.setAttribute('data-view',v);if(u)d.setAttribute('data-sub',v+'/'+u);}catch(e){
 <div class="disclosure lang"><button class="ctl lang-btn" type="button" aria-expanded="false" aria-controls="menu-lang-f"><svg class="icon icon-globe" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg><span class="lang-label"><span class="if-ko">한국어</span><span class="if-en">English</span></span><svg class="icon icon-caret" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
 <ul class="menu lang-menu" id="menu-lang-f" hidden><li><button type="button" data-lang="en">English<svg class="icon icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></li><li><button type="button" data-lang="ko">한국어<svg class="icon icon-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></li></ul></div></div>
 </div></footer>
-<script src="app.js"></script>
+<script src="app.js?v=6022b5f6"></script>
+<!-- 2026-09-17 codex: 공유 대표 사진 Open Graph 메타정보 추가 -->
 </body>
 </html>
-<!-- 2026-09-17 codex: 공유 대표 사진 Open Graph 메타정보 추가 -->

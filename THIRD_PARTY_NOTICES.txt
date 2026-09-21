@@ -3,16 +3,20 @@ Third-party assets distributed with IL SONG's personal website
 Pretendard fonts (fonts/*.woff2)
 Source: https://github.com/orioncactus/pretendard
 License: SIL Open Font License 1.1; full notice in fonts/LICENSE.txt.
+Changes by IL SONG's website: subset with fontTools to only the glyphs used on
+this site; no outline, metric, or name-table changes.
 
-World map (images/map.png)
+World map (images/map.webp)
 Title: A large blank world map with oceans marked in blue
 Author: Roke, based on work by Petr Dlouhy (Petr Dlouhý)
 Source: https://commons.wikimedia.org/wiki/File:A_large_blank_world_map_with_oceans_marked_in_blue.PNG
 License: Creative Commons Attribution-ShareAlike 3.0 Unported
 https://creativecommons.org/licenses/by-sa/3.0/
 The adapted map is distributed under the same CC BY-SA 3.0 license.
-Changes by IL SONG's website: resized, recolored, and made transparent;
-visited-country markers are overlaid separately by the website.
+Changes by IL SONG's website: recolored (land made transparent, oceans tinted
+blue at 14% alpha) and converted from PNG to lossless WebP. Not resized: the
+image keeps the original 4977 x 2515 pixels. Visited-country markers are
+overlaid separately by the website.
 
 Country flags (images/flags/*.svg)
 Source: https://github.com/lipis/flag-icons

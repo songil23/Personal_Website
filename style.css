@@ -60,7 +60,7 @@
   --accent-ink: #0049F0;
   --accent-line: rgb(0 73 240 / 30%);
   --accent-soft: rgb(0 73 240 / 13%);
-  --accent-wash: rgb(0 73 240 / 6%);
+  --accent-wash: rgb(0 73 240 / 6%);   /* v6.9: 쓰는 곳 0 — 명세 §1 팔레트에 남아 토큰만(--text-lead와 같은 취급) */
   --shadow-sm: 0 1px 2px rgb(38 38 38 / 4%), 0 6px 20px rgb(38 38 38 / 5%);
   --shadow-md: 0 2px 4px rgb(38 38 38 / 4%), 0 12px 32px rgb(38 38 38 / 8%);
   --shadow-pop: 0 4px 8px rgb(38 38 38 / 6%), 0 20px 48px rgb(38 38 38 / 12%);
@@ -79,10 +79,10 @@
   --s-32: 32px;
   --s-40: 40px;
   --s-48: 48px;
-  --s-64: 64px;
+  --s-64: 64px;    /* v6.9: 쓰는 곳 0 — 명세 §1 간격 사다리에 남아 토큰만 */
   --s-80: 80px;
-  --s-96: 96px;
-  --s-128: 128px;
+  --s-96: 96px;    /* v6.9: 쓰는 곳 0 — 위와 같음 */
+  --s-128: 128px;  /* v6.9: 쓰는 곳 0 — 위와 같음 */
   --s-6: 6px;      /* 추가(§4·§5·§6): 행 gap 6 */
 
   /* 모서리 */
@@ -103,7 +103,8 @@
   --menu-height: 70vh;            /* 팝업은 본문을 남기고, 긴 목록만 안에서 스크롤 */
   --hero-photo: 200px;            /* 추가(§4): ≥834 홈 사진 열 */
   --hero-photo-sm: 160px;         /* 추가(§4): ≤833 홈 사진 폭 */
-  --year-col: 220px;              /* v6(§2-v6): 140 → 260(≥1200). 834~1199는 200(§15에서 재정의) — 상자 안 내용을 오른쪽으로 */
+  --year-col: 220px;              /* v6(§2-v6): 상자 안 내용을 오른쪽으로. v6.9 주석 정정 — 실제 값은
+                                     ≤833 미사용(타임라인이 격자가 아니다) · 834~1199 180(§15) · ≥1200 220(§16). v6의 260/200은 v6.1에서 내려갔다 */
   --dot: 6px;                     /* v5(§2-v5): 8 → 6. 링 없음은 v4 그대로 */
   --tw-dur-default: 2.4s;         /* v4(§5): 빌더가 --tw-dur를 못 준 점의 기본 반짝임 주기 */
   --flag-w: 20px;                 /* 추가(§5) */
@@ -115,7 +116,7 @@
   /* 전환 (§1·§6-v4) — 전부 300ms 미만 */
   --ease: 200ms ease;                             /* hover·테마 색 전환 */
   --ease-out: cubic-bezier(.23, 1, .32, 1);       /* v4: 들어오는 것(절 전환·드롭다운·누름) */
-  --ease-in-out: cubic-bezier(.77, 0, .175, 1);   /* v4: 양쪽이 멈춰 있는 이동 */
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);   /* v4: 양쪽이 멈춰 있는 이동. v6.9: 쓰는 곳 0 — 명세 §1에 남아 토큰만 */
   --dur-fast: 120ms;                              /* v4: 누름 */
   --dur-pop: 180ms;                               /* v4: 드롭다운 (v3 --ease-pop 160ms를 대체) */
   --dur: 240ms;                                   /* v4: 절·하위 전환 */
@@ -576,7 +577,7 @@ html[data-theme="dark"] .icon-moon { display: none; }
   line-height: 1;
   transition: color var(--ease), transform var(--dur-fast) var(--ease-out);   /* v4: 누름 */
 }
-.ctl.is-off { color: var(--ink-3); pointer-events: none; }
+.ctl.is-off { color: var(--ink-3); pointer-events: none; }   /* v6.9: 빌더가 붙인다(build.py `ctl ctl-social is-off`) — 주소가 없는 소셜 아이콘 */
 
 /* 터치 44 — 위아래로만 넓힌다. (v4) .crumb a도: 줄 높이는 40이지만 히트는 44 */
 /* v6(§2-v6): .tab(기사 제목 탭)도 칩과 같은 규격이라 같은 목록에 */
@@ -611,6 +612,13 @@ html[data-theme="dark"] .icon-moon { display: none; }
 .lang-label { white-space: nowrap; }
 
 /* ─────────────────────────────────────────────  9. 본문 뼈대 */
+/* v6.9 ①(빌더 요청 R2): 별칭 앵커 span.anchor#about · #about/bio — 빌더가 절·하위 맨 앞에 넣는다.
+   평소에는 생성 <style>의 html[data-view] .anchor{display:none}(0,2,0)이 이겨 상자가 없다.
+   JS 없음·앱 실패(data-view 없음)에서만 살아나 #절·#절/하위 링크가 닿는다.
+   display:block·height:0은 상자 모양을 절 맨 앞에 고정하는 보증이다(실측 배치 변화 0) —
+   실제로 위치를 만드는 것은 scroll-margin-top이다(점프한 제목 top 0 → 23.7~24.5px) */
+.anchor { display: block; height: 0; scroll-margin-top: var(--s-24); }
+
 .view { padding-bottom: var(--s-80); }
 
 /* v4(§6-v4): 절·하위 전환. display:none → 표시되면 애니메이션이 새로 도니 JS가 필요 없다.
@@ -629,9 +637,12 @@ html[data-theme="dark"] .icon-moon { display: none; }
 .sub { animation: rise var(--dur) var(--ease-out) both; }
 
 /* tabindex="-1" 프로그램 포커스 대상(조작 요소 아님): 링을 그리면 제목이 입력칸처럼 보인다 */
+/* v6.9(2026-09-20): :focus와 :focus-visible을 한 쉼표 목록에 섞으면 :focus-visible을 모르는 브라우저(Safari <15.4)가
+   목록 전체를 버려 :focus 쪽까지 죽는다(MDN Selector list — 무효 선택자 하나가 규칙 전체를 무효화) →
+   아래 v6.1 증상이 그 브라우저에서 부활한다. 두 규칙으로 나눠 :focus 쪽이 살아남게 한다. 선언은 동일 */
 .view-title:focus,
 .sub-title:focus,
-.hero-name:focus,
+.hero-name:focus { outline: none; }
 .view-title:focus-visible,
 .sub-title:focus-visible,
 .hero-name:focus-visible { outline: none; }   /* v6.1(2026-09-18 사용자): 홈으로 돌아올 때 app.js가 이름(h1, tabindex -1)에 포커스를 옮기는데 모바일에서 가끔 파란 링이 보였다 — 제목은 조작 요소가 아니라 링 없음(.view-title·.sub-title과 같게) */
@@ -873,7 +884,8 @@ a.card::after {
   gap: var(--s-8);
 }
 /* v5(§2-v5): 두 줄 분할(v4 `ul + ul`) 폐기 — 하위 8개 이상은 한 줄에 빽빽하게 */
-.subnav[data-dense] > ul { gap: var(--s-6); }
+/* v6.9(M-8): 세로 gap 6은 히트 44(칩 36 + 위아래 4)끼리 2px 겹쳤다 — 가로는 그대로 6, 세로만 8 */
+.subnav[data-dense] > ul { column-gap: var(--s-6); row-gap: var(--s-8); }
 /* v6(§2-v6): 탭 버튼(.tab)은 칩과 같은 규격 — 선언을 복제하지 않고 선택자 목록에 더한다 */
 .subnav a,
 .tab {
@@ -960,6 +972,7 @@ a.card::after {
   gap: var(--s-6);                 /* v6.1 검토: 상자 안 줄 간격은 .entry-lines와 같은 6(8이던 것 — 묶음 카드·Journey만 달랐다) */
   font-size: var(--text-ui);
   color: var(--ink);
+  text-wrap: pretty;               /* v6.9(M-1) */
 }
 /* v5(§2-v5): "상자 밖 본문 없음" — 가운데 16px이던 `.sub-body > .plain` 규칙을 걷어냈다.
    그 목록은 빌더가 제목 없는 상자(.entry.entry-plain > .entry-lines)로 만든다 */
@@ -1036,7 +1049,11 @@ em {
 /* 2026-09-18 사용자: 모바일(≤833)에서는 괄호 묶음(국가·풀이)을 언제나 다음 줄에 — 412px 폰에서 "(미국)"이 한 줄에 들어가 버렸다.
    ≥834는 inline-block(안 들어갈 때만 내려감). 기본 규칙 뒤에 두어야 이긴다(같은 특이성) */
 @media (max-width: 833px) {
-  .entry-title .paren { display: block; }
+  /* v6.9: block이던 것 → inline + ::before 강제 줄바꿈. "언제나 다음 줄"은 그대로지만
+     상자를 만들지 않으므로 a::after의 ↗가 괄호 마지막 글자 옆에 붙는다
+     (block이면 상자 뒤 새 줄로 밀려 ↗만 혼자 떨어졌다 — GTQ·BICA·찬양팀, 390·412) */
+  .entry-title .paren { display: inline; }
+  .entry-title .paren::before { content: "\A"; white-space: pre; }
 }
 
 .entry-title {
@@ -1053,6 +1070,7 @@ em {
   font-size: var(--text-ui);
   line-height: 1.5;
   color: var(--ink);
+  text-wrap: pretty;             /* v6.9(M-1): .hero-intro·.card-text·.view-desc·.lead와 같은 설정 — 상속된다 */
 }
 .entry-lines .date {
   font-variant-numeric: tabular-nums lining-nums;
@@ -1141,6 +1159,7 @@ em {
   font-size: var(--text-small);
   line-height: 1.5;
   color: var(--ink-2);
+  text-wrap: pretty;             /* v6.9(M-1) */
 }
 /* v3 검증: 세로 1 + 가로 2 배치는 캡션을 사진 위에 얹는다 — 캡션 두 줄 높이만큼 세로 사진이 잘리던 것(834에서 8%)이 gap 20px분(≤3.5%)으로 준다 */
 .photos.tall-left > .photo { position: relative; }
@@ -1180,6 +1199,7 @@ em {
   font-size: var(--text-small);
   line-height: 1.5;
   color: var(--ink-2);
+  text-wrap: pretty;             /* v6.9(M-1) */
 }
 /* v5(§2-v5): file://에서는 브라우저가 Referer를 안 보내 YouTube가 임베드를 거부한다(오류 153) →
    app.js가 iframe을 지우고 이 링크의 hidden을 푼다. http(s)에서는 [hidden]이라 안 보인다 */
@@ -1230,7 +1250,14 @@ html[data-theme="dark"] .dot { background: var(--accent-ink); }
   font-size: var(--text-caption);
   line-height: 1.5;
   color: var(--ink-3);
+  text-wrap: pretty;             /* v6.9(M-1): 마지막 줄에 낱말 하나가 남지 않게 */
 }
+/* v6.9(A-3) 철회 — 문장 속 인라인 링크는 터치 44 예외로 둔다.
+   캡션은 글자 12px·줄 상자 18px·글자 상자 14px이라 줄 사이 빈 틈이 위아래 2px씩뿐이다.
+   히트를 44로 키우면 (44-14)/2 = 15px씩 번져 이웃 줄 글자를 13px 덮는다(F-2 en: 다른 글자 위
+   격자점 682개 / F-3 ko: 링크가 두 줄로 감겨 절대 위치 포함 블록이 0폭 막대). 겹침 0을 지키는
+   최대 히트는 18px(자기 줄 상자)이고, 44는 line-height를 2.44배로 키워야 얻는다 — 배치가 바뀐다.
+   WCAG 2.5.5·2.5.8도 「문장 안에 있거나 이웃 글자의 줄 높이에 묶인 표적」을 예외로 둔다. */
 
 /* 국기 (§5) */
 .flag {
@@ -1287,6 +1314,8 @@ html[data-theme="dark"] .dot { background: var(--accent-ink); }
   color: var(--ink);
 }
 .tba {
+  display: inline-block;         /* v6.9(M-3·V-25): 「File to be attached」가 중간에서 갈라지던 것 —
+                                    통째로 다음 줄로 내려가고, 칸보다 넓을 때만 안에서 줄바꿈 */
   font-size: var(--text-small);
   font-style: normal;
   color: var(--ink-3);
@@ -1296,7 +1325,10 @@ html[data-theme="dark"] .dot { background: var(--accent-ink); }
    v5(§2-v5): :not(.file-card) 추가. 파일 카드의 ↗는 이름 끝(.file-name::after)에 붙는다 —
    별도 `a.file-card::after { content: none }`은 (0,1,2)라 이 규칙(0,3,2)을 못 이겨 여기서 뺐다 */
 a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
-  content: "↗";
+  /* v6.9: 앞의 U+2060 WORD JOINER가 ↗를 바로 앞 낱말에 묶는다 —
+     줄 끝 여백이 ↗ 폭(19px)보다 모자라면 ↗만 다음 줄로 떨어지던 것(St. John's 390 ko, 남은 폭 10.6px).
+     U+2060은 폭 0의 Default_Ignorable 문자라 글꼴에 없어도 눈에 보이는 변화가 없다(실측: 293,136개 요소 중 이동 2개=대상 자신) */
+  content: "\2060↗";
   margin-left: var(--s-4);
   font-size: var(--text-caption);
   color: var(--ink-3);
@@ -1308,7 +1340,7 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
 .entry-lines a[href^="#"]::after,
 .plain a[href^="#"]::after,
 .lead a[href^="#"]::after {
-  content: "↗";
+  content: "\2060↗";   /* v6.9: 외부 ↗와 같은 WORD JOINER(위 규칙 주석 참고) */
   margin-left: var(--s-4);
   font-size: var(--text-caption);
   color: var(--ink-3);
@@ -1345,6 +1377,7 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   display: inline-flex;
   align-items: center;
   min-height: var(--target);     /* 터치 44 */
+  min-width: var(--target);      /* v6.9(A-4): 세로만 44였다 — ko의 「소개」·「활동」·「기타」가 가로 25.9px */
   font-size: var(--text-ui);
   font-weight: 500;
   color: var(--ink);
@@ -1429,7 +1462,7 @@ a.card:active { transform: scale(.985); }
 
 /* ─────────────────────────────────────────────  15. 834 ~ 1199 */
 @media (min-width: 834px) {
-  :root { --year-col: 180px; }   /* v6(§2-v6): 834~1199만 200 — ≥1200은 아래에서 260으로 되돌린다 */
+  :root { --year-col: 180px; }   /* v6.1: 834~1199만 180 — ≥1200은 §16에서 :root 값 220으로 되돌린다(v6.9 주석 정정) */
 
   /* 홈 */
   .hero {
@@ -1538,7 +1571,7 @@ a.card:active { transform: scale(.985); }
 
   .nav { display: block; }
   .nav-link { display: none; }
-  .nav-item-single .nav-link { display: flex; }   /* 하위 1개 탭(More)은 링크가 곧 탭 */
+  .nav-item-single .nav-link { display: flex; }   /* 하위 1개 탭(More)은 링크가 곧 탭 — v6.9: 클래스는 빌더가 붙인다(build.py `nav-item nav-item-single`) */
   .nav-btn { display: inline-flex; }
   .disclosure.more { display: none; }             /* ⋯는 <1200에서만 */
 
@@ -1568,6 +1601,9 @@ html:not([data-view]) .header-inner {
   padding-block: var(--s-8);
 }
 html:not([data-view]) .nav { justify-self: start; }
+/* v6.9 ①(빌더 요청 R2): 폴백 헤더는 탭이 줄바꿈 목록이라 **161px(390) · 129px(1440)** 이다(실측).
+   sticky로 두면 해시로 점프한 제목이 그 아래 깔린다(8조합 중 6에서 top ≈ 0) — 인쇄(§19)와 같이 static */
+html:not([data-view]) .site-header { position: static; }
 
 /* v4(§2·§5): JS가 없으면 절이 전부 펼쳐지므로 현재 하위를 가리키는 빵부스러기는 뜻이 없다.
    대신 숨겼던 하위 제목을 되돌려 목차 구실을 하게 한다 */
@@ -1667,6 +1703,40 @@ html:not([data-view]) .sub-title {
     -webkit-backdrop-filter: none;
   }
   .site-header::before { display: none; }
+
+  /* v6.9 ⑤(빌더 요청 R4): 종이에는 연락처를 남긴다 — 주소 4개는 이미 최초 HTML 안에 있고(#menu-contact)
+     화면에서만 팝오버로 감춰져 있었다. 위 `.controls`·`.menu`·`.disclosure` 숨김 **뒤**에 와야 이긴다.
+     세 겹으로 감춰져 있어 세 가지를 다 풀어야 한다(실측):
+       ⓐ 부모 `.controls`가 display:none — 자식만 풀면 안 보인다
+       ⓑ `.menu`는 기본이 opacity:0 (`:not([hidden])`에서만 1) — display만 풀면 글자가 투명하다
+       ⓒ `.header-inner`의 height가 고정(56/64)이라 주소 목록이 상자를 넘어 본문 위에 겹친다 */
+  .controls { display: flex; }
+  .controls > *:not(.disclosure.contact) { display: none; }   /* 누를 수 없는 아이콘·테마·⋯는 그대로 감춘다 */
+  .disclosure.contact { display: block; }
+  .header-inner {
+    height: auto;
+    align-items: start;
+    padding-block: var(--s-16);
+  }
+  .contact-menu[hidden] {
+    display: block !important;     /* [hidden]의 display:none이 !important(§3)라 같은 무게로 덮는다 */
+    position: static;
+    opacity: 1;                    /* ⓑ */
+    transform: none;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow: visible;
+  }
+  .contact-menu .ctl.copy,
+  .ctl-contact { display: none; }   /* 종이에서 누를 수 없는 것 */
 
   .card,
   .entry,

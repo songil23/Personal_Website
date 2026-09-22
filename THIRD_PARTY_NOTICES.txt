@@ -44,3 +44,53 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 <!-- 2026-09-17 codex: preserve third-party attribution and licenses for public deployment -->
+
+Journal article -- pdf/Narrowing the Attitude-Behavior Gap - EcoStep (IGEE Proceedings 2026).pdf
+Title: Narrowing the Attitude-Behavior Gap: EcoStep, a Mobile Application for
+Plastic Reduction Using Visualization, Gamification, and Personalization
+Authors: Il Song, Wonhee Jeong (Il Song is this website's owner)
+Published in: IGEE Proceedings, Vol. 3, No. 2 (Jun. 2026), pp. 100-106
+DOI: https://doi.org/10.69841/igee.2026.014
+Copyright: (c) 2026 by the authors
+License: Creative Commons Attribution (CC BY) 4.0
+https://creativecommons.org/licenses/by/4.0/
+Changes by IL SONG's website: none to the PDF, which is distributed
+byte-for-byte as published. A lossless WebP thumbnail of the article's first
+page was rendered separately for the preview image (images/pdf/Narrowing the
+Attitude-Behavior Gap - EcoStep (IGEE Proceedings 2026).webp); no resizing or
+re-encoding of the PDF itself.
+
+Newspaper/newsletter clippings (images/press/global-scholar-2026.jpg and
+love-letter-2022.webp, with their *_fig*.webp and *_thumb.webp crops)
+
+Article 1 -- "Alumnus Il Song Selected as U.S. Department of State Global
+Scholar... Six Years of Education Bear Fruit"
+Publication: Heavenly Times, 2026.02.19
+Original: https://www.hdschool.org/html/story02.php?mode=v&bbs_data=aWR4PTg5MjUmc3RhcnRQYWdlPSZsaXN0Tm89MTI5JnRhYmxlPWRoX2Jic19kYXRhJmNvZGU9b3VyJnNlYXJjaF9pdGVtPSZzZWFyY2hfb3JkZXI9%7C%7C
+Byline: not shown on the article (unconfirmed)
+Copyright holder: not confirmed (the outlet is Heavenly Dream School's own
+newsletter, hosted at hdschool.org)
+Use: reproduced for biographical/news-reporting purposes, with a link back to
+the original article.
+Changes by IL SONG's website: the main scan is an unmodified byte copy of the
+supplied JPEG. Four illustrative details (*_fig1.webp - *_fig4.webp) and one
+card thumbnail (*_thumb.webp) were cropped from that original and losslessly
+re-encoded as WebP; no resizing.
+
+Article 2 -- "It's Okay to Take This Path"
+Publication: Heavenly Dream Love Letter, 2022.09
+Original: https://www.hdschool.org/html/story02.php?mode=v&bbs_data=aWR4PTY1Njgmc3RhcnRQYWdlPSZsaXN0Tm89ODEmdGFibGU9ZGhfYmJzX2RhdGEmY29kZT1vdXImc2VhcmNoX2l0ZW09JnNlYXJjaF9vcmRlcj0=%7C%7C
+Byline: not shown on the article (unconfirmed)
+Copyright holder: not confirmed (the outlet is Heavenly Dream School's own
+newsletter, hosted at hdschool.org)
+Use: reproduced for biographical/news-reporting purposes, with a link back to
+the original article.
+Changes by IL SONG's website: two vertical sections unrelated to this excerpt
+(a set of acceptance-letter screenshots and a QR-code box) were cut from the
+original scan and the remaining sections stitched back together, then encoded
+as lossless WebP (no JPEG re-compression, no resizing). Three illustrative
+details (*_fig1.webp - *_fig3.webp) and one card thumbnail (*_thumb.webp) were
+also cropped from the original and losslessly re-encoded as WebP.
+
+<!-- 2026-09-22 Claude: v7.0 disclosure for the EcoStep paper (site/pdf) and the
+two press clippings (site/images/press) newly published in this release -->

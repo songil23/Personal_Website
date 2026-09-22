@@ -119,6 +119,8 @@
 
     setTitle();            // v4: 탭 이름 · 이름
 
+    if (viewChanged || subChanged) closePress();   // v7.0(P): 절/하위 이동 시 열린 기사를 닫는다
+
     if (initial) return;   // 첫 로드에서는 스크롤·포커스 이동 없음(브라우저 복원 존중)
 
     var view = one('.view.is-active');
@@ -410,38 +412,58 @@
     });
   }
 
-  /* ---------- 7. 기사 탭 (v6 §2-v6 `묶음: 탭`) ----------
-     WAI-ARIA tabs: 클릭·←→(순환)·Home/End. 해시·저장 없음 — 절/하위 라우팅과 무관 */
-  all('.tabs').forEach(function (box) {
-    var tabs = all('[role="tab"]', box);
-    if (!tabs.length) return;
-    function select(i, focus) {
-      tabs.forEach(function (t, k) {
-        var on = k === i;
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-        t.setAttribute('tabindex', on ? '0' : '-1');
-        var panel = document.getElementById(t.getAttribute('aria-controls') || '');
-        if (panel) panel.hidden = !on;
-      });
-      if (focus) focusQuiet(tabs[i]);
-    }
-    tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { select(i, false); });
-      t.addEventListener('keydown', function (e) {
-        var n = tabs.length, j = -1;
-        if (e.key === 'ArrowRight' || e.key === 'Right') j = (i + 1) % n;
-        else if (e.key === 'ArrowLeft' || e.key === 'Left') j = (i - 1 + n) % n;
-        else if (e.key === 'Home') j = 0;
-        else if (e.key === 'End') j = n - 1;
-        if (j < 0) return;
-        e.preventDefault();
-        select(j, true);
-      });
+  /* ---------- 7. 기사 「기사 보기」 펼침 (v7.0 §2-v7.0 P절 — `묶음: 탭`을 대체) ----------
+     해시·저장 없음 — 절/하위 라우팅과 무관. 페이지 전체에서 한 번에 하나만 열린다.
+     시작은 HTML의 hidden 으로 전부 닫힘(JS가 접지 않는다). */
+  function setPress(btn) {
+    all('.press-btn[aria-controls]').forEach(function (b) {
+      /* v7.0(Codex P-2): panel 을 먼저 - 짝 패널이 없으면 aria-expanded 를 true 로 두지 않는다 */
+      var panel = document.getElementById(b.getAttribute('aria-controls') || '');
+      var on = !!panel && b === btn;
+      b.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (panel) panel.hidden = !on;
+    });
+  }
+  function closePress() { setPress(null); }   // route()가 부른다(함수 선언 — 호이스팅, 선언 위치와 무관)
+
+  all('.press-btn[aria-controls]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var before = btn.getBoundingClientRect().top;
+      var was = btn.getAttribute('aria-expanded') === 'true';
+      setPress(was ? null : btn);
+      // 위쪽 패널이 접히며 눌린 버튼이 화면 밖으로 튀는 것을 막는다(390에서 패널 최대 약 3,800px)
+      var d = btn.getBoundingClientRect().top - before;
+      if (d) {
+        try { window.scrollBy({ top: d, left: 0, behavior: 'instant' }); }
+        catch (e) { window.scrollBy(0, d); }
+      }
+      // 포커스는 누른 버튼에 그대로(디스클로저 관례) — 옮기지 않는다
+    });
+  });
+
+  all('.press-close').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = btn.closest('.press-panel');
+      var opener = panel && one('.press-btn[aria-controls="' + panel.id + '"]');
+      setPress(null);
+      focusQuiet(opener);
+      var card = opener && opener.closest('.press-card');
+      if (card) {
+        var off = stuckOffset();
+        var top = card.getBoundingClientRect().top;
+        if (top < off) {
+          var y = window.scrollY + top - (off + 16);
+          y = y > 0 ? y : 0;
+          try { window.scrollTo({ top: y, left: 0, behavior: 'instant' }); }
+          catch (e) { window.scrollTo(0, y); }
+        }
+      }
     });
   });
 
   /* ---------- 실행 ---------- */
-  window.addEventListener('hashchange', function () { route(false); });
+  /* v7.0(Codex P-1): route(true) 가 던져 data-ready 가 못 선 폴백 화면에서는 라우팅하지 않는다 */
+  window.addEventListener('hashchange', function () { if (root.hasAttribute('data-ready')) route(false); });
   route(true);
   /* v6.9(①): 성공 신호. 초기화가 여기까지 던지지 않고 왔을 때만 선다.
      head의 DOMContentLoaded 검사가 이 속성이 없으면 data-view를 떼어 「JS 없음」 화면으로 돌린다.

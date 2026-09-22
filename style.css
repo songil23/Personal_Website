@@ -69,6 +69,7 @@
   --menu-ink: color-mix(in srgb, var(--ink) 82%, transparent);
 
   /* 간격 */
+  --s-2: 2px;      /* v7.0(§2-v7.0 J): Journey 항목 점(4px)의 반지름 — 점의 left·세로 중심 보정 */
   --s-4: 4px;
   --s-8: 8px;
   --s-10: 10px;    /* 추가(§5): entry-lines·group 본문 위 여백 10 */
@@ -111,6 +112,7 @@
   --flag-h: 15px;                 /* 추가(§5) */
   --flag-shift: -2px;             /* 추가(§5): 국기 vertical-align */
   --file-h: 200px;                /* v5(§2-v5): PDF 첫 장 미리보기 높이 상한 */
+  --article-w: 760px;             /* v7.0(§2-v7.0 P): 기사 펼침 패널의 최대 폭(읽기 열) */
   --blur: 16px;                   /* v5(§2-v5): 12 → 16. 헤더·빵부스러기 글래스가 같이 쓴다 */
 
   /* 전환 (§1·§6-v4) — 전부 300ms 미만 */
@@ -363,14 +365,16 @@ html[data-theme="dark"] .icon-moon { display: none; }
   transition: color var(--ease), transform var(--dur-fast) var(--ease-out);   /* v4: 누름 */
 }
 .nav-btn .icon-caret,
-.lang-btn .icon-caret {
+.lang-btn .icon-caret,
+.press-btn .icon-caret {
   margin-left: var(--s-4);       /* 글자↔캐럿 4 */
   color: var(--ink-3);
   transition: transform var(--ease);
 }
 .nav-btn[aria-expanded="true"] { color: var(--ink); }
 .nav-btn[aria-expanded="true"] .icon-caret,
-.lang-btn[aria-expanded="true"] .icon-caret { transform: rotate(180deg); }
+.lang-btn[aria-expanded="true"] .icon-caret,
+.press-btn[aria-expanded="true"] .icon-caret { transform: rotate(180deg); }
 .nav-btn[aria-current="page"] { color: var(--ink); font-weight: 500; }
 /* v3: .nav-label::after 파란 밑줄 삭제 — 파랑은 포커스 링·링크 hover·지도 점에만(§2) */
 
@@ -580,11 +584,11 @@ html[data-theme="dark"] .icon-moon { display: none; }
 .ctl.is-off { color: var(--ink-3); pointer-events: none; }   /* v6.9: 빌더가 붙인다(build.py `ctl ctl-social is-off`) — 주소가 없는 소셜 아이콘 */
 
 /* 터치 44 — 위아래로만 넓힌다. (v4) .crumb a도: 줄 높이는 40이지만 히트는 44 */
-/* v6(§2-v6): .tab(기사 제목 탭)도 칩과 같은 규격이라 같은 목록에 */
+/* v7.0(§2-v7.0 P): v6의 기사 탭(.tab)은 없어졌다 — 「기사 보기」·「닫기」(.press-btn)가 같은 목록에 */
 .ctl::before,
 .nav-btn::before,
 .subnav a::before,
-.tab::before,
+.press-btn::before,
 .crumb a::before {
   content: "";
   position: absolute;
@@ -595,8 +599,11 @@ html[data-theme="dark"] .icon-moon { display: none; }
   transform: translateY(-50%);
 }
 
-/* 언어 버튼만 테두리·배경을 갖는다 — 아이콘이 아니라 글자 버튼이라(§6) */
-.lang-btn {
+/* 테두리·배경을 갖는 글자 버튼 — 아이콘 버튼(.ctl)과 달리(§6)
+   v7.0(§2-v7.0 P): 기사 버튼(.press-btn)도 같은 규격이라 선언을 복제하지 않고 목록에 더한다.
+   .press-btn은 .ctl이 아니다 — 높이 36·15px·--r-8은 아래 칩 목록(.subnav a)에서 받는다 */
+.lang-btn,
+.press-btn {
   padding: var(--s-8) var(--s-10) var(--s-8) var(--s-12);
   border: 1px solid var(--line);
   background: var(--surface);
@@ -886,9 +893,10 @@ a.card::after {
 /* v5(§2-v5): 두 줄 분할(v4 `ul + ul`) 폐기 — 하위 8개 이상은 한 줄에 빽빽하게 */
 /* v6.9(M-8): 세로 gap 6은 히트 44(칩 36 + 위아래 4)끼리 2px 겹쳤다 — 가로는 그대로 6, 세로만 8 */
 .subnav[data-dense] > ul { column-gap: var(--s-6); row-gap: var(--s-8); }
-/* v6(§2-v6): 탭 버튼(.tab)은 칩과 같은 규격 — 선언을 복제하지 않고 선택자 목록에 더한다 */
+/* v7.0(§2-v7.0 P): v6의 탭 버튼(.tab)은 없어졌다 — 기사 버튼(.press-btn)이 같은 칩 규격을 쓴다
+   (높이 36·15px·--r-8·히트 44 ::before. 테두리·배경·전환은 위 .lang-btn 목록) */
 .subnav a,
-.tab {
+.press-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -913,17 +921,9 @@ a.card::after {
   letter-spacing: var(--ls-tight);
   padding: var(--s-8) var(--s-10);
 }
-/* v6(§2-v6): 탭 이름은 기사 제목이라 칩보다 길다(390에서 한 줄에 안 들어간다) —
-   고정 높이 36을 최소 높이로 바꾸고 줄바꿈을 허용한다. 히트 44 ::before는 그대로 */
-.tab {
-  height: auto;
-  min-height: var(--btn);
-  max-width: 100%;
-  line-height: 1.3;
-  text-align: center;
-}
+/* v7.0(§2-v7.0 P): 눌린 칩 = 열린 기사 버튼 — 같은 --surface-3 + --ink 500 */
 .subnav a[aria-current="page"],
-.tab[aria-selected="true"] {
+.press-btn[aria-expanded="true"] {
   background: var(--surface-3);
   color: var(--ink);
   font-weight: 500;
@@ -980,6 +980,7 @@ a.card::after {
 .entry-title a,
 .entry-lines a,
 .map figcaption a,             /* v6.1 검토: 지도 출처 링크만 밑줄이 빠져 있었다 */
+.article-source a,             /* v7.0: 기사 출처도 같게(= .map figcaption) */
 .lead a {                        /* v4 검증: 제목만인 상자(Academic Mentoring →)·상자 안 줄(Paper →)의 링크도 같은 모양 */
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -1100,19 +1101,183 @@ em {
    .boxes의 align-items: start라 글 상자 높이는 글만큼 */
 .entry-files > .files { margin-top: 0; }
 
-/* v6(§2-v6): 기사 제목 탭(`묶음: 탭`) — .tabs는 .sub-body(flex column gap 24)의 직속 자식이라
-   위 여백은 그 gap이 준다. 버튼 규격은 위 칩(.subnav a, .tab) 목록에 있다 */
-.tablist {
+/* ─────────────────────────────────────────────  12-v7.0. 기사 — 카드 + 「기사 보기」 펼침 (§2-v7.0 P)
+   v6의 탭(.tabs·.tablist·.tabpanel)을 대체한다. 카드·패널은 본문 상자라 hover 들림·누름이 없다(v6.2: 들림은 홈 카드뿐).
+   패널은 격자의 한 줄을 통째로 차지하고 grid-auto-flow: dense가 열린 카드가 있는 줄 바로 아래에 놓는다 —
+   JS로 DOM을 옮기지 않는다 */
+.press-grid {
+  display: grid;
+  /* ≤833: 390·412는 1열, 그 위는 들어가는 만큼. ≥834의 고정 360 열은 §15 */
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  grid-auto-flow: row dense;
+  gap: var(--s-20);
+  align-items: stretch;
+}
+
+/* 카드 — 빌더가 class="entry press-card"라 상자 규격은 .entry에서 온다.
+   한 줄 안 카드 높이를 같게 하려고 버튼을 맨 아래 가운데로 민다. 카드 전체 클릭은 넣지 않는다(cursor 없음) */
+.press-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-12);
+  text-align: center;
+}
+.press-card > .press-btn {
+  margin-top: auto;
+  align-self: center;
+}
+
+/* 미리 보기 — .file-thumb과 같은 모양이되 폭은 카드에 맞춘다(카드 안 유일한 그림) */
+.press-thumb {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--r-8);
+  background: var(--surface-2);
+}
+
+/* 버튼 글 — 닫힘·열림 두 벌 중 하나만. 안에 언어 span이 들어 있어 이쪽은 display만 바꾼다 */
+.press-btn .when-open { display: none; }
+.press-btn[aria-expanded="true"] .when-closed { display: none; }
+.press-btn[aria-expanded="true"] .when-open { display: inline; }
+
+/* 패널 — 줄 전체를 차지하고 읽기 열(760) 폭으로 가운데.
+   fade는 opacity만이라 「동작 줄이기」에서도 그대로 둔다(§18) */
+.press-panel {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, var(--article-w));
+  text-align: left;
+  animation: fade var(--dur) var(--ease-out) both;
+}
+
+/* 한국어 화면 — 기사 그림 그대로(누르면 원본이 새 탭). ↗는 붙이지 않는다(그림 아래에 혼자 찍힌다) */
+.press-scan { display: block; }
+.press-scan img {
+  width: 100%;
+  border-radius: var(--r-8);
+}
+
+/* 패널 발 — 출처와 닫기 */
+.press-foot {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--s-8);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-12);
+  clear: both;                   /* 영어 조판의 float 그림이 남아 있으면 그 아래로 */
+  margin-top: var(--s-24);
+  padding-top: var(--s-16);
+  border-top: 1px solid var(--line-soft);
 }
-/* 인접 형제(.tablist + .tabpanel)는 첫 패널이 hidden이면 둘째 패널에 안 붙는다 → 자식 전부에 */
-.tabs > .tabpanel { margin-top: var(--s-16); }
-/* 패널 글은 어느 절에서나 왼쪽. `.view-center .entry-plain .entry-lines`(0,3,0)를 이기려면
-   같은 특이성이 필요하다 — 명세의 `.tabpanel .entry-lines`(0,2,0)는 뒤에 두어도 진다 */
-.tabpanel.entry-plain .entry-lines { text-align: left; }
+/* 앱의 설명문이 아니라 자료의 출처다 — .map > figcaption과 같은 규격
+   (그 블록의 margin-top 8은 발 상자의 flex 정렬을 흔들어 빼고 나머지 셋만) */
+.article-source {
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+/* ── 영어 조판(article.article) — 원문의 순서를 따르는 1단 흐름. 다단·드롭캡·세리프·기사의 색 없음 */
+.article-mast {
+  padding-bottom: var(--s-20);
+  border-bottom: 1px solid var(--line-soft);
+  text-align: center;
+}
+.article-mast > span { display: block; }
+.article-kicker {
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.article-media {
+  font-size: var(--text-h1);
+  font-weight: 500;
+  letter-spacing: .04em;
+}
+.article-date {
+  font-size: var(--text-small);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.article-title {
+  margin: var(--s-24) 0 var(--s-8);
+  font-size: var(--text-h2);
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: center;
+  text-wrap: balance;
+}
+.article p {
+  margin-top: var(--s-16);
+  font-size: var(--text-md);
+  line-height: 1.7;
+  color: var(--ink);
+  text-align: justify;           /* v7.0 2026-09-22 사용자: 기사 본문도 양쪽 정렬(홈 소개글 v6.6과 같은 예외) */
+  -webkit-hyphens: auto;
+  hyphens: auto;                 /* 영어(article[lang=en]) — 낱말 간격이 벌어지지 않게 */
+  text-wrap: pretty;
+}
+/* 그림 — 기본(≤833)은 float 없이 가운데, 원본 픽셀보다 크게 늘리지 않는다.
+   ≥834의 float·--fig-w는 §15. --fig-w·--fig-px는 빌더가 figure에 인라인으로 준다 */
+.article figure {
+  width: min(100%, var(--fig-px));
+  max-width: var(--fig-px);      /* v7.0(Codex Q): >=834 의 width:var(--fig-w)(%)가 원본 픽셀을 넘지 않게 */
+  margin: var(--s-16) auto 0;
+}
+.article figure img {
+  width: 100%;
+  border-radius: var(--r-8);
+}
+.article figcaption {
+  margin-top: var(--s-8);
+  font-size: var(--text-small);
+  color: var(--ink-2);
+  text-align: center;
+}
+.article-quote {
+  padding-top: var(--s-24);
+  border-top: 1px solid var(--line-soft);
+  font-size: var(--text-h3);
+  color: var(--ink-2);
+  text-align: center;
+  text-wrap: balance;
+}
+.article-quote > cite {
+  display: block;
+  margin-top: var(--s-8);
+  font-size: var(--text-small);
+  font-style: normal;            /* cite 기본 기울임 해제 — 기울임은 *…*(em)에만 */
+  color: var(--ink-3);
+}
+/* 메모지 머리줄 — 상자를 만들지 않는다(상자 안 상자 금지) */
+.article-sub {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-4) var(--s-16);
+  margin-top: var(--s-24);
+  margin-bottom: 0;              /* v7.0(Codex Q): h5 - 1절 여백 초기화 목록(h1,h2,h3)에 없어 UA 1.67em 이 남는다 */
+  padding-bottom: var(--s-8);
+  border-bottom: 1px solid var(--line-soft);
+  font-size: var(--text-ui);
+  font-weight: 500;
+}
+.article-rule {
+  clear: both;                   /* 구분선은 앞 절의 float 아래로 — 가로지르면 절이 섞여 보인다 */
+  margin: var(--s-24) 0;
+  border: 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+/* ≤833: 기사 그림은 상자 패딩을 뚫고 전폭 — 390에서 그림 속 글자가 조금이라도 크게.
+   기본 규칙 뒤에 둔다(mobile-first: 같은 무게면 뒤가 이긴다) */
+@media (max-width: 833px) {
+  .press-panel > .press-scan { margin: calc(var(--s-16) * -1) calc(var(--s-20) * -1) 0; }
+  .press-panel > .press-scan img { border-radius: var(--r-12) var(--r-12) var(--r-8) var(--r-8); }
+}
 
 /* group */
 .group-title {
@@ -1136,6 +1301,32 @@ em {
   font-variant-numeric: tabular-nums lining-nums;
 }
 .sub-body.timeline > .group > .plain { margin-top: var(--s-10); }
+/* v7.0(§2-v7.0 J — R7): 항목 사이(6)가 줄바꿈 줄 사이(≈8)보다 좁아 어디까지가 한 항목인지 안 보였다.
+   간격 6 → 10 + 항목마다 4px 점. ul.plain의 left(상자 left + 20 + --year-col + 20)는 그대로이고 글 시작만 +16.
+   세로 축·항목 사이 헤어라인은 넣지 않는다(세로선 자제) */
+.sub-body.timeline > .group > .plain { gap: var(--s-10); }
+.sub-body.timeline > .group > .plain > li {
+  position: relative;
+  padding-left: var(--s-16);
+}
+/* 점은 첫 줄의 세로 가운데 — .775em = 행 높이 1.55em 의 절반. 파랑이 아니라 가장 흐린 --ink-3 */
+.sub-body.timeline > .group > .plain > li:not(.visits)::before {
+  content: "";
+  position: absolute;
+  left: var(--s-2);
+  top: calc(.775em - var(--s-2));
+  width: var(--s-4);
+  height: var(--s-4);
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+/* 방문 국가 줄(R6) — 점 없음(국기가 표식), 라벨("Visited:") 없음 */
+.visits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-6) var(--s-16);
+  color: var(--ink-2);
+}
 
 /* 사진 (§5) — v3: aspect-ratio·crop 삭제, 원본 비율 */
 .photos {
@@ -1288,6 +1479,10 @@ html[data-theme="dark"] .dot { background: var(--accent-ink); }
   color: var(--ink-2);
   transition: color var(--ease);
 }
+/* v7.0(§2-v7.0 F·D5): `정렬: 가운데` 절(Awards)에도 PDF 카드가 놓인다 — 카드도 가운데 */
+.view-center .files { justify-content: center; }
+.view-center .file-card { align-items: center; }
+
 .file-thumb {
   display: block;
   width: auto;                   /* 원본 비율 — 높이 상한만 두고 폭이 모자라면 같이 줄어든다 */
@@ -1322,9 +1517,11 @@ html[data-theme="dark"] .dot { background: var(--accent-ink); }
 }
 
 /* 외부 링크 ↗ — 아이콘 링크(.ctl)·홈 카드·파일 카드에는 붙이지 않는다 (§2)
+   v7.0(§2-v7.0 A·P): a.has-arrow(↗가 제목 괄호 안 span.arrow로 들어간 링크)와
+   a.press-scan(기사 그림 링크 — 그림 아래에 ↗가 혼자 찍힌다)도 뺀다
    v5(§2-v5): :not(.file-card) 추가. 파일 카드의 ↗는 이름 끝(.file-name::after)에 붙는다 —
    별도 `a.file-card::after { content: none }`은 (0,1,2)라 이 규칙(0,3,2)을 못 이겨 여기서 뺐다 */
-a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
+a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card):not(.has-arrow):not(.press-scan)::after {
   /* v6.9: 앞의 U+2060 WORD JOINER가 ↗를 바로 앞 낱말에 묶는다 —
      줄 끝 여백이 ↗ 폭(19px)보다 모자라면 ↗만 다음 줄로 떨어지던 것(St. John's 390 ko, 남은 폭 10.6px).
      U+2060은 폭 0의 Default_Ignorable 문자라 글꼴에 없어도 눈에 보이는 변화가 없다(실측: 293,136개 요소 중 이동 2개=대상 자신) */
@@ -1335,11 +1532,16 @@ a[rel~="noopener"]:not(.ctl):not(.card):not(.file-card)::after {
   text-decoration: none;
 }
 
-/* v6(§2-v6): 내부 링크(Paper · Academic Mentoring)도 외부와 같은 ↗ — v5의 → 폐기 */
-.entry-title a[href^="#"]::after,
+/* v6(§2-v6): 내부 링크(Paper · Academic Mentoring)도 외부와 같은 ↗ — v5의 → 폐기
+   v7.0(§2-v7.0 A): 괄호 묶음이 있는 제목 링크는 빌더가 ↗를 빈 span.arrow로 괄호 **안**에 넣는다.
+   (≥834의 .paren은 inline-block이라 안에서 줄바꿈되면 a::after의 ↗가 들어갈 자리가 0 — GTQ 834·900 고아 2건.)
+   그 앵커는 a.has-arrow라 ::after 규칙에서 빼고 span.arrow가 같은 선언으로 대신 그린다.
+   **범위는 반드시 .entry-title 안** — .menu-head .arrow(드롭다운 → 12개)가 같은 이름의 다른 요소다 */
+.entry-title a[href^="#"]:not(.has-arrow)::after,
 .entry-lines a[href^="#"]::after,
 .plain a[href^="#"]::after,
-.lead a[href^="#"]::after {
+.lead a[href^="#"]::after,
+.entry-title .arrow::after {
   content: "\2060↗";   /* v6.9: 외부 ↗와 같은 WORD JOINER(위 규칙 주석 참고) */
   margin-left: var(--s-4);
   font-size: var(--text-caption);
@@ -1430,7 +1632,7 @@ a.card:active { transform: scale(.985); }
   .nav-btn:hover,
   .ctl:hover,
   .subnav a:hover,
-  .tab:hover,
+  .press-btn:hover,
   .crumb a:hover,
   .video-fallback:hover,           /* v5: 밑줄·파랑 없는 링크는 글자색만 (§2) */
   .footer-head:hover,
@@ -1442,7 +1644,7 @@ a.card:active { transform: scale(.985); }
   .contact-menu .mail-list a:hover,
   .lang-menu button:hover { background: var(--surface-2); color: var(--ink); }
 
-  /* v6.2(2026-09-18 사용자): 들림은 이동하는 홈 카드만. 본문 상자(entry·group.card·timeline·tabpanel)는 hover 없음 —
+  /* v6.2(2026-09-18 사용자): 들림은 이동하는 홈 카드만. 본문 상자(entry·group.card·timeline·press-card·press-panel)는 hover 없음 —
      v6.1의 "상자 전부 들림"은 아래 가장자리 진동(1초 15회)과 큰 글 상자의 재래스터 번쩍임을 만들었다 */
   a.card:hover {
     box-shadow: var(--shadow-md);
@@ -1528,6 +1730,25 @@ a.card:active { transform: scale(.985); }
   .sub-body.timeline > .group > .group-title { align-self: center; }
   .sub-body.timeline > .group > .plain { margin-top: 0; }
 
+  /* v7.0(§2-v7.0 P): 기사 격자는 **고정 360 열** — auto-fit 하나로 두면 패널을 펼칠 때
+     카드가 190px 옆으로 밀린다(시안 실측). 기사 2개면 2열 가운데 */
+  .press-grid {
+    grid-template-columns: repeat(2, minmax(0, 360px));
+    justify-content: center;
+  }
+  .press-grid[data-cols="1"] { grid-template-columns: minmax(0, 360px); }
+
+  /* 영어 조판 그림 — 폭은 원문에서의 비율(--fig-w). 표시가 있으면 글이 옆으로 흐른다 */
+  .article figure { width: var(--fig-w); }
+  .article .fig-right {
+    float: right;
+    margin: 0 0 var(--s-12) var(--s-24);
+  }
+  .article .fig-left {
+    float: left;
+    margin: 0 var(--s-24) var(--s-12) 0;
+  }
+
   .photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* 세로 사진 1 + 가로 2: 왼쪽이 두 행을 차지한다(§5) */
   .photos.tall-left {
@@ -1583,6 +1804,9 @@ a.card:active { transform: scale(.985); }
   .photos.tall-left { grid-template-columns: var(--photo-cols, 1fr 1fr); }
 
   .footer-nav { grid-template-columns: repeat(6, auto); }   /* v4: auto + space-between */
+
+  /* v7.0(§2-v7.0 P): 기사 3개 이상은 ≥1200에서만 3열 */
+  .press-grid[data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 360px)); }
 }
 
 /* ─────────────────────────────────────────────  17. JS 없음 (§3)
@@ -1609,10 +1833,17 @@ html:not([data-view]) .site-header { position: static; }
    대신 숨겼던 하위 제목을 되돌려 목차 구실을 하게 한다 */
 html:not([data-view]) .crumb { display: none; }
 
-/* v6(§2-v6): JS가 없으면 탭을 누를 수 없다 — 패널을 전부 펼치고 탭 줄을 숨긴다.
-   [hidden]의 display:none은 !important(§3)라 같은 무게로만 덮을 수 있다 */
-html:not([data-view]) .tabpanel[hidden] { display: block !important; }
-html:not([data-view]) .tablist { display: none; }
+/* v7.0(§2-v7.0 P): JS가 없으면 「기사 보기」를 누를 수 없다 — 패널을 전부 펼치고 버튼을 숨긴다.
+   [hidden]의 display:none은 !important(§3)라 같은 무게로만 덮을 수 있다.
+   격자를 풀어 DOM 순서(카드 → 그 기사 → 다음 카드)대로 흐르게 한다 */
+html:not([data-view]) .press-panel[hidden] { display: block !important; }
+html:not([data-view]) .press-btn { display: none; }
+html:not([data-view]) .press-grid { display: block; }
+html:not([data-view]) .press-card,
+html:not([data-view]) .press-panel {
+  width: auto;
+  margin-bottom: var(--s-20);
+}
 html:not([data-view]) .sub-title {
   position: static;
   width: auto;
@@ -1651,7 +1882,8 @@ html:not([data-view]) .sub-title {
 
   /* 캐럿 회전은 남기되 즉시 */
   .nav-btn .icon-caret,
-  .lang-btn .icon-caret { transition-duration: 0s; }
+  .lang-btn .icon-caret,
+  .press-btn .icon-caret { transition-duration: 0s; }
 
   /* v6.2: 누름(scale ≤ 3%, 120ms)은 "눌렸다"는 응답이라 reduce에서도 남긴다 — 이 PC는 Windows 설정 때문에 늘 reduce인데
      사용자가 누름을 원했다(v6.1까지는 전부 none). 이동인 hover 들림만 끈다(그림자 변화는 남는다) */
@@ -1669,12 +1901,19 @@ html:not([data-view]) .sub-title {
   .disclosure,
   .skip,
   .crumb,          /* v4: 절이 전부 펼쳐지므로 현재 하위 표시는 뜻이 없다 */
-  .tablist,        /* v6: 인쇄에서는 탭 패널을 전부 펼치므로 탭 줄이 뜻이 없다 */
+  .press-btn,      /* v7.0: 인쇄에서는 기사 패널을 전부 펼치므로 「기사 보기」·「닫기」가 뜻이 없다 */
   .brand .icon-home,   /* v6.7: 종이에서는 누를 수 없다 — 이름만 */
   .subnav { display: none; }
 
-  /* v6(§2-v6): [hidden]의 display:none이 !important(§3)라 같은 무게로 덮는다 */
-  .tabpanel[hidden] { display: block !important; }
+  /* v6(§2-v6): [hidden]의 display:none이 !important(§3)라 같은 무게로 덮는다
+     v7.0(§2-v7.0 P): 탭 패널 → 기사 패널. 격자를 풀어 「카드 → 그 기사」 순서로 흐르게 한다 */
+  .press-panel[hidden] { display: block !important; }
+  .press-grid { display: block; }
+  .press-card,
+  .press-panel {
+    width: auto;
+    margin-bottom: var(--s-20);
+  }
   .footer-col ul { display: grid; }   /* v6: 인쇄는 사이트맵 전부 */
 
   html[data-view] main#main .view,
@@ -1694,6 +1933,7 @@ html:not([data-view]) .sub-title {
   /* v4: 인쇄에는 애니메이션이 없다 — rise가 both로 멈춘 상태에 걸리면 흐리게 찍힌다 */
   .view,
   .sub,
+  .press-panel,   /* v7.0(Codex P.Q 공통): fade both 가 멈춘 상태에 걸리면 기사 패널이 흐리게 찍힌다 */
   .dot { animation: none; }
 
   .site-header {

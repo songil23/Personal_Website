@@ -31,16 +31,37 @@
 !/images/flags/th.svg
 !/images/flags/us.svg
 !/images/flags/vn.svg
+!/images/press/
+!/images/press/global-scholar-2026.jpg
+!/images/press/global-scholar-2026_fig1.webp
+!/images/press/global-scholar-2026_fig2.webp
+!/images/press/global-scholar-2026_fig3.webp
+!/images/press/global-scholar-2026_fig4.webp
+!/images/press/global-scholar-2026_thumb.webp
+!/images/press/love-letter-2022.webp
+!/images/press/love-letter-2022_fig1.webp
+!/images/press/love-letter-2022_fig2.webp
+!/images/press/love-letter-2022_fig3.webp
+!/images/press/love-letter-2022_thumb.webp
 !/images/pdf/
-!/images/pdf/Results Presentation Deck_EcoStep_SEF-25-6.webp
-!/images/pdf/Sample.webp
-!/images/pdf/SEF 2025_X Banner_EcoStep.webp
+!/images/pdf/EcoStep - SEF 2025 Results Presentation.webp
+!/images/pdf/EcoStep - SEF 2025 X Banner.webp
+!/images/pdf/Middle and High School Awards (2017-2022).webp
+!/images/pdf/Narrowing the Attitude-Behavior Gap - EcoStep (IGEE Proceedings 2026).webp
+!/images/pdf/Presentation Design Samples.webp
+!/images/pdf/Volunteer Activity Record (1365 Portal, 2023-2025).webp
+!/images/pdf/Yonsei Social Entrepreneurship Award.webp
 !/pdf/
-!/pdf/Results Presentation Deck_EcoStep_SEF-25-6.pdf
-!/pdf/Sample.pdf
-!/pdf/SEF 2025_X Banner_EcoStep.pdf
+!/pdf/EcoStep - SEF 2025 Results Presentation.pdf
+!/pdf/EcoStep - SEF 2025 X Banner.pdf
+!/pdf/Middle and High School Awards (2017-2022).pdf
+!/pdf/Narrowing the Attitude-Behavior Gap - EcoStep (IGEE Proceedings 2026).pdf
+!/pdf/Presentation Design Samples.pdf
+!/pdf/Volunteer Activity Record (1365 Portal, 2023-2025).pdf
+!/pdf/Yonsei Social Entrepreneurship Award.pdf
 # <!-- 2026-09-17 codex: allow only reviewed public deployment files -->
 # <!-- 2026-09-17 codex: include the user-selected social preview photo -->
 # <!-- 2026-09-17 claude v6: 대표 사진 원본(3.4 MB)은 원본/공유/로, 공개는 빌더가 만든 og.jpg(1200×630)만 -->
 # <!-- 2026-09-18 claude v6.1: 사진·썸네일 WebP, 지도 무손실 WebP, 글꼴은 서브셋(같은 이름) -->
 # <!-- 2026-09-19 claude v6.4: 사진은 원본 해상도·무손실 — JPEG 원본은 확장자 그대로, PNG만 .webp -->
+# <!-- 2026-09-22 claude v7.0: PDF·썸네일은 영어 게시 이름(`_공개용` 원본), 옛 이름 6줄 제거; 기사 스캔·그림 images/press/ 11 -->

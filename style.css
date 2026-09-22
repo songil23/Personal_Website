@@ -106,7 +106,9 @@
   --hero-photo-sm: 160px;         /* 추가(§4): ≤833 홈 사진 폭 */
   --year-col: 220px;              /* v6(§2-v6): 상자 안 내용을 오른쪽으로. v6.9 주석 정정 — 실제 값은
                                      ≤833 미사용(타임라인이 격자가 아니다) · 834~1199 180(§15) · ≥1200 220(§16). v6의 260/200은 v6.1에서 내려갔다 */
-  --dot: 6px;                     /* v5(§2-v5): 8 → 6. 링 없음은 v4 그대로 */
+  --dot: 6px;                     /* v5(§2-v5): 8 → 6. 링 없음은 v4 그대로.
+                                     v7.1(2026-09-22 사용자 "모바일에서 점이 좀 크게 보인다"): 이제 고정값이 아니라 상한값이다 —
+                                     점은 지도 폭의 0.5%(1440에서 지도 1200px 실측 × 0.5% = 6px — 지금과 같다), 하한 3px */
   --tw-dur-default: 2.4s;         /* v4(§5): 빌더가 --tw-dur를 못 준 점의 기본 반짝임 주기 */
   --flag-w: 20px;                 /* 추가(§5) */
   --flag-h: 15px;                 /* 추가(§5) */
@@ -1026,8 +1028,11 @@ em {
 /* v5(§2-v5): `배치: 등분` — 폭을 등분하고 높이까지 맞춘다(Volunteering 두 상자) */
 /* v6.1(2026-09-18 사용자): `배치: 등분`은 폭만 같게 — 높이는 글자에 맞춘다(v5의 stretch 삭제. 제목만인 Academic Mentoring 상자가 옆 상자만큼 늘어나 비어 보였다) */
 .boxes[data-equal] { align-items: start; }
+/* v7.1(css3, 2026-09-22 사용자 「치우침」): ≤833 대륙 상자를 등폭으로.
+   auto 트랙은 글 길이가 폭을 정해 한 행 안 최대 차가 108.8px였다(412 en).
+   ≥834의 3열·6열 규칙은 아래 미디어 블록 그대로(손대지 않음). */
 .boxes[data-cols="5"],
-.boxes[data-cols="6"] { grid-template-columns: repeat(2, auto); }
+.boxes[data-cols="6"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 /* entry — 상자 (§2 규격: --surface + 1px --line + --r-12 + --shadow-sm + 패딩 16 20)
    v5(§2-v5): Journey(.sub-body.timeline) 전체도 같은 상자 하나 — 선언을 복제하지 않고 목록에 더한다.
@@ -1083,6 +1088,9 @@ em {
 .entry-plain > .entry-lines { margin-top: 0; }
 /* v5(§2-v5): `정렬: 가운데` 절(Awards & Press)만 상자 안 글도 가운데 */
 .view-center .entry-plain .entry-lines { text-align: center; }
+/* v7.1(§2-v7.1 V-2): `정렬: 설명 가운데`(### 아래) — 그 하위의 `>` 상자 글만 가운데.
+   상자 폭·패딩·등분 상자는 그대로, text-wrap: pretty 상속도 그대로 */
+.entry-plain.lines-center > .entry-lines { text-align: center; }
 
 /* 사진 있는 항목 — 전체 폭, ≥834에서 글 | 사진 */
 .entry.has-photo { display: block; }
@@ -1252,6 +1260,22 @@ em {
   font-style: normal;            /* cite 기본 기울임 해제 — 기울임은 *…*(em)에만 */
   color: var(--ink-3);
 }
+/* v7.1(§2-v7.1 L): 기사 도입부 — [제목·인용 | 삽화 1·2]. ≤833은 세로(글 위·삽화 아래).
+   테두리·배경·그림자·hover 없음(상자 안 상자 금지). 새 색·모션 0 */
+.article-lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-20);
+  margin-bottom: var(--s-24);
+}
+.lead-figs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-16);
+}
+.article-lead .article-title,                    /* 도입 안에서는 위 여백이 mast gap과 겹친다 */
+.article-lead .article-quote { margin-top: 0; }
+.article-lead figure { margin-top: 0; }          /* 명세에 없는 값 — .article figure의 margin-top 16이 .lead-figs의 gap 16에 더해진다(실측 32) */
 /* 메모지 머리줄 — 상자를 만들지 않는다(상자 안 상자 금지) */
 .article-sub {
   display: flex;
@@ -1428,8 +1452,12 @@ em {
 }
 .dot {
   position: absolute;
-  width: var(--dot);
-  height: var(--dot);
+  /* v7.1: 지도 폭에 비례 — %는 위치 기준 상자(.map-img) 폭을 따른다.
+     1440 지도 1200px × 0.5% = 6px(= 예전 고정값), 834 760.6px → 3.8px, 390 350px → 하한 3px.
+     height는 aspect-ratio가 정사각으로 맞춘다 */
+  width: clamp(3px, 0.5%, var(--dot));
+  height: auto;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   background: var(--accent);
   transform: translate(-50%, -50%);
@@ -1483,6 +1511,22 @@ html[data-theme="dark"] .dot { background: var(--accent-ink); }
 .view-center .files { justify-content: center; }
 .view-center .file-card { align-items: center; }
 
+/* v7.1(§2-v7.1 F-2): 자료 카드 격자 — 미리보기 + 제목. 카드 알맹이(.file-card)는 그대로 쓰고 격자만 새로 만든다.
+   ≤833: 2열 — A4 썸네일(141×200)이 390의 165px 칸에 들어간다(1열이면 오른쪽 209px가 빈다) */
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-20);
+  align-items: start;
+}
+.files-grid[data-cols="1"] { grid-template-columns: minmax(0, 1fr); }
+.files-grid .file-card { align-items: center; text-align: center; }   /* 격자 칸 안에서 가운데(.files의 flex-start를 덮는다) */
+@media (min-width: 834px) {
+  .files-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }   /* 가로 최대 3(사용자 요구) */
+  .files-grid[data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .files-grid[data-cols="1"] { grid-template-columns: minmax(0, 1fr); }
+}
+
 .file-thumb {
   display: block;
   width: auto;                   /* 원본 비율 — 높이 상한만 두고 폭이 모자라면 같이 줄어든다 */
@@ -1493,6 +1537,21 @@ html[data-theme="dark"] .dot { background: var(--accent-ink); }
   border-radius: var(--r-8);
   background: var(--surface-2);
 }
+/* v7.1(css3, 2026-09-22 사용자 「통일감 없음」): 격자 안 미리보기는 칸 크기로 통일한다.
+   가로형(1699×1200)·세로형(1200×1698)이 섮여 행 높이가 165~289px로 들육날드하던 것.
+   height가 확정값이라 그림이 늦게 와도 칸이 미리 잡혔다(자리 예약 — 스크롤 중 튀지 않는다).
+   contain이라 원본 비율 그대로 — 잘리지도 늘어나지도 않고, 남는 자리는 상자 배경(--surface-2)이 메운다.
+   높이는 새 토큰 없이 기존 --file-h(200px, v5 미리보기 상한) 그대로 — A4 세로 141.4×200이 지금과 같다.
+   .files-grid 밖의 .file-card(Awards·PPT·분리 상자)는 이 규칙에 닿지 않는다. */
+.files-grid .file-thumb {
+  width: 100%;
+  height: var(--file-h);
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+}
+/* v7.1: 좁은 열에서 공백 없는 긴 파일 이름이 칸을 넘지 않게 */
+.file-name { overflow-wrap: anywhere; }
 .file-name::after {
   content: "↗";                  /* 외부 링크 ↗ — 카드가 아니라 이름 끝에 (아래 규칙에서 카드는 뺐다) */
   margin-left: var(--s-4);
@@ -1714,11 +1773,30 @@ a.card:active { transform: scale(.985); }
   .entry.has-file > .files { margin-top: 0; }        /* 2열에서는 gap 20이 대신한다 */
   /* v6(§2-v6): PPT [글 상자 | 자료 상자] — 자료 상자 열은 카드 폭(max-content), 글 상자가 나머지.
      repeat(2, auto)면 두 상자가 남는 폭을 나눠 가져 자료 상자 오른쪽이 비어 보였다(2026-09-17 1440 실측: 카드 352 / 상자 520) */
-  .boxes[data-cols="2"]:has(> .entry-files) { grid-template-columns: minmax(0, 1fr) max-content; }
+  /* v7.1(css5, 2026-09-22): 글 열 하한이 0이라 자료 열의 max-content(긴 PDF 이름 505.1px)가
+     먼저 폭을 가져가고 글 상자가 834에서 235.6px로 눌려 글자가 상자 밖으로 샜다(834 en 84.4px).
+     Grid 자동 최소 크기는 최소 트랙 함수가 auto일 때만 적용돼 minmax(0,...)에서는 0이었다.
+     글 열 하한 = min-content(글자가 넘치지 않는 최소 폭), 자료 열은 모자랄 때만 줄어들게 minmax(0, max-content).
+     여유가 있으면(>=1000) 트랙 값이 전과 소수점까지 같다 — PowerPoint 배치(v6 승인)는 7폭 전부 그대로. */
+  .boxes[data-cols="2"]:has(> .entry-files) { grid-template-columns: minmax(min-content, 1fr) minmax(0, max-content); }
+  /* v7.1(2026-09-22 사용자 "상장을 그 밑에 나열"): 자료 카드가 둘 이상이면 max-content 열이
+     글 열을 누른다(834 실측 글 열 155px — 모든 줄이 3~5줄로 쪼개졌다) → 자료 상자를 아래 전폭으로.
+     카드 1장인 PowerPoint 배치(v6 승인)는 위 규칙 그대로 두 열을 유지한다 */
+  .boxes[data-cols="2"]:has(> .entry-files .file-card + .file-card) {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .entry.has-file:not(:has(.entry-lines)) {
     grid-template-columns: 1fr;                      /* 제목뿐이면 카드가 아래(Related Materials) */
     gap: var(--s-10);
   }
+  /* v7.1(2026-09-22 사용자 스크린샷): 3열 묶음 안에서는 카드의 max-content(긴 PDF 이름)가
+     열 폭을 다 먹어 글 열(1fr)이 0px로 주저앉았다(1440 실측 `0px 328.06px` — 제목과 카드가 겹치고
+     글은 낱말 하나씩 세로). ≤833과 같은 모양으로 — 글 위·파일 카드 아래 */
+  .boxes[data-cols="3"] .entry.has-file {
+    grid-template-columns: 1fr;
+    gap: var(--s-10);
+  }
+  .boxes[data-cols="3"] .entry.has-file > .files { margin-top: var(--s-10); }
 
   .sub-body.timeline > .group {
     display: grid;
@@ -1748,6 +1826,22 @@ a.card:active { transform: scale(.985); }
     float: left;
     margin: 0 var(--s-24) var(--s-12) 0;
   }
+
+  /* v7.1(§2-v7.1 L): 도입부는 두 열 — 글 왼쪽·삽화 오른쪽(원본 조판). float 규칙은 도입 밖에서만 */
+  .article-lead {
+    flex-direction: row;
+    align-items: center;                         /* 표제가 삽화의 세로 가운데(원본) */
+    gap: var(--s-24);
+  }
+  .article-lead[data-fig="left"] { flex-direction: row-reverse; }
+  .lead-text {
+    flex: 1 1 0;
+    min-width: 0;                                /* 없으면 긴 영어 낱말이 열을 밀어낸다 */
+  }
+  .lead-figs { flex: 0 0 auto; }
+  /* §15의 width: var(--fig-w)를 도입 안에서 덮는다. --fig-w(%)는 도입의 그림 열(내용 폭)을
+     기준으로 풀려 원본 픽셀보다 작아지므로(454 → 191 실측) 폭은 원본 픽셀(--fig-px)로 잡는다 */
+  .article-lead figure { width: min(100%, var(--fig-px)); }
 
   .photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* 세로 사진 1 + 가로 2: 왼쪽이 두 행을 차지한다(§5) */

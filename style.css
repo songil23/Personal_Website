@@ -1101,6 +1101,11 @@ em {
 /* v7.1(§2-v7.1 V-2): `정렬: 설명 가운데`(### 아래) — 그 하위의 `>` 상자 글만 가운데.
    상자 폭·패딩·등분 상자는 그대로, text-wrap: pretty 상속도 그대로 */
 .entry-plain.lines-center > .entry-lines { text-align: center; }
+/* v7.3(2026-09-23 5차 사용자 "이 글자 자체는 중간 정렬 해주세요. 박스는 왼쪽에 유지하되"):
+   `배치: 격자`(data-cols="grid") 상자 — **상자 위치·폭은 그대로**(1440 왼쪽 첫 칸 x=120 · 폭 386.66),
+   안의 글만 가운데. 기타 탭에 상자가 더 쌓여도 같은 규칙이 되도록 격자 전체에 건다
+   (상자 종류를 새로 만들지 않는다). 제목은 다른 절과 같이 왼쪽 그대로 — `.entry-lines`만. */
+.boxes[data-cols="grid"] .entry-lines { text-align: center; }
 
 /* 사진 있는 항목 — 전체 폭, ≥834에서 글 | 사진 */
 .entry.has-photo { display: block; }
@@ -1228,12 +1233,18 @@ em {
   text-align: center;
   text-wrap: balance;
 }
+/* v7.3(2026-09-23 사용자 "기사에서 문단 시작할 때, 한 두 단어 정도 띄어쓰기 해주세요"):
+   text-indent 2.5em — 기사 2편 <p> 18개 실측(1440 en) 첫 낱말 폭 중앙값 1.89em ~ 첫 두 낱말 폭 중앙값 5.15em
+   사이에서 고른 값(측정 스크립트 임시/2026-09-23_v73_검증/측정_기사들여쓰기.mjs). text-indent는 요소의
+   첫 줄에 적용되므로 첫 문단도 자동으로 들여쓰기된다. `.article-quote`는 <blockquote>라 <p>가 아니어서
+   이 규칙이 닿지 않는다(전수 확인 — 별도 제외 불필요). */
 .article p {
   margin-top: var(--s-16);
   font-size: var(--text-md);
   line-height: 1.7;
   color: var(--ink);
   text-align: justify;           /* v7.0 2026-09-22 사용자: 기사 본문도 양쪽 정렬(홈 소개글 v6.6과 같은 예외) */
+  text-indent: 2.5em;
   -webkit-hyphens: auto;
   hyphens: auto;                 /* 영어(article[lang=en]) — 낱말 간격이 벌어지지 않게 */
   text-wrap: pretty;
@@ -1595,8 +1606,15 @@ html[data-theme="dark"] .dot { background: var(--accent-ink); }
    **카드가 아니라 이름에만** 상한을 둔다 — 썸네일이 더 넓은 카드(가로형 354px: HubSpot·X Banner·PPT)는
    그대로 두고, 이름이 상한을 넘을 때만 두세 줄로 접힌다. 짧은 이름은 변화 0.
    값은 새 토큰 없이 `--file-h`(썸네일 높이 상한 200) × 2 = 400 — 지금 이름 중 이 상한을 넘는 것은 연구 경험 논문 하나뿐(다음으로 긴 멘토링 337.6px 은 그대로).
-   `.files-grid` 9장은 칸 폭을 격자가 정하므로 여기서 뺀다(`.entry` 안쪽만). */
-.entry .file-name { max-width: calc(var(--file-h) * 2); }
+   `.files-grid` 9장은 칸 폭을 격자가 정하므로 여기서 뺀다(`.entry` 안쪽만).
+   v7.3(2026-09-23 5차 사용자 "1440 기준으로 C안이 좋습니다 … 이건 잘 몰라서 알아서 최선으로"):
+   **세로형 카드만 250**(`--file-h` × 1.25). 4차의 400은 연구 경험 한 장만 접어 상자 441 ÷ 썸네일 150 = 2.9배가
+   그대로였다 — 250이면 세로형 상자÷썸네일이 약 1.9배로 고르게 맞는다.
+   **가로형 썸네일 카드는 4차 값 400 그대로**(4차 결정 "썸네일이 더 넓은 카드는 그대로": HubSpot·EcoStep
+   Results·PPT Samples — 썸네일이 354px 라 250으로 접으면 이름이 썸네일보다 좁아진다).
+   가로/세로는 빌더가 썸네일 짧은 변을 1200으로 박는 데서 갈린다 — 가로형은 `height="1200"`, 세로형은 `width="1200"`. */
+.entry .file-name { max-width: calc(var(--file-h) * 1.25); }
+.entry .file-card:has(> .file-thumb[height="1200"]) .file-name { max-width: calc(var(--file-h) * 2); }
 .file-name::after {
   content: "↗";                  /* 외부 링크 ↗ — 카드가 아니라 이름 끝에 (아래 규칙에서 카드는 뺐다) */
   margin-left: var(--s-4);
@@ -1846,15 +1864,25 @@ a.card:active { transform: scale(.985); }
      차지하며 오른쪽에 만들던 빈 띠가 사라지고, 내용 첫 줄의 위끝이 제목 위끝과 같아진다.
      2차·3차의 `gap: 6` · `margin-top: 0`(세로로 쌓일 때의 간격)을 이 두 열 규칙이 대신한다.
      ≤833은 폭이 좁아 두 열이 겹치므로 그대로 세로(위 기본 블록의 `margin-top: 6`).
-     열 폭: 제목은 `auto`(제 글자 폭), 내용은 나머지 전부 — 내용의 가운데는 제목 폭 + 12 만큼
-     오른쪽으로 밀린다(사용자 허용 범위, 실측치는 보고서). */
+     v7.3(2026-09-23 5차 사용자 "pdf가 박스에 오른쪽에 조금 치우친 느낌 … 제목은 영역 인식 부분에서
+     제외하고 싶습니다"): 4차의 두 열 `auto minmax(0,1fr)`은 내용의 가운데를 상자 가운데보다
+     (제목 폭 + gap 12)/2 만큼 오른쪽에 두었다(실측 관련 자료 +72.99 · 링크 +26.22, 1440·1200·834 동일).
+     → **세 열 `1fr auto 1fr`**: 1열 제목(왼쪽 정렬 그대로) · 2열 내용(제 폭) · 3열 빈 칸.
+     좌우 1fr이 같으므로 **내용의 가운데 = 상자의 가운데**, 제목 잉크의 왼쪽 끝은 그대로 상자 왼쪽.
+     `min-width: min-content`는 전역 `.entry-text { min-width: 0 }`이 1열의 자동 최소를 0으로 눌러
+     제목이 열 밖으로 흘러 내용과 겹치던 것(834 en 실측 +13.99px 겹침)을 막는다.
+     `.files { grid-column: 2 }`는 제목·줄·카드가 다 있는 상자에서 카드가 3열로 새지 않게 못박는 것.
+     남는 치우침: 834 en 「관련 자료」만 +25.97(1열이 제목 min-content 71.20에 걸려 3열이 19.27로 눌린다).
+     1920·1440·1280·1200·1024·900은 en·ko 모두 0. 실측은 `임시/2026-09-23_v73_검증/보고_css_v73.md`. */
   .sub-center-body .entry:not(.entry-plain),
   .sub-center-body .entry.has-file:not(:has(.entry-lines)) {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: 1fr auto 1fr;
     gap: 0 var(--s-12);
     align-items: start;
   }
+  .sub-center-body .entry > .entry-text { min-width: min-content; }
+  .sub-center-body .entry > .files { grid-column: 2; }
   .sub-center-body .entry:not(.entry-plain) > .entry-lines,
   .sub-center-body .entry.has-file > .files { margin-top: 0; }
   /* v7.1(2026-09-22 사용자 스크린샷): 3열 묶음 안에서는 카드의 max-content(긴 PDF 이름)가

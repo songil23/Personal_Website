@@ -384,8 +384,16 @@
       if (!ok) throw new Error('copy failed');
     });
   }
-  all('.copy[data-copy]').forEach(function (b) {
+  all('.copy[data-copy]').forEach(function (b, i) {
     var timer = 0;
+    // v7.5(C05, 2026-09-27 Codex 종합검토): 이름 = 「Copy/복사」 + 옆 주소 — 버튼 목록에서 넷이 구별된다. 화면 변화 없음.
+    //   .sr 안의 숨은 언어 span(display:none)은 이름 계산에서 빠지므로 언어 전환에도 맞는다
+    var name = one('.sr', b), mail = b.previousElementSibling;
+    if (name && mail && mail.tagName === 'A' && !b.hasAttribute('aria-labelledby')) {
+      if (!name.id) name.id = 'copy-name-' + i;
+      if (!mail.id) mail.id = 'copy-mail-' + i;
+      b.setAttribute('aria-labelledby', name.id + ' ' + mail.id);
+    }
     b.addEventListener('click', function () {
       writeClipboard(b.getAttribute('data-copy') || '', b).then(function () {
         b.classList.add('is-done');

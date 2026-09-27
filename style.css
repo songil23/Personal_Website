@@ -2165,6 +2165,9 @@ html:not([data-view]) .sub-title {
     align-items: start;
     padding-block: var(--s-16);
   }
+  /* v7.5(R08, 2026-09-27 Codex 종합검토): 팝업을 **연 채** 인쇄해도 찍히게 — 열린 팝업에는 [hidden]이 없어
+     위 `.menu { display:none }`에 가려 메일 0/4였다(390·834·1440 × 한/영 × 두 테마 실측). 화면 규칙은 그대로 */
+  .contact-menu,
   .contact-menu[hidden] {
     display: block !important;     /* [hidden]의 display:none이 !important(§3)라 같은 무게로 덮는다 */
     position: static;
@@ -2188,6 +2191,8 @@ html:not([data-view]) .sub-title {
   .card,
   .entry,
   .group.card,
+  .sub-body.timeline,                          /* v7.5(R10): 연혁 상자 — 목록에서 빠져 인쇄에 그림자 두 겹이 남았다 */
+  .photos.tall-left > .photo > figcaption,     /* v7.5(R10 같은 원인): 사진 위 캡션 배지 */
   .photo > img,
   .hero-photo { box-shadow: none; }
 

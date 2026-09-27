@@ -1110,6 +1110,7 @@ em {
 /* 사진 있는 항목 — 전체 폭, ≥834에서 글 | 사진 */
 .entry.has-photo { display: block; }
 .entry-text { min-width: 0; }
+.entry.has-photo > .photo { margin-top: var(--s-10); }   /* 2026-09-28(§2-v7.6, Codex Z1-24): 1열로 쌓일 때만 — ≥834 grid에서는 gap 20이 대신한다(.has-file > .files와 같은 문법). 전에는 0이라 제목 링크 밑줄이 사진에 닿았다 */
 .entry.has-photo .photo > img {
   border-radius: var(--r-8);     /* 상자 안 사진은 8 (§1) */
   box-shadow: none;              /* 상자 안 상자 느낌을 내지 않는다 */
@@ -1243,7 +1244,7 @@ em {
   font-size: var(--text-md);
   line-height: 1.7;
   color: var(--ink);
-  text-align: justify;           /* v7.0 2026-09-22 사용자: 기사 본문도 양쪽 정렬(홈 소개글 v6.6과 같은 예외) */
+  text-align: justify;           /* v7.0 2026-09-22 사용자: 기사 본문도 양쪽 정렬(홈 소개글 v6.6과 같은 예외). ≥834만 — ≤833은 아래 미디어 블록에서 left(§2-v7.6) */
   text-indent: 2.5em;
   -webkit-hyphens: auto;
   hyphens: auto;                 /* 영어(article[lang=en]) — 낱말 간격이 벌어지지 않게 */
@@ -1267,6 +1268,7 @@ em {
   text-align: center;
 }
 .article-quote {
+  margin-top: var(--s-24);        /* 2026-09-28(§2-v7.6, Codex Z1-29): 위 테두리가 앞 문단에 붙어(간격 0) 그 문단의 밑줄처럼 보였다 — 구분선(.article-rule)과 같은 위 24 */
   padding-top: var(--s-24);
   border-top: 1px solid var(--line-soft);
   font-size: var(--text-h3);
@@ -1320,11 +1322,17 @@ em {
   border-top: 1px solid var(--line-soft);
 }
 
+/* 2026-09-28(§2-v7.6, Codex Z1-28): 구분선 바로 뒤 인용문 — 인용문 위 테두리가 구분선과 24px 떨어져 가로선이 두 줄이었다.
+   선은 구분선 하나로, 선–글 간격은 구분선 margin 24(인용문 margin-top 24와 겹쳐 24)가 대신한다 */
+.article-rule + .article-quote { border-top: 0; padding-top: 0; }
+
 /* ≤833: 기사 그림은 상자 패딩을 뚫고 전폭 — 390에서 그림 속 글자가 조금이라도 크게.
    기본 규칙 뒤에 둔다(mobile-first: 같은 무게면 뒤가 이긴다) */
 @media (max-width: 833px) {
   .press-panel > .press-scan { margin: calc(var(--s-16) * -1) calc(var(--s-20) * -1) 0; }
   .press-panel > .press-scan img { border-radius: var(--r-12) var(--r-12) var(--r-8) var(--r-8); }
+  /* 2026-09-28(§2-v7.6): justify가 좁은 열에서 낱말 간격을 벌렸다 — 390 공백 2배↑ 줄 45/90·60/138 → left 주입 0(임시/2026-09-27_종합수정/측정_기사간격.md). indent·hyphens·margin 그대로 */
+  .article p { text-align: left; }
 }
 
 /* group */
@@ -1832,6 +1840,7 @@ a.card:active { transform: scale(.985); }
     align-items: start;
   }
   .entry.has-photo:not(:has(.entry-lines)) { grid-template-columns: 1fr; }   /* v3 검증: 제목뿐이면 왼쪽이 비어 보여 사진을 전체 폭으로(BICA) */
+  .entry.has-photo > .photo { margin-top: 0; }       /* 2026-09-28(§2-v7.6): grid gap 20이 대신한다 */
 
   /* v5(§2-v5): 글 | 파일 카드. 카드 열은 내용 폭(auto) */
   .entry.has-file {

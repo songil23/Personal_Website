@@ -4,7 +4,7 @@
    키프레임 안의 opacity·scale·translate 숫자(-2px 들어올림 포함).
    그 밖에 명세가 직접 주는 수치(200·360·140·20×15 …)는 :root 토큰으로 올려 두고 여기서 쓴다.
    표시 전환(.view/.sub 숨김)은 index.html head의 생성 <style>이 담당한다. 여기서는 숨기지 않는다.
-   v4 사본: 임시/v4_2026-09-17/style.css (v3는 임시/v3_2026-09-17/, v2는 임시/v2_2026-09-17/).
+   v4 사본: 임시/v4_2026-09-17/style.css (v3는 임시/v3_2026-09-17/, v2는 임시/v2_2026-09-17/ — 셋 다 2026-09-27·29 정리로 휴지통, 이력).
    v5에서 바꾼 자리마다 "v6:" 주석으로 이유를 남겼다(v5·v4·v3 주석은 그대로 둔다). */
 
 /* ─────────────────────────────────────────────  1. 서체 */
@@ -1256,7 +1256,7 @@ em {
   font-size: var(--text-md);
   line-height: 1.7;
   color: var(--ink);
-  text-align: justify;           /* v7.0 2026-09-22 사용자: 기사 본문도 양쪽 정렬(홈 소개글 v6.6과 같은 예외). ≥834만 — ≤833은 아래 미디어 블록에서 left(§2-v7.6) */
+  text-align: justify;           /* v7.0 2026-09-22 사용자: 기사 본문도 양쪽 정렬(홈 소개글 v6.6과 같은 예외). 전 폭 — v7.9 2026-09-29 사용자: 모바일도 양쪽 정렬, ≤833 left(§2-v7.6) 철회(§2-v7.9) */
   text-indent: 2.5em;
   -webkit-hyphens: auto;
   hyphens: auto;                 /* 영어(article[lang=en]) — 낱말 간격이 벌어지지 않게 */
@@ -1343,8 +1343,7 @@ em {
 @media (max-width: 833px) {
   .press-panel > .press-scan { margin: calc(var(--s-16) * -1) calc(var(--s-20) * -1) 0; }
   .press-panel > .press-scan img { border-radius: var(--r-12) var(--r-12) var(--r-8) var(--r-8); }
-  /* 2026-09-28(§2-v7.6): justify가 좁은 열에서 낱말 간격을 벌렸다 — 390 공백 2배↑ 줄 45/90·60/138 → left 주입 0(임시/2026-09-27_종합수정/측정_기사간격.md). indent·hyphens·margin 그대로 */
-  .article p { text-align: left; }
+  /* v7.9 2026-09-29 사용자: 모바일도 양쪽 정렬 — v7.6 left 철회(§2-v7.9). .article p는 기본 규칙의 justify가 전 폭에 걸린다 */
 }
 
 /* group */

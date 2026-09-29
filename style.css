@@ -5,7 +5,9 @@
    그 밖에 명세가 직접 주는 수치(200·360·140·20×15 …)는 :root 토큰으로 올려 두고 여기서 쓴다.
    표시 전환(.view/.sub 숨김)은 index.html head의 생성 <style>이 담당한다. 여기서는 숨기지 않는다.
    v4 사본: 임시/v4_2026-09-17/style.css (v3는 임시/v3_2026-09-17/, v2는 임시/v2_2026-09-17/ — 셋 다 2026-09-27·29 정리로 휴지통, 이력).
-   v5에서 바꾼 자리마다 "v6:" 주석으로 이유를 남겼다(v5·v4·v3 주석은 그대로 둔다). */
+   v5에서 바꾼 자리마다 "v6:" 주석으로 이유를 남겼다(v5·v4·v3 주석은 그대로 둔다).
+   v7.10(2026-09-29, §2-v7.10): dvh·color-mix 폴백을 앞줄 → @supports not 블록으로(var()가 든 뒷줄은 파싱을 통과해
+   미지원 브라우저에서 계산 단계 무효 = 초기값이라 앞줄 폴백이 먹지 않았다) · :has 혼합 선택자 목록 분리 · aspect-ratio 폴백. */
 
 /* ─────────────────────────────────────────────  1. 서체 */
 @font-face {
@@ -283,8 +285,9 @@ html[data-theme="dark"] .icon-moon { display: none; }
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: var(--bg);
-  /* v5(§2-v5): 92% → 70%(blur는 --blur 토큰이 12 → 16). 앞줄 var(--bg)는 color-mix 미지원 폴백 */
+  /* v5(§2-v5): 92% → 70%(blur는 --blur 토큰이 12 → 16).
+     v7.10(§2-v7.10): 앞줄 `background: var(--bg)`는 폴백이 아니었다(뒷줄의 var() 때문에 미지원 브라우저에서
+     계산 단계 무효 → 초기값 transparent) → 지우고 폴백은 .crumb 뒤 @supports not 블록 */
   background: color-mix(in srgb, var(--bg) 70%, transparent);
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
@@ -394,8 +397,7 @@ html[data-theme="dark"] .icon-moon { display: none; }
   width: max-content;            /* v3: 항목이 두 줄로 깨지지 않게 */
   min-width: min(var(--menu-min), calc(100vw - var(--gutter) * 2));
   max-width: calc(100vw - var(--gutter) * 2);
-  max-height: min(var(--menu-height), calc(100vh - var(--header) - var(--s-16)));
-  max-height: min(var(--menu-height), calc(100dvh - var(--header) - var(--s-16)));
+  max-height: min(var(--menu-height), calc(100dvh - var(--header) - var(--s-16)));   /* dvh 미지원 폴백은 이 규칙 뒤 @supports not(v7.10) */
   overflow-y: auto;
   overscroll-behavior: contain;
   scroll-padding-block: var(--s-8);
@@ -414,6 +416,12 @@ html[data-theme="dark"] .icon-moon { display: none; }
     color var(--ease),
     border-color var(--ease),
     box-shadow var(--ease);
+}
+/* v7.10(§2-v7.10): dvh 미지원 폴백 — 옛 앞줄 vh 폴백은 먹지 않았다: var()가 든 뒷줄(dvh)이 파싱을 통과한 뒤 계산 단계에서 무효가 되면
+   앞줄로 돌아가지 않고 초기값(max-height: none → 긴 ⋯ 메뉴가 화면 밖)이 된다(Codex Z12 #3).
+   지원 브라우저는 이 블록을 건너뛴다(화면 변화 0). 인쇄 .contact-menu { max-height: none }은 뒤라 그대로 이긴다 */
+@supports not (height: 100dvh) {
+  .menu { max-height: min(var(--menu-height), calc(100vh - var(--header) - var(--s-16))); }
 }
 /* blur 미지원 환경은 위의 불투명 바탕 유지. 보조 글자는 사진 위에서도 읽히게 82%. */
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) and (background: color-mix(in srgb, white, transparent)) {
@@ -831,11 +839,15 @@ a.card::after {
   border-bottom-right-radius: var(--r-12);
   font-size: var(--text-caption);
   color: var(--ink-3);
-  background: var(--bg);
-  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);   /* 미지원 폴백은 이 규칙 뒤 @supports not(v7.10) */
   backdrop-filter: blur(var(--blur));
   -webkit-backdrop-filter: blur(var(--blur));
   transition: background-color var(--ease);   /* v5: 테마 전환 */
+}
+/* v7.10(§2-v7.10): color-mix 미지원 폴백 — 헤더 바탕 층·빵부스러기를 불투명 --bg로(없으면 바탕 투명 → 스크롤 중 글자 겹침).
+   지원 브라우저는 이 블록을 건너뛴다(화면 변화 0). 인쇄는 둘 다 display: none */
+@supports not (background: color-mix(in srgb, white, transparent)) {
+  .site-header::before, .crumb { background: var(--bg); }
 }
 .crumb::after {
   content: "";
@@ -1507,6 +1519,12 @@ em {
   animation: twinkle var(--tw-dur, var(--tw-dur-default)) ease-in-out var(--tw-delay, 0s) infinite alternate;
 }
 html[data-theme="dark"] .dot { background: var(--accent-ink); }
+/* v7.10(§2-v7.10): aspect-ratio 미지원 폴백 — 지도 상자·점의 높이가 0(지도·점이 사라짐)이던 것을 padding 비율로.
+   % padding은 폭(지도 상자 = 부모 폭, 점 = 지도 상자 폭) 기준이라 비율이 같다. 지원 브라우저는 건너뛴다 */
+@supports not (aspect-ratio: 1) {
+  .map-img { height: 0; padding-top: calc(100% * 2515 / 4977); }
+  .dot { height: 0; padding-top: clamp(3px, 0.5%, var(--dot)); }
+}
 .map > figcaption {
   margin-top: var(--s-8);
   font-size: var(--text-caption);
@@ -1894,7 +1912,13 @@ a.card:active { transform: scale(.985); }
      `.files { grid-column: 2 }`는 제목·줄·카드가 다 있는 상자에서 카드가 3열로 새지 않게 못박는 것.
      남는 치우침: 834 en 「관련 자료」만 +25.97(1열이 제목 min-content 71.20에 걸려 3열이 19.27로 눌린다).
      1920·1440·1280·1200·1024·900은 en·ko 모두 0. 실측은 `임시/2026-09-23_v73_검증/보고_css_v73.md`. */
-  .sub-center-body .entry:not(.entry-plain),
+  /* v7.10(§2-v7.10): :has 미지원이면 쉼표 목록 전체가 무효 → 옆 선택자까지 죽는다 → 두 규칙으로(선언 동일) */
+  .sub-center-body .entry:not(.entry-plain) {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0 var(--s-12);
+    align-items: start;
+  }
   .sub-center-body .entry.has-file:not(:has(.entry-lines)) {
     display: grid;
     grid-template-columns: 1fr auto 1fr;

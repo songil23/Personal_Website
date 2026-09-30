@@ -7,7 +7,9 @@
    v4 사본: 임시/v4_2026-09-17/style.css (v3는 임시/v3_2026-09-17/, v2는 임시/v2_2026-09-17/ — 셋 다 2026-09-27·29 정리로 휴지통, 이력).
    v5에서 바꾼 자리마다 "v6:" 주석으로 이유를 남겼다(v5·v4·v3 주석은 그대로 둔다).
    v7.10(2026-09-29, §2-v7.10): dvh·color-mix 폴백을 앞줄 → @supports not 블록으로(var()가 든 뒷줄은 파싱을 통과해
-   미지원 브라우저에서 계산 단계 무효 = 초기값이라 앞줄 폴백이 먹지 않았다) · :has 혼합 선택자 목록 분리 · aspect-ratio 폴백. */
+   미지원 브라우저에서 계산 단계 무효 = 초기값이라 앞줄 폴백이 먹지 않았다) · :has 혼합 선택자 목록 분리 · aspect-ratio 폴백.
+   v7.11(2026-09-30, §2-v7.11): JS 없음 화면의 무동작 ✉·테마·언어 버튼 숨김(@media screen — 인쇄 메일 목록 보존) ·
+   제목뿐인 사진 상자(BICA) 사진 폭 상한 --photo-solo 760(≥834) · tall-left 캡션 얹힘 삭제 → 다른 사진과 같이 사진 아래. */
 
 /* ─────────────────────────────────────────────  1. 서체 */
 @font-face {
@@ -117,6 +119,7 @@
   --flag-shift: -2px;             /* 추가(§5): 국기 vertical-align */
   --file-h: 200px;                /* v5(§2-v5): PDF 첫 장 미리보기 높이 상한 */
   --article-w: 760px;             /* v7.0(§2-v7.0 P): 기사 펼침 패널의 최대 폭(읽기 열) */
+  --photo-solo: 760px;            /* v7.11(§2-v7.11, 질문 65①): 제목뿐인 사진 상자(BICA) 사진 폭 상한 — --article-w와 같은 값이지만 뜻이 달라 따로 */
   --blur: 16px;                   /* v5(§2-v5): 12 → 16. 헤더·빵부스러기 글래스가 같이 쓴다 */
 
   /* 전환 (§1·§6-v4) — 전부 300ms 미만 */
@@ -1431,19 +1434,8 @@ em {
   color: var(--ink-2);
   text-wrap: pretty;             /* v6.9(M-1) */
 }
-/* v3 검증: 세로 1 + 가로 2 배치는 캡션을 사진 위에 얹는다 — 캡션 두 줄 높이만큼 세로 사진이 잘리던 것(834에서 8%)이 gap 20px분(≤3.5%)으로 준다 */
-.photos.tall-left > .photo { position: relative; }
-.photos.tall-left > .photo > figcaption {
-  position: absolute;
-  left: var(--s-12);
-  bottom: var(--s-12);
-  margin: 0;
-  padding: var(--s-4) var(--s-10);
-  border-radius: var(--r-6);
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: var(--shadow-sm);
-}
+/* v7.11(§2-v7.11, 질문 65②나): 세로 1 + 가로 2(tall-left) 캡션을 사진 위에 얹던 규칙(v3)을 지웠다 —
+   다른 사진 캡션과 같이 위 `.photo > figcaption`(사진 아래 8, small, --ink-2)을 따른다 */
 
 /* 영상 (§5) */
 .videos {
@@ -1869,6 +1861,7 @@ a.card:active { transform: scale(.985); }
     align-items: start;
   }
   .entry.has-photo:not(:has(.entry-lines)) { grid-template-columns: 1fr; }   /* v3 검증: 제목뿐이면 왼쪽이 비어 보여 사진을 전체 폭으로(BICA) */
+  .entry.has-photo:not(:has(.entry-lines)) > .photo { max-width: var(--photo-solo); }   /* v7.11(§2-v7.11, 질문 65①나-1): 1440×900에서 사진+캡션이 한 화면(570 < 795) — 왼쪽 정렬, 834·모바일 불변(상자 안 폭 >760인 약 ≥880부터). :has 미지원은 위 줄과 함께 무시 → 그 앞 1fr 1fr가 남아 2열(v7.11 이전 폴백 그대로, Codex Z13 #6) */
   .entry.has-photo > .photo { margin-top: 0; }       /* 2026-09-28(§2-v7.6): grid gap 20이 대신한다 */
 
   /* v5(§2-v5): 글 | 파일 카드. 카드 열은 내용 폭(auto) */
@@ -2008,7 +2001,7 @@ a.card:active { transform: scale(.985); }
     flex: 1;
     min-height: 0;
     height: 100%;
-    object-fit: cover;           /* gap·캡션만큼 ≤5% 잘림 — 알고 남김(§5) */
+    object-fit: cover;           /* gap·캡션만큼 ≤8% 잘림(834 7.8%·1440 5.1%) — 알고 남김(§5 · v7.11 캡션이 사진 아래로 가며 ≤5% → ≤8%) */
   }
 
   .videos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2103,6 +2096,14 @@ html:not([data-view]) .sub-title {
   overflow: visible;
   clip-path: none;
   white-space: normal;
+}
+/* v7.11(§2-v7.11, 질문 63①가 = 후보 B): JS가 없으면 ✉ 팝오버·테마·언어 메뉴는 눌러도 아무 일이 없다 → 화면에서만 숨긴다.
+   `.ctl-contact`만 숨기면 감싼 `.disclosure.contact`가 0×0으로 남아 flex gap 4를 먹어 인스타가 4px 덜 붙는다 → 감싼 상자째.
+   반드시 @media screen 안 — 밖이면 이 규칙(0,3,1)이 인쇄의 `.disclosure.contact { display:block }`(0,2,0)을 이겨 종이의 메일 목록이 0/4 */
+@media screen {
+  html:not([data-view]) .disclosure.contact,
+  html:not([data-view]) .ctl-theme,
+  html:not([data-view]) .disclosure.lang { display: none; }
 }
 
 /* ─────────────────────────────────────────────  18. 동작 최소화 (§6-v4 · v5 변경은 §2-v5)
@@ -2236,7 +2237,6 @@ html:not([data-view]) .sub-title {
   .entry,
   .group.card,
   .sub-body.timeline,                          /* v7.5(R10): 연혁 상자 — 목록에서 빠져 인쇄에 그림자 두 겹이 남았다 */
-  .photos.tall-left > .photo > figcaption,     /* v7.5(R10 같은 원인): 사진 위 캡션 배지 */
   .photo > img,
   .hero-photo { box-shadow: none; }
 

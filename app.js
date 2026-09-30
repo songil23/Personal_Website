@@ -191,7 +191,9 @@
      그 자리를 대신하는 버튼(<1200은 ⋯, ≥1200은 그 절의 탭)으로 넘긴다 */
   function backTarget(g) {
     if (g.btn.offsetParent) return g.btn;
-    var alt = g.isNav ? one('.ctl-more') : one('.nav-item[data-section="' + (current.view || '') + '"] .nav-btn');
+    var item = g.isNav ? null : one('.nav-item[data-section="' + (current.view || '') + '"]');
+    // v7.11(§2-v7.11, Codex Z13 #1): 하위가 하나뿐인 절(More)은 드롭다운 .nav-btn 없이 .nav-link 하나 → 그것으로 돌려준다
+    var alt = g.isNav ? one('.ctl-more') : item && (one('.nav-btn', item) || one('.nav-link', item));
     return alt && alt.offsetParent ? alt : null;
   }
   function openPanel(g, pinned) {

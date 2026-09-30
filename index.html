@@ -83,10 +83,12 @@ html[data-sub="awards/press"] .sub:not([data-sub="awards/press"]){display:none}
 html[data-sub="awards/press"] .crumb-sub:not([data-sub="awards/press"]){display:none}
 html[data-sub="more/music"] .sub:not([data-sub="more/music"]){display:none}
 html[data-sub="more/music"] .crumb-sub:not([data-sub="more/music"]){display:none}
+html[data-sub="more/photos-videos"] .sub:not([data-sub="more/photos-videos"]){display:none}
+html[data-sub="more/photos-videos"] .crumb-sub:not([data-sub="more/photos-videos"]){display:none}
 html[data-view] .anchor{display:none}
 </style>
 <script>
-var SITE={"about":["bio","journey"],"experience":["exchange-programs","leadership","north-korea-talks","volunteering","teaching-mentoring","affiliated-organizations","clubs","book-club","countries-visited","other"],"projects":["ecostep","powerpoint","certifications","ai","notion"],"research":["research-experience","coursework"],"awards":["university","high-school","press"],"more":["music"]};
+var SITE={"about":["bio","journey"],"experience":["exchange-programs","leadership","north-korea-talks","volunteering","teaching-mentoring","affiliated-organizations","clubs","book-club","countries-visited","other"],"projects":["ecostep","powerpoint","certifications","ai","notion"],"research":["research-experience","coursework"],"awards":["university","high-school","press"],"more":["music","photos-videos"]};
 (function(){var d=document.documentElement,l='en',t='dark',v='home',u=null,s,h,a,b;
 try{s=localStorage;if(s.getItem('lang')==='ko')l='ko';if(s.getItem('theme')==='light')t='light'}catch(e){}
 d.setAttribute('data-theme',t);d.setAttribute('data-lang',l);d.lang=l;
@@ -99,7 +101,7 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 </script>
 <link rel="preload" href="fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Pretendard-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=17b32b9f">
+<link rel="stylesheet" href="style.css?v=e8e4e383">
 </head>
 <body>
 <a class="skip" href="#main"><span class="if-ko">본문으로</span><span class="if-en">Skip to content</span></a>
@@ -173,8 +175,16 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 </ul>
 </div>
 </li>
-<li class="nav-item nav-item-single" data-section="more">
+<li class="nav-item" data-section="more">
 <a class="nav-link" href="#more"><span lang="ko">기타</span><span lang="en">More</span></a>
+<button class="nav-btn" type="button" aria-expanded="false" aria-controls="menu-more"><span class="nav-label"><span lang="ko">기타</span><span lang="en">More</span></span><svg class="icon icon-caret" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+<div class="menu nav-menu" id="menu-more" hidden>
+<a class="menu-head" href="#more"><span lang="ko">기타</span><span lang="en">More</span><span class="arrow" aria-hidden="true">→</span></a>
+<ul class="menu-list">
+<li><a href="#more/music" data-sub="more/music"><span lang="ko">음악</span><span lang="en">Music</span></a></li>
+<li><a href="#more/photos-videos" data-sub="more/photos-videos"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></a></li>
+</ul>
+</div>
 </li>
 </ul></nav>
 <div class="controls">
@@ -225,6 +235,7 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 </ul></div>
 <div class="more-group"><a class="menu-head" href="#more"><span lang="ko">기타</span><span lang="en">More</span><span class="arrow" aria-hidden="true">→</span></a><ul class="menu-list">
 <li><a href="#more/music" data-sub="more/music"><span lang="ko">음악</span><span lang="en">Music</span></a></li>
+<li><a href="#more/photos-videos" data-sub="more/photos-videos"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></a></li>
 </ul></div>
 </div></div>
 </div>
@@ -263,6 +274,13 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 <span class="anchor" id="about/bio"></span>
 <h2 class="sub-title" tabindex="-1"><span lang="ko">소개</span><span lang="en">Bio</span></h2>
 <div class="sub-body">
+<div class="boxes" data-cols="1">
+<article class="entry entry-plain">
+<ul class="entry-lines">
+<li><span lang="ko">자기소개: <span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></span><span lang="en">Introduction: <span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></span></li>
+</ul>
+</article>
+</div>
 <div class="boxes" data-cols="2">
 <section class="group card">
 <h3 class="group-title"><span lang="ko">학력</span><span lang="en">Education</span></h3>
@@ -670,8 +688,7 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 </div>
 <figcaption><span class="if-ko">지도: Roke, “<a href="https://commons.wikimedia.org/wiki/File:A_large_blank_world_map_with_oceans_marked_in_blue.PNG" target="_blank" rel="noopener">A large blank world map with oceans marked in blue</a>”(Petr Dlouhý 원작), Wikimedia Commons, CC BY-SA 3.0. 점은 추가.</span><span class="if-en">Map: “<a href="https://commons.wikimedia.org/wiki/File:A_large_blank_world_map_with_oceans_marked_in_blue.PNG" target="_blank" rel="noopener">A large blank world map with oceans marked in blue</a>” by Roke (after Petr Dlouhý), Wikimedia Commons, CC BY-SA 3.0. Dots added.</span></figcaption>
 </figure>
-<div class="boxes" data-cols="flow">
-<div class="col">
+<div class="boxes" data-cols="6">
 <section class="group card">
 <h3 class="group-title"><span lang="ko">아시아</span><span lang="en">Asia</span></h3>
 <ul class="plain">
@@ -685,8 +702,6 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 <li><img class="flag" src="images/flags/jp.svg" alt="" width="20" height="15"><span lang="ko">일본</span><span lang="en">Japan</span></li>
 </ul>
 </section>
-</div>
-<div class="col">
 <section class="group card">
 <h3 class="group-title"><span lang="ko">아메리카</span><span lang="en">Americas</span></h3>
 <ul class="plain">
@@ -700,7 +715,24 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 <li><img class="flag" src="images/flags/pl.svg" alt="" width="20" height="15"><span lang="ko">폴란드</span><span lang="en">Poland</span></li>
 </ul>
 </section>
-</div>
+<section class="group card">
+<h3 class="group-title"><span lang="ko">아프리카</span><span lang="en">Africa</span></h3>
+<ul class="plain">
+<li><span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></li>
+</ul>
+</section>
+<section class="group card">
+<h3 class="group-title"><span lang="ko">오세아니아</span><span lang="en">Oceania</span></h3>
+<ul class="plain">
+<li><span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></li>
+</ul>
+</section>
+<section class="group card">
+<h3 class="group-title"><span lang="ko">남극</span><span lang="en">Antarctica</span></h3>
+<ul class="plain">
+<li><span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></li>
+</ul>
+</section>
 </div>
 </div>
 </section>
@@ -1086,11 +1118,15 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 </section>
 </section>
 <section class="view" id="view-more" data-view="more">
-<p class="crumb"><a href="#more"><span lang="ko">기타</span><span lang="en">More</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="more/music"><span lang="ko">음악</span><span lang="en">Music</span></span></p>
+<p class="crumb"><a href="#more"><span lang="ko">기타</span><span lang="en">More</span></a><span class="crumb-sep" aria-hidden="true">/</span><span class="crumb-sub" data-sub="more/music"><span lang="ko">음악</span><span lang="en">Music</span></span><span class="crumb-sub" data-sub="more/photos-videos"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></span></p>
 <span class="anchor" id="more"></span>
 <header class="view-head">
 <h1 class="view-title" tabindex="-1"><span lang="ko">기타</span><span lang="en">More</span></h1>
 <p class="view-desc"><span lang="ko">드럼 · 기타 · 피아노 · 사진 · 영상</span><span lang="en">Drums · Guitar · Piano · Photos · Videos</span></p>
+<nav class="subnav" aria-labelledby="label-subnav-more"><span class="sr" id="label-subnav-more"><span lang="ko">이 절 안에서</span><span lang="en">In this section</span></span><ul>
+<li><a href="#more/music" data-sub="more/music"><span lang="ko">음악</span><span lang="en">Music</span></a></li>
+<li><a href="#more/photos-videos" data-sub="more/photos-videos"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></a></li>
+</ul></nav>
 </header>
 <section class="sub" id="sub-more-music" data-sub="more/music">
 <span class="anchor" id="more/music"></span>
@@ -1130,6 +1166,19 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 <figure class="video"><div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/fsn4_qrhxc8" title="Video 2" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class="video-fallback" href="https://www.youtube.com/watch?v=fsn4_qrhxc8" target="_blank" rel="noopener" hidden><span class="if-ko">YouTube에서 보기</span><span class="if-en">Watch on YouTube</span></a></div><figcaption><span lang="ko">영상 2</span><span lang="en">Video 2</span></figcaption></figure>
 </div>
 </section>
+</div>
+</section>
+<section class="sub" id="sub-more-photos-videos" data-sub="more/photos-videos">
+<span class="anchor" id="more/photos-videos"></span>
+<h2 class="sub-title" tabindex="-1"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></h2>
+<div class="sub-body">
+<div class="boxes" data-cols="1">
+<article class="entry entry-plain">
+<ul class="entry-lines">
+<li><span class="tba"><span class="if-ko">나중에 기입</span><span class="if-en">To be added</span></span></li>
+</ul>
+</article>
+</div>
 </div>
 </section>
 </section>
@@ -1176,6 +1225,7 @@ var e=document.getElementById(u&&b===u?v+'/'+u:v);if(e&&e.scrollIntoView)e.scrol
 <div class="footer-col"><a class="footer-head" href="#more/music"><span lang="ko">기타</span><span lang="en">More</span></a>
 <ul>
 <li><a href="#more/music"><span lang="ko">음악</span><span lang="en">Music</span></a></li>
+<li><a href="#more/photos-videos"><span lang="ko">사진 &amp; 영상</span><span lang="en">Photos &amp; Videos</span></a></li>
 </ul></div>
 </nav>
 <div class="footer-bottom"><p class="copyright">© 2026 IL SONG</p>
